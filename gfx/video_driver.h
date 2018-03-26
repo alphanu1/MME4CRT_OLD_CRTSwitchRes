@@ -43,6 +43,11 @@
 
 #define RARCH_SCALE_BASE 256
 
+#if defined(HAVE_CG) || defined(HAVE_HLSL) || defined(HAVE_GLSL) || defined(HAVE_SLANG)
+#ifndef HAVE_SHADER_MANAGER
+#define HAVE_SHADER_MANAGER
+#endif
+
 #include "video_shader_parse.h"
 
 #define VIDEO_SHADER_STOCK_BLEND (GFX_MAX_SHADERS - 1)
@@ -52,6 +57,8 @@
 #define VIDEO_SHADER_MENU_4      (GFX_MAX_SHADERS - 5)
 #define VIDEO_SHADER_MENU_5      (GFX_MAX_SHADERS - 6)
 #define VIDEO_SHADER_MENU_6      (GFX_MAX_SHADERS - 7)
+
+#endif
 
 #if defined(_XBOX360)
 #define DEFAULT_SHADER_TYPE RARCH_SHADER_HLSL
@@ -96,7 +103,6 @@ enum gfx_ctx_api
    GFX_CTX_OPENVG_API,
    GFX_CTX_VULKAN_API,
    GFX_CTX_GDI_API,
-   GFX_CTX_GX_API,
    GFX_CTX_GX2_API
 };
 
@@ -197,13 +203,26 @@ struct uniform_info
    } result;
 };
 
+
+// Added for resolution wswitching 
+void ben_poke_video();
+//Added for resolution wswitching 
+
 typedef struct shader_backend
 {
    void *(*init)(void *data, const char *path);
    void (*deinit)(void *data);
 
    /* Set shader parameters. */
-   void (*set_params)(void *data, void *shader_data);
+   void (*set_params)(void *data, void *shader_data,
+         unsigned width, unsigned height,
+         unsigned tex_width, unsigned tex_height,
+         unsigned out_width, unsigned out_height,
+         unsigned frame_counter,
+         const void *info,
+         const void *prev_info,
+         const void *feedback_info,
+         const void *fbo_info, unsigned fbo_info_cnt);
 
    void (*set_uniform_parameter)(void *data, struct uniform_info *param,
          void *uniform_data);
@@ -402,7 +421,7 @@ typedef struct video_frame_info
    bool black_frame_insertion;
    bool hard_sync;
    bool fps_show;
-   bool statistics_show;
+   bool CRT_Switch_Resolution; //ben
    bool framecount_show;
    bool scale_integer;
    bool post_filter_record;
@@ -427,6 +446,7 @@ typedef struct video_frame_info
    unsigned aspect_ratio_idx;
    unsigned max_swapchain_images;
    unsigned monitor_index;
+   unsigned CRT_Switch_Resolution_super; //ben
    unsigned width;
    unsigned height;
    unsigned xmb_theme;
@@ -451,31 +471,6 @@ typedef struct video_frame_info
    float xmb_alpha_factor;
 
    char fps_text[128];
-   char stat_text[512];
-   char chat_text[256];
-
-   uint64_t frame_count;
-   float frame_time;
-   float frame_rate;
-
-   struct
-   {
-      float x;
-      float y;
-      float scale;
-      /* Drop shadow color multiplier. */
-      float drop_mod;
-      /* Drop shadow offset.
-       * If both are 0, no drop shadow will be rendered. */
-      int drop_x, drop_y;
-      /* Drop shadow alpha */
-      float drop_alpha;
-      /* ABGR. Use the macros. */
-      uint32_t color;
-      bool full_screen;
-      enum text_alignment text_align;
-   } osd_stat_params;
-
    void (*cb_update_window_title)(void*, void *);
    void (*cb_swap_buffers)(void*, void *);
    bool (*cb_get_metrics)(void *data, enum display_metric_types type,
@@ -506,8 +501,6 @@ typedef struct gfx_ctx_driver
     * The context driver is responsible for it's own data.*/
    void* (*init)(video_frame_info_t *video_info, void *video_driver);
    void (*destroy)(void *data);
-
-   enum gfx_ctx_api (*get_api)(void *data);
 
    /* Which API to bind to. */
    bool (*bind_api)(void *video_driver, enum gfx_ctx_api,
@@ -931,7 +924,6 @@ void video_driver_destroy(void);
 void video_driver_set_cached_frame_ptr(const void *data);
 void video_driver_set_stub_frame(void);
 void video_driver_unset_stub_frame(void);
-bool video_driver_is_stub_frame(void);
 bool video_driver_supports_recording(void);
 bool video_driver_supports_viewport_read(void);
 bool video_driver_supports_read_frame_raw(void);
@@ -976,7 +968,6 @@ bool video_driver_is_video_cache_context(void);
 void video_driver_set_video_cache_context_ack(void);
 bool video_driver_is_video_cache_context_ack(void);
 void video_driver_set_active(void);
-void video_driver_unset_active(void);
 bool video_driver_is_active(void);
 bool video_driver_gpu_record_init(unsigned size);
 void video_driver_gpu_record_deinit(void);
@@ -1301,9 +1292,12 @@ bool video_shader_driver_direct_get_current_shader(video_shader_ctx_t *shader);
 
 bool video_shader_driver_deinit(void);
 
-void video_shader_driver_set_parameter(void *data);
+#define video_shader_driver_set_parameter(param) \
+   if (current_shader && current_shader->set_uniform_parameter) \
+      current_shader->set_uniform_parameter(shader_data, &param, NULL)
 
-void video_shader_driver_set_parameters(void *data);
+#define video_shader_driver_set_parameters(params) \
+   current_shader->set_params(params.data, shader_data, params.width, params.height, params.tex_width, params.tex_height, params.out_width, params.out_height, params.frame_counter, params.info, params.prev_info, params.feedback_info, params.fbo_info, params.fbo_info_cnt)
 
 bool video_shader_driver_init_first(void);
 
@@ -1325,11 +1319,15 @@ bool video_shader_driver_filter_type(video_shader_ctx_filter_t *filter);
 
 bool video_shader_driver_compile_program(struct shader_program_info *program_info);
 
-void video_shader_driver_use(void *data);
+#define video_shader_driver_use(shader_info) \
+   current_shader->use(shader_info.data, shader_data, shader_info.idx, shader_info.set_active)
 
 bool video_shader_driver_wrap_type(video_shader_ctx_wrap_t *wrap);
 
 extern bool (*video_driver_cb_has_focus)(void);
+
+extern shader_backend_t *current_shader;
+extern void *shader_data;
 
 extern video_driver_t video_gl;
 extern video_driver_t video_vulkan;
@@ -1365,6 +1363,7 @@ extern const gfx_ctx_driver_t gfx_ctx_sdl_gl;
 extern const gfx_ctx_driver_t gfx_ctx_x_egl;
 extern const gfx_ctx_driver_t gfx_ctx_wayland;
 extern const gfx_ctx_driver_t gfx_ctx_x;
+extern const gfx_ctx_driver_t gfx_ctx_d3d;
 extern const gfx_ctx_driver_t gfx_ctx_drm;
 extern const gfx_ctx_driver_t gfx_ctx_mali_fbdev;
 extern const gfx_ctx_driver_t gfx_ctx_vivante_fbdev;
