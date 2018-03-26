@@ -73,6 +73,7 @@ RETRO_BEGIN_DECLS
 
 // Added for resolution wswitching 
 void ben_poke_video();
+
 //Added for resolution wswitching 
 
 
