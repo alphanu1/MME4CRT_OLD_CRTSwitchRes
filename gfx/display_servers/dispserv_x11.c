@@ -19,6 +19,7 @@
 #include "../common/x11_common.h"
 #include "../../configuration.h"
 #include "../video_driver.h" /* needed to set refresh rate in set resolution */
+#include "../video_crt_switch.h"  /* needed to set aspect for low res in Linux */
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -104,6 +105,12 @@ static bool x11_set_resolution(void *data,
    video_monitor_set_refresh_rate(hz);	  
    
    /* following code is the mode line genorator */
+   if (width < 300)
+   {
+      width = width*2;
+      crt_aspect_ratio_switch(width, height);
+   {
+   
    hfp = width+24;
    hbp = width*1.26;
    hmax = hbp;
