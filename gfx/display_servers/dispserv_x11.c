@@ -26,7 +26,7 @@
 
 static char old_mode[150];
 static char new_mode[150];
-static bool crt_en     = false;
+static bool crt_en      = false;
 
 typedef struct
 {
@@ -72,7 +72,7 @@ static bool x11_set_window_opacity(void *data, unsigned opacity)
 
    return true;
 }
-
+`
 static bool x11_set_window_decorations(void *data, bool on)
 {
    dispserv_x11_t *serv = (dispserv_x11_t*)data;
@@ -103,7 +103,7 @@ static bool x11_set_resolution(void *data,
 
    crt_en = true;
 
-   hsp = width*1.12;
+   hsp = width*1.14;
       
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);	  
@@ -114,7 +114,6 @@ static bool x11_set_resolution(void *data,
       width = width*2;
       crt_aspect_ratio_switch(width, height);
    }
-
    hfp = width+16;
    hbp = width*1.22;
    hmax = hbp;
