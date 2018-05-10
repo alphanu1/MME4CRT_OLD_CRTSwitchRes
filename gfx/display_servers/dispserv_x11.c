@@ -140,8 +140,8 @@ static bool x11_set_resolution(void *data,
    
    /* following code is the mode line genorator */
 
-   hfp = width+16;
-   hbp = width*1.23;
+   hfp = width+8;
+   hbp = width*1.22;
    hmax = hbp;
    
    if (height < 241)
@@ -193,15 +193,15 @@ static bool x11_set_resolution(void *data,
    
    if (hz < 53)
    {   
-   vfp = height+((vmax-height)*0.38);
+   vfp = height+((vmax-height)*0.20);
    }
    if (hz > 56)
    {   
-   vfp = height+((vmax-height)*0.25);
+   vfp = height+((vmax-height)*0.26);
    }
    if (hz > 53 && hz < 56)
    {   
-   vfp = height+((vmax-height)*0.35);
+   vfp = height+((vmax-height)*0.25);
    }
 
    
