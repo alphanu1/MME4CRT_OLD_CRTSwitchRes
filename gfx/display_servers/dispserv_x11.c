@@ -141,7 +141,7 @@ static bool x11_set_resolution(void *data,
    /* following code is the mode line genorator */
 
    hfp = width+8;
-   hbp = width*1.22;
+   hbp = width*1.23;
    hmax = hbp;
    
    if (height < 241)
