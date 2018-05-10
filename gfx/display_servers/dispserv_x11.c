@@ -268,13 +268,14 @@ static bool x11_set_resolution(void *data,
          system(output); 
 
          sprintf(output,"xrandr --addmode %s-%d %s", "VGA",i ,new_mode);
-         system(output); 
+         system(output);
+         sprintf(output,"xrandr --output %s-%d --mode %s",, "VGA", i, new_mode);
+         system(output);
          sprintf(output,"xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
          system(output); 
       }
 		 
-      sprintf(output,"xrandr --output VGA-0  --mode %s", new_mode);
-      system(output);
+
 	  /* remove old mode */
       sprintf(output,"xrandr --rmmode %s", old_mode);
 	  system(output);
