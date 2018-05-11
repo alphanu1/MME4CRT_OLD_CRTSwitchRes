@@ -254,16 +254,22 @@ static bool x11_set_resolution(void *data,
       {
          sprintf(output,"xrandr --addmode %s%d %s", "DVI",i ,new_mode);
          system(output); 
+		 sprintf(output,"xrandr --output %s%d --mode %s", "DVI", i, new_mode);
+         system(output);
          sprintf(output,"xrandr --delmode %s%d %s", "DVI",i ,old_mode);
          system(output); 
  
          sprintf(output,"xrandr --addmode %s-%d %s", "DVI",i ,new_mode);
          system(output); 
+		 sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
+         system(output);
          sprintf(output,"xrandr --delmode %s-%d %s", "DVI",i ,old_mode);
          system(output);
 
          sprintf(output,"xrandr --addmode %s%d %s", "VGA",i ,new_mode);
-         system(output);  
+         system(output); 
+         sprintf(output,"xrandr --output %s%d --mode %s", "VGA", i, new_mode);
+         system(output);		 
          sprintf(output,"xrandr --delmode %s%d %s", "VGA",i ,old_mode);
          system(output); 
 
