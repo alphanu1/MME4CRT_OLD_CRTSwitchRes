@@ -3234,7 +3234,7 @@ bool video_context_driver_get_refresh_rate(float *refresh_rate)
       if (refresh_rate)
          refresh_holder  =  
              current_video_context.get_refresh_rate(video_context_data);
-      if (refresh_holder != video_driver_core_hz) //ben
+      if (refresh_holder != video_driver_core_hz) 
       *refresh_rate = video_driver_core_hz; 
    }
 
