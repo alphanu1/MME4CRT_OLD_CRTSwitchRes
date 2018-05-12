@@ -3217,7 +3217,7 @@ bool video_context_driver_get_metrics(gfx_ctx_metrics_t *metrics)
 
 bool video_context_driver_get_refresh_rate(float *refresh_rate)
 {
-   float refesh_holder      = 0;
+   float refresh_holder      = 0;
    
    if (!current_video_context.get_refresh_rate || !refresh_rate)
       return false;
@@ -3232,10 +3232,10 @@ bool video_context_driver_get_refresh_rate(float *refresh_rate)
    if (video_driver_crt_switching_active)
    {
       if (refresh_rate)
-         refesh_holder  =  
+         refresh_holder  =  
              current_video_context.get_refresh_rate(video_context_data);
-   
-      *refresh_rate = refesh_holder *2; 
+      if (refresh_holder != video_driver_core_hz) //ben
+      *refresh_rate = video_driver_core_hz; 
    }
 
    return true;
