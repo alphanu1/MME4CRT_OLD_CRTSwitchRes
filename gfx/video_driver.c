@@ -1018,9 +1018,6 @@ static bool video_driver_init_internal(bool *video_is_threaded)
    video.font_enable   = settings->bools.video_font_enable;
    video.swap_interval = settings->uints.video_swap_interval;
 
-   if (video_driver_crt_switching_active)
-       video.swap_interval = 0;
-
 #ifdef GEKKO
    video.viwidth       = settings->uints.video_viwidth;
    video.vfilter       = settings->bools.video_vfilter;
@@ -2623,12 +2620,6 @@ void video_driver_frame(const void *data, unsigned width,
    {
       video_driver_crt_switching_active = true;
 
-      if (height > 300)
-         current_video_context.swap_interval(video_context_data, 0);
-
-      if (height < 300)
-         current_video_context.swap_interval(video_context_data, 1);
-
       if (video_info.crt_switch_resolution_super == 2560)
          width = 2560;
       if (video_info.crt_switch_resolution_super == 3840)
@@ -3196,13 +3187,11 @@ bool video_context_driver_get_video_output_size(gfx_ctx_size_t *size_data)
 
 bool video_context_driver_swap_interval(unsigned *interval)
 {
-   if (!video_driver_crt_switching_active)
-   {
    if (!current_video_context.swap_interval)
       return false;
+      
    current_video_context.swap_interval(video_context_data, *interval);
-   return true;
-   }
+   
    return true;
 }
 
@@ -3228,14 +3217,26 @@ bool video_context_driver_get_metrics(gfx_ctx_metrics_t *metrics)
 
 bool video_context_driver_get_refresh_rate(float *refresh_rate)
 {
+   float refesh_holder      = 0;
+   
    if (!current_video_context.get_refresh_rate || !refresh_rate)
       return false;
    if (!video_context_data)
       return false;
-
-   if (refresh_rate)
-      *refresh_rate = 
-         current_video_context.get_refresh_rate(video_context_data);
+   
+   if (!video_driver_crt_switching_active)
+      if (refresh_rate)
+         *refresh_rate =  
+             current_video_context.get_refresh_rate(video_context_data);
+   
+   if (video_driver_crt_switching_active)
+   {
+      if (refresh_rate)
+         refesh_holder  =  
+             current_video_context.get_refresh_rate(video_context_data);
+   
+      *refresh_rate = refesh_holder *2; 
+   }
 
    return true;
 }
