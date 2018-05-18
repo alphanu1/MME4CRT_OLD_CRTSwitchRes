@@ -193,7 +193,7 @@ static bool x11_set_resolution(void *data,
    
    if (hz < 53)
    {   
-   vfp = height+((vmax-height)*0.40);
+   vfp = height+((vmax-height)*0.36);
    }
    if (hz > 56)
    {   
