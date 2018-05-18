@@ -157,7 +157,7 @@ static unsigned frame_cache_height                       = 0;
 static size_t frame_cache_pitch                          = 0;
 static bool   video_driver_threaded                      = false;
 
-static float video_driver_core_hz                        = 0.0f;
+float video_driver_core_hz                        = 0.0f;
 static float video_driver_aspect_ratio                   = 0.0f;
 static unsigned video_driver_width                       = 0;
 static unsigned video_driver_height                      = 0;
@@ -794,7 +794,7 @@ static void video_driver_monitor_compute_fps_statistics(void)
    unsigned samples     = 0;
 
    if (video_driver_frame_time_count <
-         (2 * MEASURE_FRAME_TIME_SAMPLES_COUNT))
+         (2 * MEASURE_FRAME_TIME_SAMPLES_COUNT)) //ben
    {
       RARCH_LOG(
             "[Video]: Does not have enough samples for monitor refresh rate"
@@ -1220,7 +1220,7 @@ void video_driver_cached_frame_set(const void *data, unsigned width,
       frame_cache_data = data;
    frame_cache_width   = width;
    frame_cache_height  = height;
-   frame_cache_pitch   = pitch;
+   frame_cache_pitch   = pitch; 
 }
 
 void video_driver_cached_frame_get(const void **data, unsigned *width,
@@ -1316,6 +1316,8 @@ bool video_monitor_fps_statistics(double *refresh_rate,
       return false;
 #endif
 
+if (!video_driver_crt_switching_active)
+{
    samples = MIN(MEASURE_FRAME_TIME_SAMPLES_COUNT,
          (unsigned)video_driver_frame_time_count);
 
@@ -1350,6 +1352,16 @@ bool video_monitor_fps_statistics(double *refresh_rate,
       *sample_points = samples;
 
    return true;
+   }
+   
+if (video_driver_crt_switching_active)
+{
+   if (refresh_rate)
+      *refresh_rate  = video_driver_core_hz; //1000000.0 / avg; //ben
+    return true;
+}
+
+    return false;
 }
 
 float video_driver_get_aspect_ratio(void)
@@ -1442,7 +1454,11 @@ void video_driver_monitor_adjust_system_rates(void)
 
    if (video_driver_crt_switching_active)
       timing_skew_hz                       = video_driver_core_hz;
-   timing_skew                             = fabs(
+
+
+   if (!video_driver_crt_switching_active)
+   {
+      timing_skew                             = fabs(
          1.0f - info->fps / timing_skew_hz);
 
    /* We don't want to adjust pitch too much. If we have extreme cases,
@@ -1457,9 +1473,10 @@ void video_driver_monitor_adjust_system_rates(void)
 
    if (info->fps <= timing_skew_hz)
       return;
-
+  }
    /* We won't be able to do VSync reliably when game FPS > monitor FPS. */
    rarch_ctl(RARCH_CTL_SET_NONBLOCK_FORCED, NULL);
+
    RARCH_LOG("[Video]: Game FPS > Monitor FPS. Cannot rely on VSync.\n");
 }
 
@@ -2502,7 +2519,7 @@ void video_driver_frame(const void *data, unsigned width,
    }
 
    video_info.frame_rate = last_fps;
-   video_info.frame_time = frame_time / 1000.0f;
+   video_info.frame_time =  frame_time / 1000.0f; //ben
    video_info.frame_count = (uint64_t) video_driver_frame_count;
 
    /* Slightly messy code,
@@ -2608,7 +2625,7 @@ void video_driver_frame(const void *data, unsigned width,
          video_driver_data, data, width, height,
          video_driver_frame_count,
          (unsigned)pitch, video_driver_msg, &video_info);
-
+ 
    video_driver_frame_count++;
 
    /* Display the FPS, with a higher priority. */
@@ -3234,11 +3251,16 @@ bool video_context_driver_get_refresh_rate(float *refresh_rate)
       if (refresh_rate)
          refresh_holder  =  
              current_video_context.get_refresh_rate(video_context_data);
-      if (refresh_holder != video_driver_core_hz) 
-      *refresh_rate = video_driver_core_hz; 
+      if (refresh_holder != video_driver_core_hz) //ben
+         *refresh_rate = video_driver_core_hz; 
    }
 
    return true;
+}
+
+float get_refresh()  //ben
+{
+   return video_driver_core_hz; 
 }
 
 bool video_context_driver_input_driver(gfx_ctx_input_t *inp)
