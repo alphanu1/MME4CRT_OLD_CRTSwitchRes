@@ -157,7 +157,7 @@ static unsigned frame_cache_height                       = 0;
 static size_t frame_cache_pitch                          = 0;
 static bool   video_driver_threaded                      = false;
 
-float video_driver_core_hz                        = 0.0f;
+static float video_driver_core_hz                        = 0.0f;
 static float video_driver_aspect_ratio                   = 0.0f;
 static unsigned video_driver_width                       = 0;
 static unsigned video_driver_height                      = 0;
@@ -417,9 +417,6 @@ static const shader_backend_t *shader_ctx_drivers[] = {
 #ifdef HAVE_CG
    &gl_cg_backend,
 #endif
-#ifdef HAVE_HLSL
-   &hlsl_backend,
-#endif
    &shader_null_backend,
    NULL
 };
@@ -564,12 +561,12 @@ const video_poke_interface_t *video_driver_get_poke(void)
 
 static bool video_context_has_focus(void)
 {
-   return current_video_context.has_focus(video_context_data);
+   return current_video_context.has_focus && current_video_context.has_focus(video_context_data);
 }
 
 static bool video_driver_has_focus(void)
 {
-   return current_video->focus(video_driver_data);
+   return current_video && current_video->focus && current_video->focus(video_driver_data);
 }
 
 static bool null_driver_has_focus(void)
@@ -794,7 +791,7 @@ static void video_driver_monitor_compute_fps_statistics(void)
    unsigned samples     = 0;
 
    if (video_driver_frame_time_count <
-         (2 * MEASURE_FRAME_TIME_SAMPLES_COUNT)) //ben
+         (2 * MEASURE_FRAME_TIME_SAMPLES_COUNT))
    {
       RARCH_LOG(
             "[Video]: Does not have enough samples for monitor refresh rate"
@@ -1017,7 +1014,6 @@ static bool video_driver_init_internal(bool *video_is_threaded)
    video.force_aspect  = settings->bools.video_force_aspect;
    video.font_enable   = settings->bools.video_font_enable;
    video.swap_interval = settings->uints.video_swap_interval;
-
 #ifdef GEKKO
    video.viwidth       = settings->uints.video_viwidth;
    video.vfilter       = settings->bools.video_vfilter;
@@ -1220,7 +1216,7 @@ void video_driver_cached_frame_set(const void *data, unsigned width,
       frame_cache_data = data;
    frame_cache_width   = width;
    frame_cache_height  = height;
-   frame_cache_pitch   = pitch; 
+   frame_cache_pitch   = pitch;
 }
 
 void video_driver_cached_frame_get(const void **data, unsigned *width,
@@ -1316,8 +1312,6 @@ bool video_monitor_fps_statistics(double *refresh_rate,
       return false;
 #endif
 
-if (!video_driver_crt_switching_active)
-{
    samples = MIN(MEASURE_FRAME_TIME_SAMPLES_COUNT,
          (unsigned)video_driver_frame_time_count);
 
@@ -1352,16 +1346,6 @@ if (!video_driver_crt_switching_active)
       *sample_points = samples;
 
    return true;
-   }
-   
-if (video_driver_crt_switching_active)
-{
-   if (refresh_rate)
-      *refresh_rate  = video_driver_core_hz; //1000000.0 / avg; //ben
-    return true;
-}
-
-    return false;
 }
 
 float video_driver_get_aspect_ratio(void)
@@ -1454,11 +1438,7 @@ void video_driver_monitor_adjust_system_rates(void)
 
    if (video_driver_crt_switching_active)
       timing_skew_hz                       = video_driver_core_hz;
-
-
-   if (!video_driver_crt_switching_active)
-   {
-      timing_skew                             = fabs(
+   timing_skew                             = fabs(
          1.0f - info->fps / timing_skew_hz);
 
    /* We don't want to adjust pitch too much. If we have extreme cases,
@@ -1473,10 +1453,9 @@ void video_driver_monitor_adjust_system_rates(void)
 
    if (info->fps <= timing_skew_hz)
       return;
-  }
+
    /* We won't be able to do VSync reliably when game FPS > monitor FPS. */
    rarch_ctl(RARCH_CTL_SET_NONBLOCK_FORCED, NULL);
-
    RARCH_LOG("[Video]: Game FPS > Monitor FPS. Cannot rely on VSync.\n");
 }
 
@@ -2519,7 +2498,7 @@ void video_driver_frame(const void *data, unsigned width,
    }
 
    video_info.frame_rate = last_fps;
-   video_info.frame_time =  frame_time / 1000.0f; //ben
+   video_info.frame_time = frame_time / 1000.0f;
    video_info.frame_count = (uint64_t) video_driver_frame_count;
 
    /* Slightly messy code,
@@ -2625,7 +2604,7 @@ void video_driver_frame(const void *data, unsigned width,
          video_driver_data, data, width, height,
          video_driver_frame_count,
          (unsigned)pitch, video_driver_msg, &video_info);
- 
+
    video_driver_frame_count++;
 
    /* Display the FPS, with a higher priority. */
@@ -3206,9 +3185,7 @@ bool video_context_driver_swap_interval(unsigned *interval)
 {
    if (!current_video_context.swap_interval)
       return false;
-      
    current_video_context.swap_interval(video_context_data, *interval);
-   
    return true;
 }
 
@@ -3234,33 +3211,16 @@ bool video_context_driver_get_metrics(gfx_ctx_metrics_t *metrics)
 
 bool video_context_driver_get_refresh_rate(float *refresh_rate)
 {
-   float refresh_holder      = 0;
-   
    if (!current_video_context.get_refresh_rate || !refresh_rate)
       return false;
    if (!video_context_data)
       return false;
-   
-   if (!video_driver_crt_switching_active)
-      if (refresh_rate)
-         *refresh_rate =  
-             current_video_context.get_refresh_rate(video_context_data);
-   
-   if (video_driver_crt_switching_active)
-   {
-      if (refresh_rate)
-         refresh_holder  =  
-             current_video_context.get_refresh_rate(video_context_data);
-      if (refresh_holder != video_driver_core_hz) //ben
-         *refresh_rate = video_driver_core_hz; 
-   }
+
+   if (refresh_rate)
+      *refresh_rate = 
+         current_video_context.get_refresh_rate(video_context_data);
 
    return true;
-}
-
-float get_refresh()  //ben
-{
-   return video_driver_core_hz; 
 }
 
 bool video_context_driver_input_driver(gfx_ctx_input_t *inp)
@@ -3464,12 +3424,6 @@ static const shader_backend_t *video_shader_set_backend(
          break;
 #endif
       case RARCH_SHADER_HLSL:
-#ifdef HAVE_HLSL
-         RARCH_LOG("[Shader driver]: Using HLSL shader backend.\n");
-         return &hlsl_backend;
-#else
-         break;
-#endif
       case RARCH_SHADER_NONE:
       default:
          break;
