@@ -120,6 +120,10 @@ static bool x11_set_resolution(void *data,
    int vbp            = 0;
    int hmax           = 0;
    int vmax           = 0;
+   int pdefault       = 8;
+   int pwidth         = 0;
+   float roundw     = 0.0f;
+   float roundh     = 0.0f;
    float pixel_clock  = 0;
 
    Display* disp      = XOpenDisplay(NULL);
@@ -130,18 +134,39 @@ static bool x11_set_resolution(void *data,
       orig_width    = scrn->width;
       orig_height   = scrn->height;
    }
-
    crt_en = true;
 
-   hsp = width*1.16;
-      
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);	  
    
    /* following code is the mode line genorator */
 
+
    hfp = width*1.025;
-   hbp = width*1.32;
+   if ( width < 340){
+
+         hfp = width*1.10;
+   }
+   if (width > 340 && width < 560){
+      
+         hfp = width*1.005;
+   }
+
+   pwidth = width;
+
+   if (height < 400 && width > 400 )
+      pwidth = width/2;
+   
+
+   roundw = roundf((float)pwidth/(float)height * 100)/100;
+   if (roundw > 1.35)
+      roundw = 1.34;
+
+    if (roundw < 1.20)
+      roundw = 1.34;
+
+   hsp = width*1.16;
+   hbp = width*roundw;
    hmax = hbp;
    
    if (height < 241)
@@ -164,22 +189,18 @@ static bool x11_set_resolution(void *data,
    { 
       vmax = 285;
    }
-   if (height > 240 && height < 260 && hz < 52)
-   { 
-      vmax = 265;
-   }
    if (height > 250 && height < 260 && hz < 52)
    { 
-      vmax = 313;
+      vmax = 323;
    }
    if (height > 260 && height < 300)
    { 
-      vmax = 313;
+      vmax = 318;
    }
 
    if (height > 400 && hz > 56)
    {
-      vmax = 523;
+      vmax = 533;
    }
    if (height > 520 && hz < 57)
    {
@@ -188,36 +209,43 @@ static bool x11_set_resolution(void *data,
 
    if (height > 300 && hz < 56)
    {
-      vmax = 627;
+      vmax = 629;
    }
-   
-   if (hz < 53)
-   {   
-   vfp = height+((vmax-height)*0.36);
-   }
-   if (hz > 56)
-   {   
-   vfp = height+((vmax-height)*0.34);
-   }
-   if (hz > 53 && hz < 56)
-   {   
-   vfp = height+((vmax-height)*0.30);
-   }
-
-   
-   if ( vfp < 1 )
+   if (height > 500 && hz < 56)
    {
-      vfp = height+2;
-        
+      vmax = 644;
    }
+     if (height > 300)
+   {
+        pdefault = pdefault*2;
+    }
+
+
+       vfp = height+((vmax-height)/2)-pdefault;
+  
+ //  	vfp = height+(height*((60-hz)/100))+((vmax-height)*0.08);
+//	if (height > 500)
+//   {
+//   	vfp = height+(height*((60-hz)/100))+((vmax-height)*0.005);
+  // 	}
+ //  }
+ //  if (hz > 56)
+ //  {   
+ //  vfp = height+((vmax-height)*0.34);
+ //  }
+ //  if (hz > 53 && hz < 56)
+ //  {   
+ //  vfp = height+((vmax-height)*0.30);
+ //  }
+
 
    if (height < 300)
    {
      vsp = vfp+3; /* needs to me 3 for progressive */
-   } if (height > 300)
+  } if (height > 300)
    {
-     vsp = vfp+6; /* needs to me 6 for interlaced */
-   }
+    vsp = vfp+6; /* needs to me 6 for interlaced */
+ }
    
    vbp = vmax;
 
