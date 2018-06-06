@@ -147,10 +147,11 @@ static bool x11_set_resolution(void *data,
 
          hfp = width*1.10;
    }
-   if (width > 340 && width < 560){
+   if (width > 340 && width < 1000){
       
-         hfp = width*1.005;
+         hfp = width*1.003;
    }
+
 
    pwidth = width;
 
@@ -160,12 +161,12 @@ static bool x11_set_resolution(void *data,
 
    roundw = roundf((float)pwidth/(float)height * 100)/100;
    if (roundw > 1.35)
-      roundw = 1.34;
+      roundw = 1.25;
 
     if (roundw < 1.20)
       roundw = 1.34;
 
-   hsp = width*1.16;
+   hsp = width*1.155;
    hbp = width*roundw;
    hmax = hbp;
    
@@ -191,7 +192,7 @@ static bool x11_set_resolution(void *data,
    }
    if (height > 250 && height < 260 && hz < 52)
    { 
-      vmax = 323;
+      vmax = 313;
    }
    if (height > 260 && height < 300)
    { 
@@ -209,11 +210,11 @@ static bool x11_set_resolution(void *data,
 
    if (height > 300 && hz < 56)
    {
-      vmax = 629;
+      vmax = 615;
    }
    if (height > 500 && hz < 56)
    {
-      vmax = 644;
+      vmax = 624;
    }
      if (height > 300)
    {
