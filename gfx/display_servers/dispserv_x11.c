@@ -145,11 +145,11 @@ static bool x11_set_resolution(void *data,
    hfp = width*1.025;
    if ( width < 340){
 
-         hfp = width*1.10;
+         hfp = width*1.07;
    }
    if (width > 340 && width < 1000){
       
-         hfp = width*1.003;
+         hfp = width*1.002;
    }
 
 
@@ -160,14 +160,19 @@ static bool x11_set_resolution(void *data,
    
 
    roundw = roundf((float)pwidth/(float)height * 100)/100;
+
+    if (height > width ) {
+       roundw = roundf((float)height/(float)width * 100)/100;
+   }
+
    if (roundw > 1.35)
       roundw = 1.25;
 
     if (roundw < 1.20)
       roundw = 1.34;
 
-   hsp = width*1.155;
-   hbp = width*roundw;
+   hsp = width*1.135;
+   hbp = width*roundw-8;
    hmax = hbp;
    
    if (height < 241)
@@ -219,34 +224,19 @@ static bool x11_set_resolution(void *data,
      if (height > 300)
    {
         pdefault = pdefault*2;
-    }
+   }
 
 
-       vfp = height+((vmax-height)/2)-pdefault;
-  
- //  	vfp = height+(height*((60-hz)/100))+((vmax-height)*0.08);
-//	if (height > 500)
-//   {
-//   	vfp = height+(height*((60-hz)/100))+((vmax-height)*0.005);
-  // 	}
- //  }
- //  if (hz > 56)
- //  {   
- //  vfp = height+((vmax-height)*0.34);
- //  }
- //  if (hz > 53 && hz < 56)
- //  {   
- //  vfp = height+((vmax-height)*0.30);
- //  }
-
+   vfp = height+((vmax-height)/2)-pdefault;
 
    if (height < 300)
    {
      vsp = vfp+3; /* needs to me 3 for progressive */
-  } if (height > 300)
+   } 
+   if (height > 300)
    {
     vsp = vfp+6; /* needs to me 6 for interlaced */
- }
+   }
    
    vbp = vmax;
 
