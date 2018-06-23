@@ -297,6 +297,20 @@ static bool x11_set_resolution(void *data,
          sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
          system(output);
          sprintf(output,"xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
+         system(output);
+          
+         sprintf(output,"xrandr --addmode %s%d %s", "HDMI",i ,new_mode);
+         system(output); 
+         sprintf(output,"xrandr --output %s%d --mode %s", "HDMI", i, new_mode);
+         system(output);		 
+         sprintf(output,"xrandr --delmode %s%d %s", "HDMI",i ,old_mode);
+         system(output); 
+
+         sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
+         system(output);
+         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
+         system(output);
+         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
          system(output); 
       }
 		 
