@@ -59,17 +59,14 @@ static void x11_display_server_destroy(void *data)
       sprintf(output,"xrandr -s %dx%d", orig_width, orig_height);
       system(output);
    }  
-   for (i =0; i < 3; i++)
+   for (i =0; i < 2; i++)
    {
-      sprintf(output,"xrandr --delmode %s%d %s", "VGA",i ,old_mode);
-      system(output);  
-      sprintf(output,"xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
-      system(output);  
-
-      sprintf(output,"xrandr --delmode %s%d %s", "DVI",i ,old_mode);
-      system(output);  
-      sprintf(output,"xrandr --delmode %s-%d %s", "DVI",i ,old_mode);
-      system(output);  
+       sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
+         system(output);
+         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
+         system(output);
+         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
+         system(output); 
 
    }     
       sprintf(output,"xrandr --rmmode %s", old_mode);
@@ -269,42 +266,9 @@ static bool x11_set_resolution(void *data,
       sprintf(new_mode,"%dx%d_%0.2f", width, height, hz); 
 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
-      for (i =0; i < 3; i++)
+      for (i =0; i < 2; i++)
       {
-         sprintf(output,"xrandr --addmode %s%d %s", "DVI",i ,new_mode);
-         system(output); 
-		 sprintf(output,"xrandr --output %s%d --mode %s", "DVI", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s%d %s", "DVI",i ,old_mode);
-         system(output); 
- 
-         sprintf(output,"xrandr --addmode %s-%d %s", "DVI",i ,new_mode);
-         system(output); 
-		 sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s-%d %s", "DVI",i ,old_mode);
-         system(output);
-
-         sprintf(output,"xrandr --addmode %s%d %s", "VGA",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s%d --mode %s", "VGA", i, new_mode);
-         system(output);		 
-         sprintf(output,"xrandr --delmode %s%d %s", "VGA",i ,old_mode);
-         system(output); 
-
-         sprintf(output,"xrandr --addmode %s-%d %s", "VGA",i ,new_mode);
-         system(output);
-         sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
-         system(output);
           
-         sprintf(output,"xrandr --addmode %s%d %s", "HDMI",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s%d --mode %s", "HDMI", i, new_mode);
-         system(output);		 
-         sprintf(output,"xrandr --delmode %s%d %s", "HDMI",i ,old_mode);
-         system(output); 
 
          sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
          system(output);
@@ -318,11 +282,9 @@ static bool x11_set_resolution(void *data,
 	  /* remove old mode */
       sprintf(output,"xrandr --rmmode %s", old_mode);
 	  system(output);
-	  system("xdotool windowactivate $(xdotool search --class RetroArch)");	/* needs xdotool installed. needed to recaputure window. */
-       /* variable for old mode */
+	   /* variable for old mode */
 	  sprintf(old_mode,"%s", new_mode);
-      system("xdotool windowactivate $(xdotool search --class RetroArch)");	/* needs xdotool installed. needed to recaputure window. */
-                                                                            /* Second run needed as some times it runs to fast to capture first time */
+                                                                           /* Second run needed as some times it runs to fast to capture first time */
 
  return true;
 }
