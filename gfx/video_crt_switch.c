@@ -198,5 +198,6 @@ void crt_rpi_switch(void)
    system(output1);
    sprintf(output2,"fbset -g 1280 240 1280 240 24 > /dev/null");
    system(output2);
+   system("xdotool windowactivate $(xdotool search --class RetroArch)");
    
 }
