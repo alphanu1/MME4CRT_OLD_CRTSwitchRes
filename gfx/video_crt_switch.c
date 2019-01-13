@@ -196,7 +196,7 @@ void crt_rpi_switch(void)
     if (fork() == 0) {
 
    
-   sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 > /dev/null\"");
+   sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" &");
    system(output);
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
