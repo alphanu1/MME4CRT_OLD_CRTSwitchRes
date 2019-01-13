@@ -198,7 +198,7 @@ void crt_rpi_switch(void)
 
  
    sprintf(output,"chvt 2; bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" &");
-   popen(output);
+   popen(output,"r");
    system("chvt 1");
    exit(0);
 
