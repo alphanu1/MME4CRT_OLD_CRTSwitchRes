@@ -194,14 +194,16 @@ void crt_rpi_switch(void)
    static char output2[250]         = {0}; 
    
     if (fork() == 0) {
+
    
-   char *const output[] ={"/usr/bin/vcgencmd","hdmi_timings","1920","1","106","169","480","240","1","1","3","5","0","0","0","60","0","41458500","1", NULL};
-   execv("/usr/bin/vcgencmd",output);
-   exit(0);
+   sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 > /dev/null\"");
+   system(output);
+   sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
+   system(output1);
+   sprintf(output2,"fbset -g 1280 240 1280 240 24 > /dev/null");
+   system(output2);
+   
        
     }
-   sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null &");
-   system(output1);
-   sprintf(output2,"fbset -g 1280 240 1280 240 24 > /dev/null &");
-   system(output2);
+
 }
