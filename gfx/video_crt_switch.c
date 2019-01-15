@@ -1,4 +1,4 @@
-/* CRT SwitchRes Core 
+/* CRT SwitchRes Core
  * Copyright (C) 2018 Alphanu / Ben Templeman.
  *
  * RetroArch - A frontend for libretro.
@@ -15,16 +15,15 @@
  *
  *  You should have received a copy of the GNU General Public License along with RetroArch.
  *  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 #include <stddef.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 
 #include "video_driver.h"
 #include "video_crt_switch.h"
 #include "video_display_server.h"
+#include "userland/interface/vmcs_host/vc_vchi_gencmd.h"
 
 static unsigned ra_core_width     = 0;
 static unsigned ra_core_height    = 0;
@@ -33,6 +32,7 @@ static unsigned ra_tmp_height     = 0;
 static unsigned ra_set_core_hz    = 0;
 static unsigned orig_width        = 0;
 static unsigned orig_height       = 0;
+static int crt_center_adjust = 0;
 
 static bool first_run             = true;
 
@@ -41,11 +41,9 @@ static float fly_aspect           = 0.0f;
 static float ra_core_hz           = 0.0f;
 
 static void crt_check_first_run(void)
-{		
+{
    if (!first_run)
       return;
-
-   
 
    first_run   = false;
 }
@@ -55,18 +53,30 @@ static void switch_crt_hz(void)
    if (ra_core_hz == ra_tmp_core_hz)
       return;
    /* set hz float to an int for windows switching */
-   if (ra_core_hz < 53)
-      ra_set_core_hz = 50;	
-   if (ra_core_hz >= 53  &&  ra_core_hz < 57)
-      ra_set_core_hz = 55;	
-   if (ra_core_hz >= 57)
-      ra_set_core_hz = 60;	
-	
+   if (ra_core_hz < 100)
+   {
+      if (ra_core_hz < 53)
+         ra_set_core_hz = 50;
+      if (ra_core_hz >= 53  &&  ra_core_hz < 57)
+         ra_set_core_hz = 55;
+      if (ra_core_hz >= 57)
+         ra_set_core_hz = 60;
+   }
+
+   if (ra_core_hz > 100)
+   {
+      if (ra_core_hz < 106)
+         ra_set_core_hz = 120;
+      if (ra_core_hz >= 106  &&  ra_core_hz < 114)
+         ra_set_core_hz = 110;
+      if (ra_core_hz >= 114)
+         ra_set_core_hz = 120;
+   }
+
    video_monitor_set_refresh_rate(ra_set_core_hz);
-   
+
    ra_tmp_core_hz = ra_core_hz;
 }
-
 
 void crt_aspect_ratio_switch(unsigned width, unsigned height)
 {
@@ -79,9 +89,9 @@ static void switch_res_crt(unsigned width, unsigned height)
 {
    if (height > 100)
    {
-      video_display_server_switch_resolution(width, height,
-            ra_set_core_hz, ra_core_hz);
-      crt_rpi_switch();
+      video_display_server_set_resolution(width, height,
+            ra_set_core_hz, ra_core_hz, crt_center_adjust);
+	  crt_rpi_switch();
       video_driver_apply_state_changes();
    }
 }
@@ -89,55 +99,55 @@ static void switch_res_crt(unsigned width, unsigned height)
 /* Create correct aspect to fit video if resolution does not exist */
 static void crt_screen_setup_aspect(unsigned width, unsigned height)
 {
-   
+
    switch_crt_hz();
-   /* get original resolution of core */	
+   /* get original resolution of core */
    if (height == 4)
    {
-      /* detect menu only */	
+      /* detect menu only */
       if (width < 1920)
          width = 320;
-      
+
       height = 240;
 
       crt_aspect_ratio_switch(width, height);
    }
 
-   if (height < 191 && height != 144)
-   {				
+   if (height < 200 && height != 144)
+   {
       crt_aspect_ratio_switch(width, height);
       height = 200;
-   }	
+   }
 
-   if (height > 191)
+   if (height > 200)
       crt_aspect_ratio_switch(width, height);
 
    if (height == 144 && ra_set_core_hz == 50)
-   {				
+   {
       height = 288;
       crt_aspect_ratio_switch(width, height);
    }
 
    if (height > 200 && height < 224)
-   {				
+   {
       crt_aspect_ratio_switch(width, height);
       height = 224;
    }
 
    if (height > 224 && height < 240)
-   {				
+   {
       crt_aspect_ratio_switch(width, height);
       height = 240;
    }
 
    if (height > 240 && height < 255)
-   {								
+   {
       crt_aspect_ratio_switch(width, height);
       height = 254;
    }
 
    if (height == 528 && ra_set_core_hz == 60)
-   {								
+   {
       crt_aspect_ratio_switch(width, height);
       height = 480;
    }
@@ -151,24 +161,33 @@ static void crt_screen_setup_aspect(unsigned width, unsigned height)
    switch_res_crt(width, height);
 }
 
-
-void crt_switch_res_core(unsigned width, unsigned height, float hz)
+void crt_switch_res_core(unsigned width, unsigned height, float hz, unsigned crt_mode, int crt_switch_center_adjust)
 {
-   /* ra_core_hz float passed from within 
+   /* ra_core_hz float passed from within
     * void video_driver_monitor_adjust_system_rates(void) */
-   ra_core_width  = width;		
+   ra_core_width  = width;
    ra_core_height = height;
    ra_core_hz     = hz;
+   crt_center_adjust = crt_switch_center_adjust;
+
+   if (crt_mode == 2)
+   {
+      if (hz > 53)
+         ra_core_hz = hz * 2;
+
+      if (hz <= 53)
+         ra_core_hz = 120.0f;
+   }
 
    crt_check_first_run();
 
    /* Detect resolution change and switch */
    if (
-         (ra_tmp_height != ra_core_height) || 
-         (ra_core_width != ra_tmp_width)
+      (ra_tmp_height != ra_core_height) ||
+      (ra_core_width != ra_tmp_width)
       )
       crt_screen_setup_aspect(width, height);
-   
+
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
 
@@ -185,7 +204,7 @@ void crt_video_restore(void)
    if (first_run)
       return;
 
-    first_run = true;
+   first_run = true;
 }
 
 void crt_rpi_switch(void)
@@ -196,10 +215,8 @@ void crt_rpi_switch(void)
    
     if (fork() == 0) {
 
- 
-   sprintf(output,"chvt 2; bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" &");
-   popen(output,"r");
-   system("chvt 1");
+		 
+		   set_hdmi_timings();
    exit(0);
 
    
@@ -207,6 +224,35 @@ void crt_rpi_switch(void)
     }
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
-   sprintf(output2,"fbset -g 1280 240 1280 240 24 > /dev/null");
+   sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
    system(output2);
+}
+
+void set_hdmi_timings (void)
+{
+static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
+VCHI_INSTANCE_T vchi_instance;
+VCHI_CONNECTION_T *vchi_connection = NULL;
+char buffer[1024];
+
+vcos_init ();
+
+vchi_initialise (&vchi_instance);
+       // fatal ("VCHI initialization failed");
+
+//create a vchi connection
+vchi_connect (NULL, 0, vchi_instance);
+       // fatal ("VCHI connection failed");
+
+vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
+
+
+vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
+	//fatal ("Failed to set non-interpolation scaling kernel");
+
+    vc_gencmd_stop ();
+
+    //close the vchi connection
+   vchi_disconnect (vchi_instance);
+       // fatal ("VCHI disconnect failed");
 }
