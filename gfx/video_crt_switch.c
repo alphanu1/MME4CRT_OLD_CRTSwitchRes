@@ -228,7 +228,7 @@ void crt_rpi_switch(void)
        // fatal ("VCHI disconnect failed");
       // vc_vchi_gencmd_deinit();
 //vcos_deinit();
-   exit(0);
+  // exit(0);
 
    
        
