@@ -225,7 +225,8 @@ vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
     //close the vchi connection
    vchi_disconnect (vchi_instance);
        // fatal ("VCHI disconnect failed");
-
+       vc_vchi_gencmd_deinit();
+vcos_deinit();
    exit(0);
 
    
