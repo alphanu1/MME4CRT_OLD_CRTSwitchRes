@@ -200,7 +200,8 @@ void crt_rpi_switch(void)
    
     if (fork() == 0) {
 
-	sprintf(output,"hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 " );
+	sprintf(output,"hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 > /dev/null");
+ );
        system(output);
 //VCHI_INSTANCE_T vchi_instance;
 //VCHI_CONNECTION_T *vchi_connection = NULL;
