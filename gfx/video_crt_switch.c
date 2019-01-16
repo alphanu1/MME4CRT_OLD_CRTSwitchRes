@@ -200,33 +200,34 @@ void crt_rpi_switch(void)
    
     if (fork() == 0) {
 
-		static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
-VCHI_INSTANCE_T vchi_instance;
-VCHI_CONNECTION_T *vchi_connection = NULL;
-char buffer[1024];
+	sprintf(output3, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 &");
+       system(output3);
+//VCHI_INSTANCE_T vchi_instance;
+//VCHI_CONNECTION_T *vchi_connection = NULL;
+//char buffer[1024];
 
-vcos_init ();
+//vcos_init ();
 
-vchi_initialise (&vchi_instance);
+//vchi_initialise (&vchi_instance);
        // fatal ("VCHI initialization failed");
 
 //create a vchi connection
-vchi_connect (NULL, 0, vchi_instance);
+//vchi_connect (NULL, 0, vchi_instance);
        // fatal ("VCHI connection failed");
 
-vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
+//vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
 
 
-vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
+//vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
 	//fatal ("Failed to set non-interpolation scaling kernel");
 
-    vc_gencmd_stop ();
+    //vc_gencmd_stop ();
 
     //close the vchi connection
-   vchi_disconnect (vchi_instance);
+  // vchi_disconnect (vchi_instance);
        // fatal ("VCHI disconnect failed");
       // vc_vchi_gencmd_deinit();
-vcos_deinit();
+//vcos_deinit();
    exit(0);
 
    
