@@ -198,7 +198,7 @@ void crt_rpi_switch(void)
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
    
-    if (fork() == 0) {
+  //  if (fork() == 0) {
 
 	sprintf(output,"hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 > /dev/null");
        system(output);
@@ -232,7 +232,7 @@ void crt_rpi_switch(void)
 
    
        
-    }
+    
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
    sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
