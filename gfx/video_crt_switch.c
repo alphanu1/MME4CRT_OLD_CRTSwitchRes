@@ -82,7 +82,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       crt_rpi_switch();
-  //    video_context_driver_reset();
+     video_context_driver_reset();
   //    video_context_driver_set();
       video_driver_get_current_framebuffer();
       video_driver_apply_state_changes();
