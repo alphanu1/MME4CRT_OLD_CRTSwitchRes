@@ -198,7 +198,7 @@ void crt_rpi_switch(void)
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
    
-  //  if (fork() == 0) {
+   if (fork() == 0) {
 
 	sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" ");
   system(output);
@@ -228,10 +228,10 @@ void crt_rpi_switch(void)
        // fatal ("VCHI disconnect failed");
       // vc_vchi_gencmd_deinit();
 //vcos_deinit();
-  // exit(0);
+  exit(0);
 
    
-       
+     }  
     
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
