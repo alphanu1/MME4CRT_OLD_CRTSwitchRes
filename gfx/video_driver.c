@@ -2625,14 +2625,15 @@ void video_driver_frame(const void *data, unsigned width,
       crt_switch_res_core(width, height, video_driver_core_hz);
    }
    
-   if (video_driver_get_aspect_ratio() != get_fly_aspect())
+  
+   else if (!video_info.crt_switch_resolution)
+		video_driver_crt_switching_active = false;
+	
+	 if (video_driver_get_aspect_ratio() != get_fly_aspect())
    {
       video_driver_set_aspect_ratio_value((float)get_fly_aspect());
       video_driver_apply_state_changes();
    }
-   
-   else if (!video_info.crt_switch_resolution)
-		video_driver_crt_switching_active = false;
 	
 	/* trigger set resolution*/
 }
