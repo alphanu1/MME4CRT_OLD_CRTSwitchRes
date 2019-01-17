@@ -80,6 +80,16 @@ void crt_aspect_ratio_switch(unsigned width, unsigned height)
 
 static void switch_res_crt(unsigned width, unsigned height)
 {
+	
+	if (height == 4)
+   {
+      /* detect menu only */	
+      if (width < 1920)
+         width = 320;
+      
+      height = 240;
+   }
+   
    if (height > 100)
    {
       video_display_server_switch_resolution(width, height,
@@ -94,7 +104,7 @@ static void switch_res_crt(unsigned width, unsigned height)
          (ra_core_width != ra_tmp_width)
       )
 	  {
-      crt_screen_setup_aspect(width, height);
+    crt_screen_setup_aspect(width, height);
 	  }
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
@@ -114,16 +124,7 @@ void crt_screen_setup_aspect(unsigned width, unsigned height)
    
    switch_crt_hz();
    /* get original resolution of core */	
-   if (height == 4)
-   {
-      /* detect menu only */	
-      if (width < 1920)
-         width = 320;
-      
-      height = 240;
 
-      crt_aspect_ratio_switch(width, height);
-   }
 
    if (height < 191 && height != 144)
    {				
@@ -248,13 +249,13 @@ void crt_video_restore(void)
  //  system(output2);/
 //}
 #if defined(__arm__)
-void crt_rpi_switch(void)
+static void crt_rpi_switch(void)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
    
-    if (fork() == 0) {
+   // if (fork() == 0) {
 
 		static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
       VCHI_INSTANCE_T vchi_instance;
@@ -282,11 +283,11 @@ void crt_rpi_switch(void)
       vchi_disconnect (vchi_instance);
             // fatal ("VCHI disconnect failed");
 
-       exit(0);
+    //   exit(0);
 
    
        
-    }
+   // }
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
    sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
