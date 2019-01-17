@@ -48,8 +48,6 @@ static void crt_check_first_run(void)
    if (!first_run)
       return;
 
-   
-
    first_run   = false;
 }
 
@@ -80,16 +78,17 @@ void crt_aspect_ratio_switch(unsigned width, unsigned height)
 
 static void switch_res_crt(unsigned width, unsigned height)
 {
-   //if (height > 100)
-   {
+ //if (height > 100)
+ //  {
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
       crt_rpi_switch();
       #endif
       crt_switch_driver_reinit();
+	 
 	  
-  }
+ // }
 }
 
 /* Create correct aspect to fit video if resolution does not exist */
@@ -105,7 +104,6 @@ void crt_screen_setup_aspect(unsigned width, unsigned height)
          width = 320;
       
       height = 240;
-
       crt_aspect_ratio_switch(width, height);
    }
 
@@ -173,9 +171,11 @@ void crt_switch_res_core(unsigned width, unsigned height, float hz)
          (ra_core_width != ra_tmp_width)
       )
 	  {
-    
+    crt_screen_setup_aspect(width, height);
 	switch_res_crt(width, height);
-	crt_screen_setup_aspect(width, height);
+	video_driver_set_aspect_ratio_value((float)fly_aspect);
+	video_driver_apply_state_changes();
+	
 	}
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
@@ -255,7 +255,7 @@ void crt_rpi_switch(void)
    
    // if (fork() == 0) {
 
-		static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
+	  static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
       VCHI_INSTANCE_T vchi_instance;
       VCHI_CONNECTION_T *vchi_connection = NULL;
       char buffer[1024];
