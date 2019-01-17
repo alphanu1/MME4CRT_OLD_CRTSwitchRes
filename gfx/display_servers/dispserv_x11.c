@@ -108,7 +108,7 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-If (fork() == 0)
+if (fork() == 0)
 {
    int i              = 0;
    int hfp            = 0;
