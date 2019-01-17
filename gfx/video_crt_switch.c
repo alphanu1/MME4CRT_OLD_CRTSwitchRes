@@ -93,8 +93,9 @@ static void switch_res_crt(unsigned width, unsigned height)
          (ra_tmp_height != ra_core_height) || 
          (ra_core_width != ra_tmp_width)
       )
+	  {
       crt_screen_setup_aspect(width, height);
-   
+	  }
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
 

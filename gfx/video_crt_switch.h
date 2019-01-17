@@ -33,6 +33,8 @@ void crt_aspect_ratio_switch(unsigned width, unsigned height);
 
 void crt_video_restore(void);
 
+void crt_screen_setup_aspect(unsigned width, unsigned height);
+
 RETRO_END_DECLS
 
 #endif
