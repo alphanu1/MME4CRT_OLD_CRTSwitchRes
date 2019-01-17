@@ -82,10 +82,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       crt_rpi_switch();
-      video_context_driver_reset();
-      video_context_driver_set();
-      video_driver_get_current_framebuffer();
-      video_driver_apply_state_changes();
+      crt_switch_driver_reinit();
    }
 }
 
@@ -192,6 +189,53 @@ void crt_video_restore(void)
 }
 
 
+// void crt_rpi_switch(void)
+// {
+// static char output[250]         = {0};   
+ //  static char output1[250]         = {0}; 
+  // static char output2[250]         = {0}; 
+  // 
+  // if (fork() == 0) {
+
+	//sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" ");
+ // system(output);
+//VCHI_INSTANCE_T vchi_instance;
+//VCHI_CONNECTION_T *vchi_connection = NULL;
+//char buffer[1024];
+
+//vcos_init ();
+
+//vchi_initialise (&vchi_instance);
+       // fatal ("VCHI initialization failed");
+
+//create a vchi connection
+//vchi_connect (NULL, 0, vchi_instance);
+       // fatal ("VCHI connection failed");
+
+//vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
+
+
+//vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
+	//fatal ("Failed to set non-interpolation scaling kernel");
+
+    //vc_gencmd_stop ();
+
+    //close the vchi connection
+  // vchi_disconnect (vchi_instance);
+       // fatal ("VCHI disconnect failed");
+      // vc_vchi_gencmd_deinit();
+//vcos_deinit();
+//  exit(0);
+
+   
+  //   }  
+    
+//   sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
+ //  system(output1);
+ //  sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
+ //  system(output2);/
+//}
+
 void crt_rpi_switch(void)
 {
    static char output[250]         = {0};   
@@ -201,32 +245,32 @@ void crt_rpi_switch(void)
     if (fork() == 0) {
 
 		static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
-VCHI_INSTANCE_T vchi_instance;
-VCHI_CONNECTION_T *vchi_connection = NULL;
-char buffer[1024];
+      VCHI_INSTANCE_T vchi_instance;
+      VCHI_CONNECTION_T *vchi_connection = NULL;
+      char buffer[1024];
 
-vcos_init ();
+      vcos_init ();
 
-vchi_initialise (&vchi_instance);
-       // fatal ("VCHI initialization failed");
+      vchi_initialise (&vchi_instance);
+            // fatal ("VCHI initialization failed");
 
-//create a vchi connection
-vchi_connect (NULL, 0, vchi_instance);
-       // fatal ("VCHI connection failed");
+      //create a vchi connection
+      vchi_connect (NULL, 0, vchi_instance);
+            // fatal ("VCHI connection failed");
 
-vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
+      vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
 
 
-vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
-	//fatal ("Failed to set non-interpolation scaling kernel");
+      vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
+         //fatal ("Failed to set non-interpolation scaling kernel");
 
-    vc_gencmd_stop ();
+         vc_gencmd_stop ();
 
-    //close the vchi connection
-   vchi_disconnect (vchi_instance);
-       // fatal ("VCHI disconnect failed");
+         //close the vchi connection
+         vchi_disconnect (vchi_instance);
+            // fatal ("VCHI disconnect failed");
 
-   exit(0);
+       exit(0);
 
    
        
