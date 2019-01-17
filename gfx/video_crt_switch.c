@@ -24,7 +24,10 @@
 #include "video_driver.h"
 #include "video_crt_switch.h"
 #include "video_display_server.h"
-#include "userland/interface/vmcs_host/vc_vchi_gencmd.h"
+
+#if defined(__arm__)
+   #include "userland/interface/vmcs_host/vc_vchi_gencmd.h"
+#endif
 
 static unsigned ra_core_width     = 0;
 static unsigned ra_core_height    = 0;
