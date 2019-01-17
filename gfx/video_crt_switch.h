@@ -35,6 +35,8 @@ void crt_video_restore(void);
 
 void crt_screen_setup_aspect(unsigned width, unsigned height);
 
+void crt_rpi_switch(void);
+
 RETRO_END_DECLS
 
 #endif
