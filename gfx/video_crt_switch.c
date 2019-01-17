@@ -173,22 +173,13 @@ void crt_switch_res_core(unsigned width, unsigned height, float hz)
 	  {
     crt_screen_setup_aspect(width, height);
 	switch_res_crt(width, height);
-	video_driver_set_aspect_ratio_value((float)fly_aspect);
-	video_driver_apply_state_changes();
-	
+
 	}
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
 
    /* Check if aspect is correct, if notchange */
-   if (video_driver_get_aspect_ratio() != fly_aspect)
-   {
-      video_driver_set_aspect_ratio_value((float)fly_aspect);
-      video_driver_apply_state_changes();
-   }
-   
-   
-    
+       
 }
 
 void crt_video_restore(void)
@@ -246,6 +237,12 @@ void crt_video_restore(void)
  //  sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
  //  system(output2);/
 //}
+float get_fly_spect(void)
+{
+	return fly_aspect;
+}
+
+
 #if defined(__arm__)
 void crt_rpi_switch(void)
 {
