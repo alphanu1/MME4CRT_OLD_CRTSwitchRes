@@ -206,7 +206,7 @@ static bool win32_display_server_set_resolution(void *data,
    _beginthread(win32_display_server_set_resolution_thread( *data,
        width, height, int_hz, hz));
 }
-static void * win32_display_server_set_resolution_thread(void *data,
+static void win32_display_server_set_resolution_thread(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
    LONG res;
