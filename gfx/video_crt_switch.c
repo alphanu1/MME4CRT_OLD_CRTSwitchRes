@@ -237,7 +237,7 @@ void crt_video_restore(void)
  //  sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
  //  system(output2);/
 //}
-float get_fly_spect(void)
+float get_fly_aspect(void)
 {
 	return fly_aspect;
 }

@@ -35,7 +35,7 @@ void crt_video_restore(void);
 
 void crt_screen_setup_aspect(unsigned width, unsigned height);
 
-float get_fly_spect(void);
+float get_fly_aspect(void);
 
 void crt_rpi_switch(void);
 
