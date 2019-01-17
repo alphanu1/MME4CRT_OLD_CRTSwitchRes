@@ -80,18 +80,8 @@ void crt_aspect_ratio_switch(unsigned width, unsigned height)
 
 static void switch_res_crt(unsigned width, unsigned height)
 {
-	
-	if (height == 4)
-   {
-      /* detect menu only */	
-      if (width < 1920)
-         width = 320;
-      
-      height = 240;
-   }
-   
-   if (height > 100)
-   {
+   //if (height > 100)
+  // {
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
@@ -115,7 +105,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_driver_set_aspect_ratio_value((float)fly_aspect);
       video_driver_apply_state_changes();
    }
-   }
+ //  }
 }
 
 /* Create correct aspect to fit video if resolution does not exist */
@@ -124,7 +114,16 @@ void crt_screen_setup_aspect(unsigned width, unsigned height)
    
    switch_crt_hz();
    /* get original resolution of core */	
+   if (height == 4)
+   {
+      /* detect menu only */	
+      if (width < 1920)
+         width = 320;
+      
+      height = 240;
 
+      crt_aspect_ratio_switch(width, height);
+   }
 
    if (height < 191 && height != 144)
    {				
@@ -249,7 +248,7 @@ void crt_video_restore(void)
  //  system(output2);/
 //}
 #if defined(__arm__)
-void crt_rpi_switch(void)
+static void crt_rpi_switch(void)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
