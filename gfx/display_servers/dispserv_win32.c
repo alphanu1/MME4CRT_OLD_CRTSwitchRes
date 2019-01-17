@@ -52,8 +52,6 @@ static ITaskbarList3 *g_taskbarList = NULL;
 
 #endif
 
-static void win32_display_server_set_resolution_thread(void *data, unsigned width, unsigned height, int int_hz, float hz);
-
 typedef struct
 {
    unsigned opacity;
@@ -206,7 +204,7 @@ static bool win32_display_server_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
    _beginthread(win32_display_server_set_resolution_thread( data,
-       width, height, int_hz, hz),0 , null);
+       width, height, int_hz, hz),0 , NULL);
 }
 static void win32_display_server_set_resolution_thread(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
@@ -296,6 +294,7 @@ const video_display_server_t dispserv_win32 = {
    win32_set_window_progress,
    win32_set_window_decorations,
    win32_display_server_set_resolution,
+   win32_display_server_set_resolution_thread,
    "win32"
 };
 
