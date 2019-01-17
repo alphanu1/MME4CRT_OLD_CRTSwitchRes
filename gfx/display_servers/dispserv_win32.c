@@ -20,6 +20,7 @@
 #include <initguid.h>
 #include <windows.h>
 #include <ntverp.h>
+#include <process.h> 
 
 #ifndef COBJMACROS
 #define COBJMACROS
@@ -200,6 +201,12 @@ static bool win32_set_window_decorations(void *data, bool on)
 }
 
 static bool win32_display_server_set_resolution(void *data,
+      unsigned width, unsigned height, int int_hz, float hz)
+{
+   _beginthread(win32_display_server_set_resolution_thread( *data,
+       width, height, int_hz, hz));
+}
+static void * win32_display_server_set_resolution_thread(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
    LONG res;
