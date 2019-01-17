@@ -2631,7 +2631,7 @@ void video_driver_frame(const void *data, unsigned width,
 	
 	 if (video_driver_get_aspect_ratio() != get_fly_aspect())
    {
-      video_driver_set_aspect_ratio_value((float)get_fly_aspect());
+      video_driver_set_aspect_ratio_value(get_fly_aspect());
       video_driver_apply_state_changes();
    }
 	
