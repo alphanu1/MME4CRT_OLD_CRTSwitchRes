@@ -246,7 +246,7 @@ void crt_video_restore(void)
  //  system(output2);/
 //}
 #if defined(__arm__)
-static void crt_rpi_switch(void)
+void crt_rpi_switch(void)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
