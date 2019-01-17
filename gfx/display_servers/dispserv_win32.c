@@ -52,6 +52,8 @@ static ITaskbarList3 *g_taskbarList = NULL;
 
 #endif
 
+static void win32_display_server_set_resolution_thread(void *data, unsigned width, unsigned height, int int_hz, float hz);
+
 typedef struct
 {
    unsigned opacity;
