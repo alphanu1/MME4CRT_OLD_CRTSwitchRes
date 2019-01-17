@@ -108,6 +108,8 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
+If (fork() == 0)
+{
    int i              = 0;
    int hfp            = 0;
    int hsp            = 0;
@@ -266,6 +268,42 @@ static bool x11_set_resolution(void *data,
       sprintf(new_mode,"%dx%d_%0.2f", width, height, hz); 
 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
+      for (i =0; i < 3; i++)
+      {
+         snprintf(output, sizeof(output), "xrandr --addmode %s%d %s", "DVI",i ,new_mode);
+         system(output); 
+         sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
+         system(output);
+         snprintf(output, sizeof(output), "xrandr --delmode %s%d %s", "DVI",i ,old_mode);
+         system(output); 
+      }
+      for (i =0; i < 3; i++)
+      {
+         snprintf(output, sizeof(output), "xrandr --addmode %s-%d %s", "DVI",i ,new_mode);
+         system(output); 
+         sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
+         system(output);
+         snprintf(output, sizeof(output), "xrandr --delmode %s-%d %s", "DVI",i ,old_mode);
+         system(output);
+      }
+      for (i =0; i < 3; i++)
+      {
+         snprintf(output, sizeof(output), "xrandr --addmode %s%d %s", "VGA",i ,new_mode);
+         system(output); 
+         sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
+         system(output); 
+         snprintf(output, sizeof(output), "xrandr --delmode %s%d %s", "VGA",i ,old_mode);
+         system(output); 
+      }
+      for (i =0; i < 3; i++)
+      {
+         snprintf(output, sizeof(output), "xrandr --addmode %s-%d %s", "VGA",i ,new_mode);
+         system(output); 
+         sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
+         system(output);
+         snprintf(output, sizeof(output), "xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
+         system(output); 
+      }
       for (i =0; i < 2; i++)
       {
           
@@ -282,10 +320,12 @@ static bool x11_set_resolution(void *data,
 	  /* remove old mode */
       sprintf(output,"xrandr --rmmode %s", old_mode);
 	  system(output);
+      system("xdotool windowactivate $(xdotool search --class RetroArch)");	/* needs xdotool installed. needed to recaputure window. */
 	   /* variable for old mode */
 	  sprintf(old_mode,"%s", new_mode);
-                                                                           /* Second run needed as some times it runs to fast to capture first time */
-
+     system("xdotool windowactivate $(xdotool search --class RetroArch)");	
+      /* Second run needed as some times it runs to fast to capture first time */
+}
  return true;
 }
 
