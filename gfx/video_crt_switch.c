@@ -81,31 +81,15 @@ void crt_aspect_ratio_switch(unsigned width, unsigned height)
 static void switch_res_crt(unsigned width, unsigned height)
 {
    //if (height > 100)
-  // {
+   {
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
       crt_rpi_switch();
       #endif
       crt_switch_driver_reinit();
-	     /* Detect resolution change and switch */
-	  if (
-         (ra_tmp_height != ra_core_height) || 
-         (ra_core_width != ra_tmp_width)
-      )
-	  {
-    crt_screen_setup_aspect(width, height);
-	  }
-   ra_tmp_height  = ra_core_height;
-   ra_tmp_width   = ra_core_width;
-
-   /* Check if aspect is correct, if notchange */
-   if (video_driver_get_aspect_ratio() != fly_aspect)
-   {
-      video_driver_set_aspect_ratio_value((float)fly_aspect);
-      video_driver_apply_state_changes();
-   }
- //  }
+	  
+  }
 }
 
 /* Create correct aspect to fit video if resolution does not exist */
@@ -182,14 +166,28 @@ void crt_switch_res_core(unsigned width, unsigned height, float hz)
    ra_core_hz     = hz;
 
    crt_check_first_run();
-   
-   switch_res_crt(width, height);
 
-   
+   /* Detect resolution change and switch */
+	  if (
+         (ra_tmp_height != ra_core_height) || 
+         (ra_core_width != ra_tmp_width)
+      )
+	  {
+    crt_screen_setup_aspect(width, height);
+	switch_res_crt(width, height);
+	  }
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
 
-  
+   /* Check if aspect is correct, if notchange */
+   if (video_driver_get_aspect_ratio() != fly_aspect)
+   {
+      video_driver_set_aspect_ratio_value((float)fly_aspect);
+      video_driver_apply_state_changes();
+   }
+   
+   
+    
 }
 
 void crt_video_restore(void)
