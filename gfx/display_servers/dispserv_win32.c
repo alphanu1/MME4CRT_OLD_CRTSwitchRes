@@ -212,6 +212,9 @@ static bool win32_display_server_set_resolution(void *data,
 {
    _beginthread(win32_display_server_set_resolution_thread(),0 , NULL);
     dispserv_win32_t *serv = (dispserv_win32_t*)data;
+
+      if (!serv)
+      return false;
    
    return true;
 }
@@ -227,9 +230,7 @@ static void win32_display_server_set_resolution_thread(void)
    int depth              = 0;
   
 
-   if (!serv)
-      return false;
-  
+   
    if (win32_orig_width == 0)
 	   win32_orig_width          = GetSystemMetrics(SM_CXSCREEN);
    if (win32_orig_height == 0)
