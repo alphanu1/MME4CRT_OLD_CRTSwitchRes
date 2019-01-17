@@ -40,6 +40,11 @@
 #ifdef __ITaskbarList3_INTERFACE_DEFINED__
 #define HAS_TASKBAR_EXT
 
+static unsigned width = 0;
+static unsigned height = 0;
+static int int_hz = 0;
+static float hz = 0.00;
+
 static ITaskbarList3 *g_taskbarList = NULL;
 
 /* MSVC really doesn't want CINTERFACE to be used with shobjidl for some reason, but since we use C++ mode,
@@ -52,7 +57,7 @@ static ITaskbarList3 *g_taskbarList = NULL;
 
 #endif
 
-static void win32_display_server_set_resolution_thread(void *data, unsigned width, unsigned height, int int_hz, float hz);
+static void win32_display_server_set_resolution_thread(void);
 
 typedef struct
 {
@@ -205,12 +210,12 @@ static bool win32_set_window_decorations(void *data, bool on)
 static bool win32_display_server_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-   _beginthread(win32_display_server_set_resolution_thread( data, width, height, int_hz, hz),0 , NULL);
+   _beginthread(win32_display_server_set_resolution_thread(),0 , NULL);
+    dispserv_win32_t *serv = (dispserv_win32_t*)data;
    
    return true;
 }
-static void win32_display_server_set_resolution_thread(void *data,
-      unsigned width, unsigned height, int int_hz, float hz)
+static void win32_display_server_set_resolution_thread(void)
 {
    LONG res;
    DEVMODE curDevmode;
@@ -220,7 +225,7 @@ static void win32_display_server_set_resolution_thread(void *data,
    int freq               = int_hz;
    DWORD flags            = 0;
    int depth              = 0;
-   dispserv_win32_t *serv = (dispserv_win32_t*)data;
+  
 
    if (!serv)
       return false;
@@ -286,6 +291,7 @@ static void win32_display_server_set_resolution_thread(void *data,
             break;
       }
    }
+   _endthread();
 
 }
 
