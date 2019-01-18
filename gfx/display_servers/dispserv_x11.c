@@ -131,7 +131,7 @@ if (fork() == 0)
    crt_rrmode->vSyncEnd = 1089;
    crt_rrmode->vTotal = 1125;
    crt_rrmode->name = "1920x1080";
-   crt_rrmode->nameLength = sizeof(crt_rrmode.name);
+   crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
 
 
