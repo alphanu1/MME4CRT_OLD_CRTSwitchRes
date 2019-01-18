@@ -27,8 +27,10 @@
 #include <X11/extensions/Xrandr.h>
 #include <X11/extensions/randr.h>
 #include <X11/extensions/Xrender.h>
+#include <X11/Xlibint.h>
+#include <X11/Xproto.h>
+#include <X11/Xatom.h>
 
-#include <X11/Xfuncproto.h>
 
 static unsigned orig_width      = 0;
 static unsigned orig_height     = 0;
@@ -138,18 +140,10 @@ if (fork() == 0)
    crt_rrmode->name = "1920x1080";
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
-   
-   XRRScreenConfiguration *XRRGetScreenInfo (Display *dpy, Window window);
-   XRRScreenResources *XRRGetScreenResources (Display *dpy, Window window);
-
-   XRRScreenResources scrres = XRRGetScreenResources (disp, window);
-
+  
+   XRRCreateMode(disp, window, crt_rrmode);
  
- 
- //  XRRCreateMode(disp, window, crt_rrmode);
-   
-
-  // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
+   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
  //  XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id);
 
