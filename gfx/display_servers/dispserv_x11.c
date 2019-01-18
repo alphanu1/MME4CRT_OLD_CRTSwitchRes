@@ -27,6 +27,7 @@
 #include <X11/extensions/Xrandr.h>
 #include <X11/extensions/randr.h>
 #include <X11/extensions/Xrender.h>
+#include <X11/extensions/render.h>
 #include <X11/Xlibint.h>
 #include <X11/Xproto.h>
 #include <X11/Xatom.h>
@@ -141,7 +142,7 @@ if (fork() == 0)
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
   
-   XRRCreateMode(disp, window, crt_rrmode);
+  // XRRCreateMode(disp, window, crt_rrmode);
  
    // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
