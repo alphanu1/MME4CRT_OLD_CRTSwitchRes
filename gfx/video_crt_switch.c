@@ -294,7 +294,7 @@ void crt_rpi_switch(int width, int height, float hz)
    hsp = 169;
  //  hbp = (width * roundw - 8)-width-hfp;
    hbp = 480;
-   hmax = width - hbp - hsp;
+  // hmax = width - hbp - hsp;
 
    if (height < 241)
       vmax = 261;
@@ -334,6 +334,9 @@ void crt_rpi_switch(int width, int height, float hz)
 
   // vbp = (vmax-height)-vsp-vfp;
   vbp = 5;
+  hmax = width+hfp+hsp+hbp;
+  vmax = 249;
+  
 
    if (height < 300)
       pixel_clock = (hmax * vmax * (int)hz) ;
@@ -344,7 +347,7 @@ void crt_rpi_switch(int width, int height, float hz)
    
    // if (fork() == 0) {
      // sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
-	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %lf 1 ", width, hfp, hsp, hbp, height, vfp, vsp,vbp, (int)hz, pixel_clock); 
+	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %lf 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, (int)hz, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	 //  set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
