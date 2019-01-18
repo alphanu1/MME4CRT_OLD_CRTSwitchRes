@@ -361,7 +361,7 @@ void crt_rpi_switch(int width, int height, float hz)
       vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
 
 
-      vc_gencmd (buffer, sizeof (buffer), (const char)set_hdmi);
+      vc_gencmd (buffer, sizeof (buffer), set_hdmi);
          //fatal ("Failed to set non-interpolation scaling kernel");
 
       vc_gencmd_stop ();
