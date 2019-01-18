@@ -249,10 +249,12 @@ void crt_rpi_switch(void)
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
+   static char set_hdmi[250]       ={0};
+   static const char set_hdmi_timing[250]    = {0};
    
    // if (fork() == 0) {
-
-	  static const char set_hdmi_timing[] = "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 ";
+      sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
+	   set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
       VCHI_CONNECTION_T *vchi_connection = NULL;
       char buffer[1024];
