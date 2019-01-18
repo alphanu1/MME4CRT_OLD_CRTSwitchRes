@@ -135,7 +135,7 @@ if (fork() == 0)
    crt_rrmode.modeFlags = 5;
 
 
-   XRRCreateMode (disp, window, crt_rrmode);
+   XRRCreateMode (disp, window, *crt_rrmode);
 
    XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
