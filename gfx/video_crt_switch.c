@@ -273,9 +273,6 @@ void crt_rpi_switch(int width, int height, float hz)
 
    /* following code is the mode line generator */
 
-   hsp = width * 0.140;
-   hfp = width * 0.055;
-
    pwidth = width;
 
    if (height < 400 && width > 400)
@@ -291,8 +288,9 @@ void crt_rpi_switch(int width, int height, float hz)
 
    if (roundw < 1.20)
       roundw = 1.34;
-
-   hbp = (width * roundw - 8)-height;
+   hfp = width * 0.055;
+   hsp = width * 0.140-hfp;
+   hbp = (width * roundw - 8)-height-hsp-hfp;
    hmax = height - hbp - hsp;
 
    if (height < 241)
