@@ -35,6 +35,8 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
+static RRmode CRTmode;
+
 typedef struct
 {
    unsigned opacity;
