@@ -151,7 +151,7 @@ void crt_screen_setup_aspect(unsigned width, unsigned height)
       crt_aspect_ratio_switch(width, height);
       height = 254;
    }
-
+	switch_res_crt(width, height);
  }
 
 
@@ -172,9 +172,7 @@ void crt_switch_res_core(unsigned width, unsigned height, float hz)
       )
 	  {
     crt_screen_setup_aspect(width, height);
-	switch_res_crt(width, height);
-
-	}
+	  }
    ra_tmp_height  = ra_core_height;
    ra_tmp_width   = ra_core_width;
 
