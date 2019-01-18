@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
+#include <usr/include/X11/extensions/Xrandr.h>
 
 static unsigned orig_width      = 0;
 static unsigned orig_height     = 0;
