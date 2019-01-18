@@ -35,7 +35,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
-static XRRModeInfo *crt_rrmode;
+static XRRModeInfo crt_rrmode;
 
 typedef struct
 {
@@ -118,7 +118,7 @@ if (fork() == 0)
    Display *disp = XOpenDisplay(0);
    int screen = DefaultScreen ( disp );
    Window window = RootWindow ( disp, screen );
-   XRRScreenResources* XRRGetScreenResources(disp, window) {
+
    crt_rrmode.id = 200;
    crt_rrmode.width = 600;
    crt_rrmode.height = 480;
@@ -133,7 +133,7 @@ if (fork() == 0)
    crt_rrmode.name = "1920x1080";
    crt_rrmode.nameLength = sizeof(crt_rrmode.name);
    crt_rrmode.modeFlags = 5;
-   }
+
 
    XRRCreateMode (disp, window, crt_rrmode);
 
