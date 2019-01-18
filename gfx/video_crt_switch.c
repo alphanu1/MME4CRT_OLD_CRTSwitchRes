@@ -264,7 +264,7 @@ void crt_rpi_switch(int width, int height, int hz)
    int pwidth         = 0;
    float roundw     = 0.0f;
    float roundh     = 0.0f;
-   float pixel_clock  = 0;
+  // float pixel_clock  = 0;
 
    //crt_en = true;
 
@@ -337,19 +337,19 @@ void crt_rpi_switch(int width, int height, int hz)
   hmax = width+hfp+hsp+hbp;
   vmax = 249;
 
-   if (height < 300)
+ /*   if (height < 300)
       pixel_clock = (hmax * vmax * hz) ;
 
    if (height > 300)
-      pixel_clock = ((hmax * vmax * hz) ) / 2;
+      pixel_clock = ((hmax * vmax * hz) ) / 2; */
    /* above code is the modeline generator */
    
-    pixel_clock = 41458500;
+  //  pixel_clock = 41458500;
    
    // if (fork() == 0) {
       sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1);
 	//  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %f 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
-	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %f 1 ", 1920, 106, 169, 480, 240, 1, 3, 5, 60,41458500); 
+	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", 1920, 106, 169, 480, 240, 1, 3, 5, 60, 41458500); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	 //  set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
