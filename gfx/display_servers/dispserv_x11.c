@@ -35,7 +35,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
-static XRRModeInfo crt_rrmode;
+static XRRModeInfo *crt_rrmode;
 
 typedef struct
 {
@@ -119,7 +119,7 @@ if (fork() == 0)
    int screen = DefaultScreen ( disp );
    Window window = RootWindow ( disp, screen );
 
-   crt_rrmode.id = 200;
+   crt_rrmode->id = 200;
    crt_rrmode.width = 600;
    crt_rrmode.height = 480;
    crt_rrmode.dotClock = 148500000;
@@ -135,7 +135,7 @@ if (fork() == 0)
    crt_rrmode.modeFlags = 5;
 
 
-   XRRCreateMode (disp, window, *crt_rrmode);
+   XRRCreateMode (disp, window, crt_rrmode);
 
    XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
