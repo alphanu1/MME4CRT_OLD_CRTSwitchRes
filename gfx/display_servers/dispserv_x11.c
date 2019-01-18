@@ -114,11 +114,11 @@ static bool x11_set_resolution(void *data,
 if (fork() == 0)
 {
 
-   /*  new xrandr.h code  */
+   /* ------------------new xrandr.h code--------------------------*/
    Display *disp = XOpenDisplay(0);
    int screen = DefaultScreen ( disp );
    Window window = RootWindow ( disp, screen );
- 
+   XRRScreenResources* XRRGetScreenResources(disp, window) {
    crt_rrmode.id = 200;
    crt_rrmode.width = 600;
    crt_rrmode.height = 480;
@@ -133,10 +133,19 @@ if (fork() == 0)
    crt_rrmode.name = "1920x1080";
    crt_rrmode.nameLength = sizeof(crt_rrmode.name);
    crt_rrmode.modeFlags = 5;
+   }
 
    XRRCreateMode (disp, window, crt_rrmode);
 
-   /*                     */
+   XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
+
+   XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id);
+
+   XRRDestroyMode (disp, crt_rrmode.id);
+
+   XRRFreeModeInfo (crt_rrmode);
+
+   /* ------------------------------------------------------------- */
    int i              = 0;
    int hfp            = 0;
    int hsp            = 0;
