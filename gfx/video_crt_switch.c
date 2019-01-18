@@ -288,9 +288,9 @@ void crt_rpi_switch(int width, int height, int hz)
       roundw = 1.34;
    hfp = width * 0.055;
  //  hfp=106;
-   hsp = width * 0.140-hfp;
+   hsp = width * 0.1433-hfp;
   // hsp = 169;
-   hbp = (width * roundw - 8)-width-hfp;
+   hbp = width * 0.3933-hsp-hfp;
   // hbp = 480;
   // hmax = width - hbp - hsp;
 
@@ -331,7 +331,7 @@ void crt_rpi_switch(int width, int height, int hz)
 	vsp = 3;
 
   vbp = (vmax-height)-vsp-vfp;
-  vbp = 5;
+ // vbp = 5;
  // hmax = width+hfp+hsp+hbp;
  
     if (height < 300)
