@@ -140,8 +140,9 @@ if (fork() == 0)
    crt_rrmode->modeFlags = 5;
    
    XRRScreenConfiguration *XRRGetScreenInfo (Display *dpy, Window window);
+   XRRScreenResources *XRRGetScreenResources (Display *dpy, Window window);
 
-   //XRRScreenResources *XRRGetScreenResources (disp, window);
+   XRRScreenResources scrres = XRRGetScreenResources (disp, window);
 
  
  
