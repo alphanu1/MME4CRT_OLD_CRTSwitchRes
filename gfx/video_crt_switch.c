@@ -251,9 +251,99 @@ void crt_rpi_switch(void)
    static char output2[250]         = {0}; 
    static char set_hdmi[250]       ={0};
    static const char set_hdmi_timing[250]    = {0};
+   int i              = 0;
+   int hfp            = 0;
+   int hsp            = 0;
+   int hbp            = 0;
+   int vfp            = 0;
+   int vsp            = 0;
+   int vbp            = 0;
+   int hmax           = 0;
+   int vmax           = 0;
+   int pdefault       = 8;
+   int pwidth         = 0;
+   float roundw     = 0.0f;
+   float roundh     = 0.0f;
+   float pixel_clock  = 0;
+
+   crt_en = true;
+
+   /* set core refresh from hz */
+   video_monitor_set_refresh_rate(hz);
+
+   /* following code is the mode line generator */
+
+   hsp = width * 0.140;
+   hfp = width * 0.055;
+
+   pwidth = width;
+
+   if (height < 400 && width > 400)
+      pwidth = width / 2;
+
+   roundw = roundf((float)pwidth / (float)height * 100) / 100;
+
+   if (height > width)
+      roundw = roundf((float)height / (float)width * 100) / 100;
+
+   if (roundw > 1.35)
+      roundw = 1.25;
+
+   if (roundw < 1.20)
+      roundw = 1.34;
+
+   hbp = (width * roundw - 8)-height;
+   hmax = height - hbp - hsp;
+
+   if (height < 241)
+      vmax = 261;
+   if (height < 241 && hz > 56 && hz < 58)
+      vmax = 280;
+   if (height < 241 && hz < 55)
+      vmax = 313;
+   if (height > 250 && height < 260 && hz > 54)
+      vmax = 296;
+   if (height > 250 && height < 260 && hz > 52 && hz < 54)
+      vmax = 285;
+   if (height > 250 && height < 260 && hz < 52)
+      vmax = 313;
+   if (height > 260 && height < 300)
+      vmax = 318;
+
+   if (height > 400 && hz > 56)
+      vmax = 533;
+   if (height > 520 && hz < 57)
+      vmax = 580;
+
+   if (height > 300 && hz < 56)
+      vmax = 615;
+   if (height > 500 && hz < 56)
+      vmax = 624;
+   if (height > 300)
+      pdefault = pdefault * 2;
+
+   vfp = (height + ((vmax - height) / 2) - pdefault) - height;
+
+   //if (height < 300)
+     // vsp = vfp + 3; /* needs to be 3 for progressive */
+   //if (height > 300)
+   //   vsp = vfp + 6; /* needs to be 6 for interlaced */
+
+	vsp = 3;
+
+   vbp = (vmax-height)-vsp-vfp;
+
+   if (height < 300)
+      pixel_clock = (hmax * vmax * hz) ;
+
+   if (height > 300)
+      pixel_clock = ((hmax * vmax * hz) ) / 2;
+   /* above code is the modeline generator */
    
    // if (fork() == 0) {
-      sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
+     // sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
+	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp, vsp,vbp, (int)ra_core_hz, pizel_clock) 
+   //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	   set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
       VCHI_CONNECTION_T *vchi_connection = NULL;
