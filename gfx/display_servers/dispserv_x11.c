@@ -35,7 +35,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
-static RRmode CRTmode;
+static RRMode CRTmode;
 
 typedef struct
 {
