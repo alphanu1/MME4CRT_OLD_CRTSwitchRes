@@ -25,6 +25,10 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/extensions/Xrandr.h>
+#include <X11/extensions/randr.h>
+#include <X11/extensions/Xrender.h>
+
+#include <X11/Xfuncproto.h>
 
 static unsigned orig_width      = 0;
 static unsigned orig_height     = 0;
@@ -138,6 +142,7 @@ if (fork() == 0)
    RROutput crt_output = XRRGetOutputPrimary(disp, window);
 
    XRRCreateMode(disp, window, crt_rrmode);
+   
 
   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
@@ -166,7 +171,7 @@ if (fork() == 0)
    float pixel_clock  = 0;
 
    Display* dsp      = XOpenDisplay(NULL);
-   Screen* scrn       = DefaultScreenOfDisplay(disp);
+   Screen* scrn      = DefaultScreenOfDisplay(disp);
    
    if (orig_height == 0 && orig_width == 0)
    { 
