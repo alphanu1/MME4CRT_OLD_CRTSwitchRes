@@ -37,7 +37,7 @@ void crt_screen_setup_aspect(unsigned width, unsigned height);
 
 float get_fly_aspect(void);
 
-void crt_rpi_switch(int width, int hight, float hz);
+void crt_rpi_switch(int width, int height, float hz);
 
 RETRO_END_DECLS
 

@@ -244,7 +244,7 @@ float get_fly_aspect(void)
 
 
 #if defined(__arm__)
-void crt_rpi_switch(int width, int hight, float hz)
+void crt_rpi_switch(int width, int height, float hz)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
@@ -266,7 +266,7 @@ void crt_rpi_switch(int width, int hight, float hz)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
 
-   crt_en = true;
+   //crt_en = true;
 
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);
