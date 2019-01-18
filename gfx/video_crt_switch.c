@@ -250,7 +250,7 @@ void crt_rpi_switch(int width, int height, int hz)
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
    static char set_hdmi[250]       ={0};
-   static const char set_hdmi_timing[250]    = {0};
+   static char set_hdmi_timing[250]    = {0};
    int i              = 0;
    int hfp            = 0;
    int hsp            = 0;
@@ -350,7 +350,7 @@ void crt_rpi_switch(int width, int height, int hz)
    
    // if (fork() == 0) {
       sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
-	//  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
+	  sprintf(set_hdmi_timings, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	 //  set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
