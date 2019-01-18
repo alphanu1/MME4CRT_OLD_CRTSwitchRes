@@ -336,8 +336,6 @@ void crt_rpi_switch(int width, int height, int hz)
   vbp = 5;
   hmax = width+hfp+hsp+hbp;
   vmax = 249;
- 
-  2675 249 60
 
    if (height < 300)
       pixel_clock = (hmax * vmax * hz) ;
