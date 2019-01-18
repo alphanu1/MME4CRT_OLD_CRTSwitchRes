@@ -135,6 +135,7 @@ if (fork() == 0)
    crt_rrmode->modeFlags = 5;
 
    XRRScreenConfiguration *XRRGetScreenInfo (disp, window);
+   RROutput crt_output = XRRGetOutputPrimary(disp, window);
 
    XRRCreateMode(disp, window, crt_rrmode);
 
@@ -142,11 +143,11 @@ if (fork() == 0)
 
  //  XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id);
 
-   XRRDestroyMode(disp, crt_rrmode->id);
+  // XRRDestroyMode(disp, crt_rrmode->id);
 
-   XRRFreeModeInfo(crt_rrmode);
+//   XRRFreeModeInfo(crt_rrmode);
 
-   XRRSetScreenSize (disp, window, 320, 240, 418, 261);
+  // XRRSetScreenSize (disp, window, 320, 240, 418, 261);
 
    /* ------------------------------------------------------------- */
    int i              = 0;
