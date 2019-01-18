@@ -142,7 +142,7 @@ if (fork() == 0)
    XRRScreenConfiguration *XRRGetScreenInfo (disp, window);
    XRRScreenResources *XRRGetScreenResources (disp, window);
 
-   sprintf(crt_output,"%s", XRRScreenResources->RROutput);
+   sprintf(crt_output,"%d", XRRScreenResources->RROutput);
  
  //  XRRCreateMode(disp, window, crt_rrmode);
    
