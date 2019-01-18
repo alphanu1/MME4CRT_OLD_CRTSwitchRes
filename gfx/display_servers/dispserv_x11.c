@@ -145,7 +145,7 @@ if (fork() == 0)
 
    XRRFreeModeInfo(crt_rrmode);
 
-   XRRSetScreenSize (disp, window, 320, 240, 418, int 261);
+   XRRSetScreenSize (disp, window, 320, 240, 418, 261);
 
    /* ------------------------------------------------------------- */
    int i              = 0;
