@@ -244,7 +244,7 @@ float get_fly_aspect(void)
 
 
 #if defined(__arm__)
-void crt_rpi_switch(int width, int height, in hz)
+void crt_rpi_switch(int width, int height, int hz)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
