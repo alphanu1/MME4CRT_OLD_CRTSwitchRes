@@ -40,6 +40,7 @@ static char output[150];
 static bool crt_en     = false;
 
 static XRRModeInfo *crt_rrmode;
+static char crt_output;
 
 typedef struct
 {
@@ -139,9 +140,11 @@ if (fork() == 0)
    crt_rrmode->modeFlags = 5;
 
    XRRScreenConfiguration *XRRGetScreenInfo (disp, window);
-   RROutput crt_output = XRRGetOutputPrimary(disp, window);
+   XRRScreenResources *XRRGetScreenResources (disp, window);
 
-   XRRCreateMode(disp, window, crt_rrmode);
+   sprintf(crt_output,"%s", XRRScreenResources->RROutput);
+ 
+ //  XRRCreateMode(disp, window, crt_rrmode);
    
 
   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
