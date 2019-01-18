@@ -35,7 +35,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
-static XRRModeInfo crt_rrmode;
+static XRRModeInfo *crt_rrmode;
 
 typedef struct
 {
@@ -115,10 +115,9 @@ if (fork() == 0)
 {
 
    /*  new xrandr.h code  */
-   Display *disp;
-   disp = XOpenDisplay(0);
-   int screen = DefaultScreen ( disp ) ;
-   Window window = RootWindow ( disp, screen ) ;
+   Display *disp = XOpenDisplay(0);
+   int screen = DefaultScreen ( disp );
+   Window window = RootWindow ( disp, screen );
  
    crt_rrmode.id = 200;
    crt_rrmode.width = 600;
