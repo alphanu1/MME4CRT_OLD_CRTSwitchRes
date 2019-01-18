@@ -141,7 +141,7 @@ if (fork() == 0)
 
  //  XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id);
 
-   XRRDestroyMode (disp, crt_rrmode.id);
+   XRRDestroyMode (disp, crt_rrmode->id);
 
    XRRFreeModeInfo (crt_rrmode);
 
@@ -161,7 +161,7 @@ if (fork() == 0)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
 
-   Display* disp      = XOpenDisplay(NULL);
+   Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn       = DefaultScreenOfDisplay(disp);
    
    if (orig_height == 0 && orig_width == 0)
