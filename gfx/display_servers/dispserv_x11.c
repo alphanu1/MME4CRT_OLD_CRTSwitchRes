@@ -134,6 +134,7 @@ if (fork() == 0)
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
 
+   XRRScreenConfiguration *XRRGetScreenInfo (disp, window);
 
    XRRCreateMode(disp, window, crt_rrmode);
 
