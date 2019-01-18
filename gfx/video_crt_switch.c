@@ -83,7 +83,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
-      crt_rpi_switch(width, hieght, ra_core_hz);
+      crt_rpi_switch(width, height, ra_core_hz);
       #endif
       crt_switch_driver_reinit();
 	 
@@ -344,7 +344,7 @@ void crt_rpi_switch(int width, int height, float hz)
      // sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
 	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %0f 1 ", width, hfp, hsp, hbp, height, vfp, vsp,vbp, (int)hz, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
-	   set_hdmi_timing = set_hdmi;
+	   set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
       VCHI_CONNECTION_T *vchi_connection = NULL;
       char buffer[1024];
