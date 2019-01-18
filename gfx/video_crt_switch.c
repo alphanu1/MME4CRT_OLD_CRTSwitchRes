@@ -252,12 +252,12 @@ void crt_rpi_switch(int width, int height, int hz)
    static char set_hdmi[250]       ={0};
    static char set_hdmi_timing[250]    = {0};
    int i              = 0;
-   int hfp            = 0;
+/*    int hfp            = 0;
    int hsp            = 0;
    int hbp            = 0;
    int vfp            = 0;
    int vsp            = 0;
-   int vbp            = 0;
+   int vbp            = 0; */
    int hmax           = 0;
    int vmax           = 0;
    int pdefault       = 8;
