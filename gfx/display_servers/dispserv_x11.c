@@ -138,11 +138,12 @@ if (fork() == 0)
    crt_rrmode->name = "1920x1080";
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
+   
+   XRRScreenConfiguration *XRRGetScreenInfo (Display *dpy, Window window);
 
-   XRRScreenConfiguration *XRRGetScreenInfo (disp, window);
-   XRRScreenResources *XRRGetScreenResources (disp, window);
+   //XRRScreenResources *XRRGetScreenResources (disp, window);
 
-   sprintf(crt_output,"%d", XRRScreenResources->RROutput);
+ 
  
  //  XRRCreateMode(disp, window, crt_rrmode);
    
