@@ -35,7 +35,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 
-static RRMode CRTmode;
+static RRMode crt_rrmode;
 
 typedef struct
 {
@@ -113,6 +113,24 @@ static bool x11_set_resolution(void *data,
 {
 if (fork() == 0)
 {
+
+   /*  new xrandr.h code  */
+   crt_rrmode.id = 200;
+   crt_rrmode.width = 600;
+   crt_rrmode.height = 480;
+   crt_rrmode.dotClock = 148500000;
+   crt_rrmode.hSyncStart = 2008;
+   crt_rrmode.hSyncEnd = 2052;
+   crt_rrmode.hTotal = 2200;
+   crt_rrmode.hSkew = 0;
+   crt_rrmode.vSyncStart = 1084;
+   crt_rrmode.vSyncEnd = 1089;
+   crt_rrmode.vTotal = 1125;
+   crt_rrmode.name = "1920x1080";
+   crt_rrmode.nameLength = sizeof(crt_rrmode.name);
+   crt_rrmode.modeFlags = 5;
+
+   /*                     */
    int i              = 0;
    int hfp            = 0;
    int hsp            = 0;
