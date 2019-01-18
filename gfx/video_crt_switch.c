@@ -342,7 +342,7 @@ void crt_rpi_switch(void)
    
    // if (fork() == 0) {
      // sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1)
-	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp, vsp,vbp, (int)ra_core_hz, pizel_clock) 
+	  sprintf(set_hdmi, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp, vsp,vbp, (int)ra_core_hz, pixel_clock) 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	   set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
