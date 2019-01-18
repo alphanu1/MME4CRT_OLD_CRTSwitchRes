@@ -289,11 +289,11 @@ void crt_rpi_switch(int width, int height, int hz)
    if (roundw < 1.20)
       roundw = 1.34;
    //hfp = width * 0.055;
-   hfp=106;
+ //  hfp=106;
    //hsp = width * 0.140-hfp;
-   hsp = 169;
+ //  hsp = 169;
  //  hbp = (width * roundw - 8)-width-hfp;
-   hbp = 480;
+ //  hbp = 480;
   // hmax = width - hbp - hsp;
 
    if (height < 241)
@@ -324,18 +324,18 @@ void crt_rpi_switch(int width, int height, int hz)
       pdefault = pdefault * 2;
 
    //vfp = (height + ((vmax - height) / 2) - pdefault) - height;
-	vfp = 1;
+	//vfp = 1;
    //if (height < 300)
      // vsp = vfp + 3; /* needs to be 3 for progressive */
    //if (height > 300)
    //   vsp = vfp + 6; /* needs to be 6 for interlaced */
 
-	vsp = 3;
+//	vsp = 3;
 
   // vbp = (vmax-height)-vsp-vfp;
-  vbp = 5;
-  hmax = width+hfp+hsp+hbp;
-  vmax = 249;
+ // vbp = 5;
+ // hmax = width+hfp+hsp+hbp;
+ // vmax = 249;
 
  /*   if (height < 300)
       pixel_clock = (hmax * vmax * hz) ;
