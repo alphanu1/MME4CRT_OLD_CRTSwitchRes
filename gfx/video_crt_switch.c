@@ -288,9 +288,12 @@ void crt_rpi_switch(int width, int height, float hz)
 
    if (roundw < 1.20)
       roundw = 1.34;
-   hfp = width * 0.055;
-   hsp = width * 0.140-hfp;
-   hbp = (width * roundw - 8)-width-hfp;
+   //hfp = width * 0.055;
+   hfp=106;
+   //hsp = width * 0.140-hfp;
+   hsp = 169;
+ //  hbp = (width * roundw - 8)-width-hfp;
+   hbp = 480;
    hmax = width - hbp - hsp;
 
    if (height < 241)
@@ -320,8 +323,8 @@ void crt_rpi_switch(int width, int height, float hz)
    if (height > 300)
       pdefault = pdefault * 2;
 
-   vfp = (height + ((vmax - height) / 2) - pdefault) - height;
-
+   //vfp = (height + ((vmax - height) / 2) - pdefault) - height;
+	vfp = 1;
    //if (height < 300)
      // vsp = vfp + 3; /* needs to be 3 for progressive */
    //if (height > 300)
@@ -329,7 +332,8 @@ void crt_rpi_switch(int width, int height, float hz)
 
 	vsp = 3;
 
-   vbp = (vmax-height)-vsp-vfp;
+  // vbp = (vmax-height)-vsp-vfp;
+  vbp = 5
 
    if (height < 300)
       pixel_clock = (hmax * vmax * (int)hz) ;
