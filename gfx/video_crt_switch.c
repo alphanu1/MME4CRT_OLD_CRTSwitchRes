@@ -256,7 +256,8 @@ void crt_rpi_switch(int width, int height, int hz)
    if (height > 300)
       pdefault = pdefault * 2;
 
-   vfp = (height + ((vmax - height) / 2) - pdefault) - height;
+   vfp = ((vmax - height) / 2) - pdefault;
+   vfp =1;
    
     
 
