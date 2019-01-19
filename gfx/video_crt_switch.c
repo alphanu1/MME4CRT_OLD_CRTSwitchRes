@@ -290,7 +290,7 @@ void crt_rpi_switch(int width, int height, int hz)
 
    if (roundw < 1.20)
       roundw = 1.34;
-   hfp = width * 0.085;
+   hfp = width * 0.065;
  //  hfp=106;
    hsp = width * 0.1433-hfp;
   // hsp = 169;
