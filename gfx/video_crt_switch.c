@@ -258,6 +258,9 @@ void crt_rpi_switch(int width, int height, int hz)
 
    vfp = ((vmax - height) / 2) - pdefault;
    vfp =1;
+   vsp =3;
+   vbp = 5;
+   vmax = 249;
    
     
 
@@ -265,18 +268,19 @@ void crt_rpi_switch(int width, int height, int hz)
 
    if (height < 300)
    {
-      vsp = 3; /* needs to be 3 for progressive */
+   //   vsp = 3; /* needs to be 3 for progressive */
       ip_flag = 0;
       pixel_clock = (hmax * vmax * hz) ;
    }
    if (height > 300)
    {
-      vsp = 6; /* needs to be 6 for interlaced */
+ //     vsp = 6; /* needs to be 6 for interlaced */
       ip_flag = 1;
       pixel_clock = ((hmax * vmax * hz) ) / 2; 
    }
    
-   vbp = (vmax-height)-vsp-vfp;
+   //vbp = (vmax-height)-vsp-vfp;
+   
   
    /* above code is the modeline generator */
       
