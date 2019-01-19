@@ -2644,7 +2644,7 @@ void crt_switch_driver_reinit()
   //    video_context_driver_reset();
  //    video_context_driver_set();
   //   video_driver_get_current_framebuffer();
-     video_driver_apply_state_changes();
+  //   video_driver_apply_state_changes();
 }
 
 void video_driver_display_type_set(enum rarch_display_type type)
