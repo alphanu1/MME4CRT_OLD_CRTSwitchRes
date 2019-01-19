@@ -263,6 +263,7 @@ void crt_rpi_switch(int width, int height, int hz)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
   int pixel_clock  = 0;
+   int ip_flag     = 0;
 
    //crt_en = true;
 
@@ -290,7 +291,7 @@ void crt_rpi_switch(int width, int height, int hz)
  //  hfp=106;
    hsp = width * 0.1433-hfp;
   // hsp = 169;
-   hbp = width * 0.3933-hsp-hfp;
+   hbp = width * 0.3-hsp-hfp;
   // hbp = 480;
   // hmax = width - hbp - hsp;
 
@@ -334,11 +335,17 @@ void crt_rpi_switch(int width, int height, int hz)
  // vbp = 5;
   hmax = width+hfp+hsp+hbp;
  
- //   if (height < 300)
+    if (height < 300)
+    {
       pixel_clock = (hmax * vmax * hz) ;
-
- //  if (height > 300)
- //     pixel_clock = ((hmax * vmax * hz) ) / 2; 
+      ip_flag     = 0;
+    }
+   
+   if (height > 300)
+   {
+      pixel_clock = (hmax * vmax * hz)  / 2; 
+      ip_flag     = 1;
+   }
    /* above code is the modeline generator */
    
   
@@ -346,7 +353,7 @@ void crt_rpi_switch(int width, int height, int hz)
    // if (fork() == 0) {
       sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1);
 	//  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %f 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
-	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, pixel_clock); 
+	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, ip_flag, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	 //  set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
@@ -381,7 +388,7 @@ void crt_rpi_switch(int width, int height, int hz)
    // }
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
-   sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
+   sprintf(output2,"fbset -g %d %d %d %d 24 > /dev/null",width, height, width, height);
    system(output2);
 }
 #endif
