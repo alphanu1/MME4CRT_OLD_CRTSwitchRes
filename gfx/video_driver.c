@@ -604,7 +604,7 @@ bool video_context_driver_set(const gfx_ctx_driver_t *data)
 
 void video_context_driver_destroy(void)
 {
-   crt_video_restore();
+
    current_video_context.init                       = NULL;
    current_video_context.bind_api                   = NULL;
    current_video_context.swap_interval              = NULL;
