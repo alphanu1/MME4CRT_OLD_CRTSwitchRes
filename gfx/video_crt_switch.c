@@ -226,7 +226,7 @@ void crt_rpi_switch(int width, int height, int hz)
 
    hfp = width * 0.055;
    hsp = width * 0.1433-hfp;
-   hbp = width * 0.3-hsp-hfp;
+   hbp = width * 0.3933-hsp-hfp;
  
 
    if (height < 241)
@@ -268,7 +268,7 @@ void crt_rpi_switch(int width, int height, int hz)
    {
       vsp = vfp + 6; /* needs to be 6 for interlaced */
       ip_flag = 1;
-      pixel_clock = ((hmax * vmax * hz) ) / 2; 
+      pixel_clock = (hmax * vmax * hz)  / 2; 
    }
 
   vbp = (vmax-height)-vsp-vfp;
@@ -278,7 +278,7 @@ void crt_rpi_switch(int width, int height, int hz)
    /* above code is the modeline generator */
       
    // if (fork() == 0) {
-	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, ip_flag,pixel_clock); 
+	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, 0, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	
       VCHI_INSTANCE_T vchi_instance;
