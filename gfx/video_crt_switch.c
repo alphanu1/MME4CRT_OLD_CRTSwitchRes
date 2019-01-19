@@ -85,7 +85,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       #if defined(__arm__)
       crt_rpi_switch(width, height, ra_set_core_hz);
       #endif
-      //crt_switch_driver_reinit();
+      crt_switch_driver_reinit();
 	 
 	  
  // }
