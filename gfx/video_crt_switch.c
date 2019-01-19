@@ -188,53 +188,6 @@ void crt_video_restore(void)
     first_run = true;
 }
 
-
-// void crt_rpi_switch(void)
-// {
-// static char output[250]         = {0};   
- //  static char output1[250]         = {0}; 
-  // static char output2[250]         = {0}; 
-  // 
-  // if (fork() == 0) {
-
-	//sprintf(output,"bash -c \"vcgencmd hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 1 \" ");
- // system(output);
-//VCHI_INSTANCE_T vchi_instance;
-//VCHI_CONNECTION_T *vchi_connection = NULL;
-//char buffer[1024];
-
-//vcos_init ();
-
-//vchi_initialise (&vchi_instance);
-       // fatal ("VCHI initialization failed");
-
-//create a vchi connection
-//vchi_connect (NULL, 0, vchi_instance);
-       // fatal ("VCHI connection failed");
-
-//vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
-
-
-//vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
-	//fatal ("Failed to set non-interpolation scaling kernel");
-
-    //vc_gencmd_stop ();
-
-    //close the vchi connection
-  // vchi_disconnect (vchi_instance);
-       // fatal ("VCHI disconnect failed");
-      // vc_vchi_gencmd_deinit();
-//vcos_deinit();
-//  exit(0);
-
-   
-  //   }  
-    
-//   sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
- //  system(output1);
- //  sprintf(output2,"fbset -g 1920 240 1920 240 24 > /dev/null");
- //  system(output2);/
-//}
 float get_fly_aspect(void)
 {
 	return fly_aspect;
@@ -243,11 +196,10 @@ float get_fly_aspect(void)
 
 #if defined(__arm__)
 void crt_rpi_switch(int width, int height, int hz)
-{
-   static char output[250]         = {0};   
+{  
    static char output1[250]         = {0}; 
    static char output2[250]         = {0}; 
-   static char set_hdmi[250]       ={0};
+ 
    static char set_hdmi_timing[250]    = {0};
    int i              = 0;
    int hfp            = 0;
@@ -262,7 +214,8 @@ void crt_rpi_switch(int width, int height, int hz)
    int pwidth         = 0;
    float roundw     = 0.0f;
    float roundh     = 0.0f;
-  int pixel_clock  = 0;
+   int pixel_clock  = 0;
+   int ip_flag      = 0;
 
    //crt_en = true;
 
@@ -271,28 +224,10 @@ void crt_rpi_switch(int width, int height, int hz)
 
    /* following code is the mode line generator */
 
-   pwidth = width;
-
-   if (height < 400 && width > 400)
-      pwidth = width / 2;
-
-   roundw = roundf((float)pwidth / (float)height * 100) / 100;
-
-   if (height > width)
-      roundw = roundf((float)height / (float)width * 100) / 100;
-
-   if (roundw > 1.35)
-      roundw = 1.25;
-
-   if (roundw < 1.20)
-      roundw = 1.34;
    hfp = width * 0.055;
- //  hfp=106;
    hsp = width * 0.1433-hfp;
-  // hsp = 169;
-   hbp = width * 0.3933-hsp-hfp;
-  // hbp = 480;
-  // hmax = width - hbp - hsp;
+   hbp = width * 0.3-hsp-hfp;
+ 
 
    if (height < 241)
       vmax = 261;
@@ -322,33 +257,30 @@ void crt_rpi_switch(int width, int height, int hz)
       pdefault = pdefault * 2;
 
    vfp = (height + ((vmax - height) / 2) - pdefault) - height;
-	//vfp = 1;
-   if (height < 300)
-      vsp = vfp + 3; /* needs to be 3 for progressive */
-   if (height > 300)
-     vsp = vfp + 6; /* needs to be 6 for interlaced */
 
-	vsp = 3;
+   if (height < 300)
+   {
+      vsp = vfp + 3; /* needs to be 3 for progressive */
+      ip_flag = 0;
+      pixel_clock = (hmax * vmax * hz) ;
+   }
+   if (height > 300)
+   {
+      vsp = vfp + 6; /* needs to be 6 for interlaced */
+      ip_flag = 1;
+      pixel_clock = ((hmax * vmax * hz) ) / 2; 
+   }
 
   vbp = (vmax-height)-vsp-vfp;
- // vbp = 5;
+
   hmax = width+hfp+hsp+hbp;
  
- //   if (height < 300)
-      pixel_clock = (hmax * vmax * hz) ;
-
- //  if (height > 300)
- //     pixel_clock = ((hmax * vmax * hz) ) / 2; 
    /* above code is the modeline generator */
-   
-  
-   
+      
    // if (fork() == 0) {
-      sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1);
-	//  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %f 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
-	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, pixel_clock); 
+	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, ip_flag,pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
-	 //  set_hdmi_timing[] = set_hdmi;
+	
       VCHI_INSTANCE_T vchi_instance;
       VCHI_CONNECTION_T *vchi_connection = NULL;
       char buffer[1024];
@@ -356,28 +288,17 @@ void crt_rpi_switch(int width, int height, int hz)
       vcos_init ();
 
       vchi_initialise (&vchi_instance);
-            // fatal ("VCHI initialization failed");
 
-      //create a vchi connection
       vchi_connect (NULL, 0, vchi_instance);
-            // fatal ("VCHI connection failed");
 
       vc_vchi_gencmd_init (vchi_instance, &vchi_connection, 1);
 
-
       vc_gencmd (buffer, sizeof (buffer), set_hdmi_timing);
-         //fatal ("Failed to set non-interpolation scaling kernel");
 
       vc_gencmd_stop ();
 
-         //close the vchi connection
       vchi_disconnect (vchi_instance);
-            // fatal ("VCHI disconnect failed");
-
-    //   exit(0);
-
-   
-       
+      
    // }
    sprintf(output1,"tvservice -e \"DMT 87\" > /dev/null");
    system(output1);
