@@ -184,7 +184,10 @@ void crt_video_restore(void)
 {
    if (first_run)
       return;
-
+   
+    #if defined(__arm__)
+    crt_rpi_switch(320, 240, 60);
+    #endif
     first_run = true;
 }
 
