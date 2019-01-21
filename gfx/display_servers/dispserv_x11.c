@@ -126,6 +126,7 @@ if (fork() == 0)
    Display *disp = XOpenDisplay(0);
    int screen = DefaultScreen ( disp );
    Window window = RootWindow ( disp, screen );
+   static XRRScreenResources  *res;
 
    crt_rrmode->id = 200;
    crt_rrmode->width = 600;
@@ -141,8 +142,10 @@ if (fork() == 0)
    crt_rrmode->name = "1920x1080";
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
+   
+   res = XRRGetScreenResourcesCurrent (dpy, window);
   
-  // XRRCreateMode(disp, window, crt_rrmode);
+   XRRCreateMode(disp, window, crt_rrmode);
  
    // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
