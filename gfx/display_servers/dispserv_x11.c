@@ -292,7 +292,7 @@ if (fork() == 0)
 
    }
       /* variable for new mode */
-      sprintf(new_mode,"crt_%dx%d", width, height, hz); 
+      sprintf(new_mode,"crt_%dx%d", width, height); 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
@@ -310,7 +310,7 @@ if (fork() == 0)
    crt_rrmode->vSyncStart = vfp;
    crt_rrmode->vSyncEnd = vsp;
    crt_rrmode->vTotal = vmax;
-   crt_rrmode->name = newmode;
+   crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 5;
    
@@ -320,13 +320,13 @@ if (fork() == 0)
  
    // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id); <--- Just need to get this one working !
 
+   XRRSetScreenSize (disp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+
    //XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id-1);
 
    XRRDestroyMode(dsp, crt_rrmode->id-1);
 
    XRRFreeModeInfo(crt_rrmode);
-
-  // XRRSetScreenSize (disp, window, 320, 240, 418, 261);
 
    /* ------------------------------------------------------------- */
 }
