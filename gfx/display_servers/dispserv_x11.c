@@ -153,9 +153,9 @@ if (fork() == 0)
 
    Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
-   Window window     = RootWindow ( dsp, scrn );
    XRRScreenResources  *res;
    int screen = DefaultScreen ( dsp );
+   Window window     = RootWindow ( dsp, scrn );
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -323,11 +323,11 @@ if (fork() == 0)
    for (int i = 0; i < res->noutput; i++)
    { 
    
-      XRROutPutInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      XRROututInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
       if (output->connection == RR_Connected)
       {
-            XRRAddOutputMode (dsp, output->xid, crt_rrmode.id);
+            XRRAddOutputMode (dsp, output.xid, crt_rrmode.id);
       }
 
    }
@@ -336,14 +336,15 @@ if (fork() == 0)
 
    for (int i = 0; i < res->noutput; i++)
    { 
-     XRROutPutInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output->connection == RR_Connected)
+      if (output2->connection == RR_Connected)
       {
-            XRRDeleteOutputMode (dsp, output->xid, crt_rrmode.id-1);
+            XRRDeleteOutputMode (dsp, output2.xid, crt_rrmode.id-1);
       }
 
    }
+
    XRRDestroyMode(dsp, crt_rrmode->id-1);
 
    XRRFreeModeInfo(crt_rrmode);
