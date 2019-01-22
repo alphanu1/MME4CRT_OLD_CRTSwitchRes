@@ -150,8 +150,8 @@ if (fork() == 0)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
 
-   Display* dsp      = XOpenDisplay(NULL);
-   Screen* scrn      = DefaultScreenOfDisplay(disp);
+   Display* dsp      = XOpenDisplay(0);
+   Screen* scrn      = DefaultScreenOfDisplay(dsp);
    Window window     = RootWindow ( dsp, scrn );
    XRRScreenResources  *res;
    
@@ -318,11 +318,11 @@ if (fork() == 0)
   
    XRRCreateMode(dsp, window, crt_rrmode);
  
-   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
+   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id); <--- Just need to get this one working !
 
-   XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id-1);
+   //XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id-1);
 
-   XRRDestroyMode(disp, crt_rrmode->id-1);
+   XRRDestroyMode(dsp, crt_rrmode->id-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
