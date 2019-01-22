@@ -128,7 +128,7 @@ if (fork() == 0)
   // int screen = DefaultScreen ( disp );
      /* ------------------new xrandr.h code--------------------------*/
    //Display *disp = XOpenDisplay(0);
-   //int screen = DefaultScreen ( disp );
+   //
    
 
 
@@ -149,12 +149,13 @@ if (fork() == 0)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
    float pixel_clock  = 0;
+ 
 
    Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
-   int screen        = DefaultScreen ( disp );
-   Window window     = RootWindow ( dsp, screen );
+   Window window     = RootWindow ( dsp, scrn );
    XRRScreenResources  *res;
+   int screen = DefaultScreen ( dsp );
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -316,15 +317,33 @@ if (fork() == 0)
    crt_rrmode->modeFlags = 5;
    
    res = XRRGetScreenResources (dsp, window);
-  
+
    XRRCreateMode(dsp, window, crt_rrmode);
- 
-   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id); <--- Just need to get this one working !
 
-   XRRSetScreenSize (disp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+   for (int i = 0; i < res->noutput; i++)
+   { 
+   
+      XRROutPutInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      
+      if (output->connection == RR_Connected)
+      {
+            XRRAddOutputMode (dsp, output->xid, crt_rrmode.id);
+      }
 
-   //XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id-1);
+   }
 
+   XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+
+   for (int i = 0; i < res->noutput; i++)
+   { 
+     XRROutPutInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      
+      if (output->connection == RR_Connected)
+      {
+            XRRDeleteOutputMode (dsp, output->xid, crt_rrmode.id-1);
+      }
+
+   }
    XRRDestroyMode(dsp, crt_rrmode->id-1);
 
    XRRFreeModeInfo(crt_rrmode);
