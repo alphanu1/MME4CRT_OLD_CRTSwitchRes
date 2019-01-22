@@ -27,6 +27,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.8
+            - libxrandr-dev
           packages:
             - clang-3.8
       env: COMPILER_NAME=clang-3.8 CXX=clang++-3.8 CC=clang-3.8
@@ -57,6 +58,7 @@ addons:
       - libsdl-ttf2.0-dev
       - libusb-1.0-0-dev
       - libxrandr-dev
+      - libxi-dev
   coverity_scan:
     project:
       name: "RetroArch"
