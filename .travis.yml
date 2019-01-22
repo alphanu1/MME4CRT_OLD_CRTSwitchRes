@@ -37,7 +37,7 @@ matrix:
           - xcodebuild -target RetroArch -configuration Release -project pkg/apple/RetroArch.xcodeproj
 
 script:
-  - ./configure --disable-shared
+  - ./configure
   - make
 
 env:
@@ -61,6 +61,7 @@ addons:
       - build-essential
       - libxrandr-dev
       - libxi-dev
+      - libglfw3-dev
   coverity_scan:
     project:
       name: "RetroArch"
