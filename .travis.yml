@@ -58,7 +58,6 @@ addons:
       - libsdl-ttf2.0-dev
       - libusb-1.0-0-dev
       - xorg-dev 
-      - libglu1-mesa-dev
       - build-dep
       - libxrandr-dev
       - libxi-dev
