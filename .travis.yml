@@ -61,6 +61,7 @@ addons:
       - build-essential
       - libxrandr-dev
       - libxi-dev
+      - glfw3-dev
   coverity_scan:
     project:
       name: "RetroArch"
