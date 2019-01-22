@@ -58,7 +58,7 @@ addons:
       - libsdl-ttf2.0-dev
       - libusb-1.0-0-dev
       - xorg-dev 
-      - build-dep
+      - build-essential
       - libxrandr-dev
       - libxi-dev
   coverity_scan:
