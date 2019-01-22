@@ -41,6 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
+static int crtid                = 200;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
@@ -123,41 +124,17 @@ if (fork() == 0)
 {
 
    /* ------------------new xrandr.h code--------------------------*/
-   Display *disp = XOpenDisplay(0);
-   int screen = DefaultScreen ( disp );
-   Window window = RootWindow ( disp, screen );
-   XRRScreenResources  *res;
-
-   crt_rrmode->id = 200;
-   crt_rrmode->width = 600;
-   crt_rrmode->height = 480;
-   crt_rrmode->dotClock = 148500000;
-   crt_rrmode->hSyncStart = 2008;
-   crt_rrmode->hSyncEnd = 2052;
-   crt_rrmode->hTotal = 2200;
-   crt_rrmode->hSkew = 0;
-   crt_rrmode->vSyncStart = 1084;
-   crt_rrmode->vSyncEnd = 1089;
-   crt_rrmode->vTotal = 1125;
-   crt_rrmode->name = "1920x1080";
-   crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 5;
+ //  Display *disp = XOpenDisplay(0);
+  // int screen = DefaultScreen ( disp );
+     /* ------------------new xrandr.h code--------------------------*/
+   //Display *disp = XOpenDisplay(0);
+   //int screen = DefaultScreen ( disp );
    
-   res = XRRGetScreenResources (disp, window);
-  
-   XRRCreateMode(disp, window, crt_rrmode);
- 
-   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
 
- //  XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id);
-
-  // XRRDestroyMode(disp, crt_rrmode->id);
-
-//   XRRFreeModeInfo(crt_rrmode);
-
-  // XRRSetScreenSize (disp, window, 320, 240, 418, 261);
 
    /* ------------------------------------------------------------- */
+
+
    int i              = 0;
    int hfp            = 0;
    int hsp            = 0;
@@ -175,6 +152,8 @@ if (fork() == 0)
 
    Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn      = DefaultScreenOfDisplay(disp);
+   Window window     = RootWindow ( dsp, scrn );
+   XRRScreenResources  *res;
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -313,66 +292,43 @@ if (fork() == 0)
 
    }
       /* variable for new mode */
-      sprintf(new_mode,"%dx%d_%0.2f", width, height, hz); 
-
+      sprintf(new_mode,"crt_%dx%d", width, height, hz); 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
-      for (i =0; i < 3; i++)
-      {
-         snprintf(output, sizeof(output), "xrandr --addmode %s%d %s", "DVI",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
-         system(output);
-         snprintf(output, sizeof(output), "xrandr --delmode %s%d %s", "DVI",i ,old_mode);
-         system(output); 
-      }
-      for (i =0; i < 3; i++)
-      {
-         snprintf(output, sizeof(output), "xrandr --addmode %s-%d %s", "DVI",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s-%d --mode %s", "DVI", i, new_mode);
-         system(output);
-         snprintf(output, sizeof(output), "xrandr --delmode %s-%d %s", "DVI",i ,old_mode);
-         system(output);
-      }
-      for (i =0; i < 3; i++)
-      {
-         snprintf(output, sizeof(output), "xrandr --addmode %s%d %s", "VGA",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
-         system(output); 
-         snprintf(output, sizeof(output), "xrandr --delmode %s%d %s", "VGA",i ,old_mode);
-         system(output); 
-      }
-      for (i =0; i < 3; i++)
-      {
-         snprintf(output, sizeof(output), "xrandr --addmode %s-%d %s", "VGA",i ,new_mode);
-         system(output); 
-         sprintf(output,"xrandr --output %s-%d --mode %s", "VGA", i, new_mode);
-         system(output);
-         snprintf(output, sizeof(output), "xrandr --delmode %s-%d %s", "VGA",i ,old_mode);
-         system(output); 
-      }
-      for (i =0; i < 2; i++)
-      {
-          
 
-         sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
-         system(output);
-         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
-         system(output); 
-      }
-		 
+ /* ------------------new xrandr.h code--------------------------*/
+   crtid += 1;  
 
-	  /* remove old mode */
-      sprintf(output,"xrandr --rmmode %s", old_mode);
-	  system(output);
-      system("xdotool windowactivate $(xdotool search --class RetroArch)");	/* needs xdotool installed. needed to recaputure window. */
-	   /* variable for old mode */
-	  sprintf(old_mode,"%s", new_mode);
-     system("xdotool windowactivate $(xdotool search --class RetroArch)");	
-      /* Second run needed as some times it runs to fast to capture first time */
+
+   crt_rrmode->id = crtid;
+   crt_rrmode->width = width;
+   crt_rrmode->height = height;
+   crt_rrmode->dotClock = pixel_clock;
+   crt_rrmode->hSyncStart = hfp;
+   crt_rrmode->hSyncEnd = hsp;
+   crt_rrmode->hTotal = hmax;
+   crt_rrmode->hSkew = 0;
+   crt_rrmode->vSyncStart = vfp;
+   crt_rrmode->vSyncEnd = vsp;
+   crt_rrmode->vTotal = vmax;
+   crt_rrmode->name = newmode;
+   crt_rrmode->nameLength = sizeof(crt_rrmode->name);
+   crt_rrmode->modeFlags = 5;
+   
+   res = XRRGetScreenResources (dsp, window);
+  
+   XRRCreateMode(dsp, window, crt_rrmode);
+ 
+   // XRRAddOutputMode (disp, RROutput output, crt_rrmode.id);
+
+   XRRDeleteOutputMode (disp, RROutput output, crt_rrmode.id-1);
+
+   XRRDestroyMode(disp, crt_rrmode->id-1);
+
+   XRRFreeModeInfo(crt_rrmode);
+
+  // XRRSetScreenSize (disp, window, 320, 240, 418, 261);
+
+   /* ------------------------------------------------------------- */
 }
  return true;
 }
