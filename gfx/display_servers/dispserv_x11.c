@@ -155,7 +155,7 @@ if (fork() == 0)
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
    XRRScreenResources  *res;
    int screen = DefaultScreen ( dsp );
-   Window window     = RootWindow ( dsp, scrn );
+   Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -323,11 +323,12 @@ if (fork() == 0)
    for (int i = 0; i < res->noutput; i++)
    { 
    
-      XRROututInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
       if (output->connection == RR_Connected)
       {
-            XRRAddOutputMode (dsp, output.xid, crt_rrmode.id);
+         RROutput o = output->xid
+         XRRAddOutputMode (dsp, o.xid, crt_rrmode.id);
       }
 
    }
@@ -340,7 +341,8 @@ if (fork() == 0)
       
       if (output2->connection == RR_Connected)
       {
-            XRRDeleteOutputMode (dsp, output2.xid, crt_rrmode.id-1);
+         RROutput o = output->xid
+         XRRDeleteOutputMode (dsp, o.xid, crt_rrmode.id-1);
       }
 
    }
