@@ -49,6 +49,8 @@ addons:
     packages:
       - curl
       - pkg-config
+      - libxrandr-dev
+      - libxi-dev
       - libglu1-mesa-dev
       - freeglut3-dev
       - mesa-common-dev
@@ -59,8 +61,7 @@ addons:
       - libusb-1.0-0-dev
       - xorg-dev 
       - build-essential
-      - libxrandr-dev
-      - libxi-dev
+
   coverity_scan:
     project:
       name: "RetroArch"
