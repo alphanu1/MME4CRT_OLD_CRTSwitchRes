@@ -65,25 +65,8 @@ static void* x11_display_server_init(void)
 static void x11_display_server_destroy(void *data)
 {
    dispserv_x11_t *dispserv = (dispserv_x11_t*)data;
-   int i          = 0;
-   if (crt_en == true)
-   {
-      sprintf(output,"xrandr -s %dx%d", orig_width, orig_height);
-      system(output);
-   }  
-   for (i =0; i < 2; i++)
-   {
-       sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
-         system(output);
-         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
-         system(output); 
-
-   }     
-      sprintf(output,"xrandr --rmmode %s", old_mode);
-	  system(output);
-
+  
+   }
    if (dispserv)
       free(dispserv);
 }
