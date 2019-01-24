@@ -2441,7 +2441,7 @@ void video_driver_frame(const void *data, unsigned width,
          if (video_info.fps_show)
          {
             snprintf(video_info.fps_text, sizeof(video_info.fps_text),
-                  "||  FPS: %6.1f ", last_fps);
+                  "||  FPS: %6.6f ", last_fps);
             if (video_info.framecount_show)
             {
                snprintf(frames_text,
@@ -2469,7 +2469,7 @@ void video_driver_frame(const void *data, unsigned width,
             snprintf(
                   video_info.fps_text,
                   sizeof(video_info.fps_text),
-                  "FPS: %6.1f || %s: %" PRIu64,
+                  "FPS: %6.6f || %s: %" PRIu64,
                   last_fps,
                   msg_hash_to_str(MSG_FRAMES),
                   (uint64_t)video_driver_frame_count);
@@ -2477,7 +2477,7 @@ void video_driver_frame(const void *data, unsigned width,
             snprintf(
                   video_info.fps_text,
                   sizeof(video_info.fps_text),
-                  "FPS: %6.1f",
+                  "FPS: %6.6f",
                   last_fps);
       }
    }
