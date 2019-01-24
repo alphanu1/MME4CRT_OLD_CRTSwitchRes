@@ -150,7 +150,6 @@ if (fork() == 0)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
  
-   RROutput o;
    Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
    XRRScreenResources  *res;
@@ -327,8 +326,8 @@ if (fork() == 0)
       
       if (output->connection == RR_Connected)
       {
-         o.xid = output->xid;
-         XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode->id);
+         //o.xid = output->xid;
+         XRRAddOutputMode (dsp, output->outputs[i], crt_rrmode->id);
       }
 
    }
@@ -341,13 +340,13 @@ if (fork() == 0)
       
       if (output2->connection == RR_Connected)
       {
-         o.xid = output->xid;
-         XRRDeleteOutputMode (dsp, res->outputs[i]), crt_rrmode->id-1);
+         //o.xid = output->xid;
+      //   XRRDeleteOutputMode (dsp, output2->outputs[i], crt_rrmode->id-1);
       }
 
    }
 
-   XRRDestroyMode(dsp, crt_rrmode->id-1);
+   //XRRDestroyMode(dsp, crt_rrmode->id-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
