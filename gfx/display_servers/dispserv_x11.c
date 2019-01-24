@@ -326,8 +326,8 @@ if (fork() == 0)
       
       if (output->connection == RR_Connected)
       {
-         //o.xid = output->xid;
-         XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode->id);
+         
+         XRRAddOutputMode (dsp, res->outputs[i], crtid);
       }
 
    }
@@ -340,13 +340,13 @@ if (fork() == 0)
       
       if (output2->connection == RR_Connected)
       {
-         //o.xid = output->xid;
-      //   XRRDeleteOutputMode (dsp, output2->outputs[i], crt_rrmode->id-1);
+         if (res->outputs[i])
+            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
       }
 
    }
-
-   //XRRDestroyMode(dsp, crt_rrmode->id-1);
+  if (res->outputs[i])
+     XRRDestroyMode(dsp, crtid-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
