@@ -61,7 +61,7 @@ addons:
       - xorg-dev 
       - build-essential
       - pkg-config
-
+  env: -lXrandr
   coverity_scan:
     project:
       name: "RetroArch"
