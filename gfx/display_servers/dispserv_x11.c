@@ -328,7 +328,7 @@ if (fork() == 0)
       if (output->connection == RR_Connected)
       {
          o.xid = output->xid;
-         XRRAddOutputMode (dsp, o.xid, crt_rrmode->id);
+         XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode->id);
       }
 
    }
@@ -342,7 +342,7 @@ if (fork() == 0)
       if (output2->connection == RR_Connected)
       {
          o.xid = output->xid;
-         XRRDeleteOutputMode (dsp, o.xid, crt_rrmode->id-1);
+         XRRDeleteOutputMode (dsp, res->outputs[i]), crt_rrmode->id-1);
       }
 
    }
