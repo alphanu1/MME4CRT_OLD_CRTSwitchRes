@@ -83,7 +83,7 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
-      crt_rpi_switch(width, height, ra_set_core_hz);
+      crt_rpi_switch(width, height, ra_core_hz);
       #endif
       crt_switch_driver_reinit();
 	 
@@ -245,7 +245,7 @@ float get_fly_aspect(void)
 
 
 #if defined(__arm__)
-void crt_rpi_switch(int width, int height, int hz)
+void crt_rpi_switch(int width, int height, float hz)
 {
    static char output[250]         = {0};   
    static char output1[250]         = {0}; 
@@ -265,7 +265,7 @@ void crt_rpi_switch(int width, int height, int hz)
    int pwidth         = 0;
    float roundw     = 0.0f;
    float roundh     = 0.0f;
-  int pixel_clock  = 0;
+   float pixel_clock  = 0;
    int ip_flag     = 0;
 
    //crt_en = true;
@@ -356,7 +356,7 @@ void crt_rpi_switch(int width, int height, int hz)
    // if (fork() == 0) {
       sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1);
 	//  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d 0 %f 1 ", width, hfp, hsp, hbp, height, vfp, vsp, vbp, hz, pixel_clock); 
-	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %d 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, ip_flag, pixel_clock); 
+	  	  sprintf(set_hdmi_timing, "hdmi_timings %d 1 %d %d %d %d 1 %d %d %d 0 0 0 %d %d %f 1 ", width, hfp, hsp, hbp, height, vfp,vsp, vbp, hz, ip_flag, pixel_clock); 
    //HRES, HSYNCPOLARITY, HFRONTPORCH, HSYNCPORCH, HBACKPORCH, VRES, VSYNCPOLARITY, VFRONTPORCH, VSYNCPULSE, VBACKPORCH, 0, 0, 0, HZ, PROG/INTERLACED, DOTCLOCK, 1
 	 //  set_hdmi_timing[] = set_hdmi;
       VCHI_INSTANCE_T vchi_instance;
