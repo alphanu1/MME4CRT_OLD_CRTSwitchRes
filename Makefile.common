@@ -123,7 +123,7 @@ else
 endif
 
 ifneq ($(findstring Linux,$(OS)),)
-   LIBS += -lrt
+   LIBS += -lrt -lxrandr
    OBJ += input/drivers/linuxraw_input.o \
           input/common/linux_common.o \
           input/drivers_joypad/linuxraw_joypad.o
