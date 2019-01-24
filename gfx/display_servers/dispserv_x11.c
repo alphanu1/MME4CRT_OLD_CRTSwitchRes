@@ -66,7 +66,7 @@ static void x11_display_server_destroy(void *data)
 {
    dispserv_x11_t *dispserv = (dispserv_x11_t*)data;
   
-   }
+   
    if (dispserv)
       free(dispserv);
 }
