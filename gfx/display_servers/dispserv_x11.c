@@ -24,7 +24,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
+#include <X11/extensions/Xrandr.h>  // run pkg-config --static --libs xrandr 
 #include <X11/extensions/randr.h>
 #include <X11/extensions/Xrender.h>
 #include <X11/extensions/render.h>
@@ -122,18 +122,6 @@ static bool x11_set_resolution(void *data,
 {
 if (fork() == 0)
 {
-
-   /* ------------------new xrandr.h code--------------------------*/
- //  Display *disp = XOpenDisplay(0);
-  // int screen = DefaultScreen ( disp );
-     /* ------------------new xrandr.h code--------------------------*/
-   //Display *disp = XOpenDisplay(0);
-   //
-   
-
-
-   /* ------------------------------------------------------------- */
-
 
    int i              = 0;
    int hfp            = 0;
@@ -298,7 +286,6 @@ if (fork() == 0)
 
  /* ------------------new xrandr.h code--------------------------*/
    crtid += 1;  
-
 
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
