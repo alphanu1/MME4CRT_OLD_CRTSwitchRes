@@ -48,7 +48,6 @@ addons:
   apt:
     packages:
       - curl
-      - pkg-config
       - libxrandr-dev
       - libxi-dev
       - libglu1-mesa-dev
@@ -61,7 +60,7 @@ addons:
       - libusb-1.0-0-dev
       - xorg-dev 
       - build-essential
-      - pkg-config --static --libs xrandr
+      - pkg-config
 
   coverity_scan:
     project:
