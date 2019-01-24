@@ -123,7 +123,7 @@ else
 endif
 
 ifneq ($(findstring Linux,$(OS)),)
-   LIBS += -lrt -lXrandr
+   LIBS += -lrt 
    OBJ += input/drivers/linuxraw_input.o \
           input/common/linux_common.o \
           input/drivers_joypad/linuxraw_joypad.o
@@ -923,7 +923,7 @@ ifeq ($(HAVE_X11), 1)
    LIBS += $(X11_LIBS) $(XEXT_LIBS) $(XF86VM_LIBS) $(XINERAMA_LIBS)
    DEFINES += -DHAVE_X11 $(X11_CFLAGS) $(XEXT_CFLAGS) $(XF86VM_CFLAGS) $(XINERAMA_CFLAGS)
 ifeq ($(HAVE_XCB),1)
-   LIBS    += -lX11-xcb
+   LIBS    += -lX11-xcb -lXrandr
 endif
 ifneq ($(HAVE_OPENGLES), 1)
    OBJ += gfx/drivers_context/x_ctx.o
