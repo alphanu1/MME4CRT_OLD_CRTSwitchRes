@@ -83,7 +83,8 @@ static void switch_res_crt(unsigned width, unsigned height)
       video_display_server_switch_resolution(width, height,
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
-      crt_rpi_switch(width, height, ra_core_hz);
+         crt_rpi_switch(width, height, ra_core_hz);
+         video_monitor_set_refresh_rate(ra_core_hz);
       #endif
       crt_switch_driver_reinit();
 	 
