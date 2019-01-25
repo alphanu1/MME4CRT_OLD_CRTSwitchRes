@@ -296,7 +296,7 @@ if (fork() == 0)
    for (int i = 0; i < 3; i++)
    { 
  
-      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
+    //  XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
      //  printf("%ln",output->clones); 
     //  if (output->connection == RR_Connected)
      // {
