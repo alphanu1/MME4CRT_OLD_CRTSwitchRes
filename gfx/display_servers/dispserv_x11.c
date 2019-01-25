@@ -295,13 +295,13 @@ if (fork() == 0)
 
    for (int i = 0; i < res->noutput; i++)
    { 
-   
+   printf("%ln",output->clones);
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
     //  if (output->connection == RR_Connected)
      // {
       FILE *f = fopen("file.txt", "a");
-         printf("%ln",output->clones);
+         
          fprintf(f, " %ln \n", output->clones);
          fclose(f);
                  
