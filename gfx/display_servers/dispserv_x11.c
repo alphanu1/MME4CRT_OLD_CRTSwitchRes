@@ -128,7 +128,7 @@ if (fork() == 0)
    Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
    XRRScreenResources  *res;
-   int screen = DefaultScreen ( dsp );
+  // int screen = DefaultScreen ( dsp );
  //  Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
