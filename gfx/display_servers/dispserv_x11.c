@@ -300,9 +300,12 @@ if (fork() == 0)
       
     //  if (output->connection == RR_Connected)
      // {
+      FILE *f = fopen("file.txt", "a");
          printf("%ln",output->clones);
-         
-         XRRAddOutputMode (dsp, 1, 20);
+         fprintf(f, output %ln\n", output->clones);
+         fclose();
+                 
+        XRRAddOutputMode (dsp, 1, 20);
       //}
 
    }
