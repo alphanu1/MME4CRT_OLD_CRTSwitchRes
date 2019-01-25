@@ -269,7 +269,7 @@ if (fork() == 0)
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
-   crtid += 1;  
+   //crtid += 1;  
 
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
@@ -322,7 +322,7 @@ if (fork() == 0)
    XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
-   }
+}
  return true;
 }
 
@@ -335,4 +335,3 @@ const video_display_server_t dispserv_x11 = {
    x11_set_resolution, /* set_resolution */
    "x11"
 };
-
