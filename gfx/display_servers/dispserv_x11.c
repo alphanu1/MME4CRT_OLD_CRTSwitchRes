@@ -41,7 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
-static int crtid                = 20;
+static int crtid                = 200;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
@@ -65,8 +65,25 @@ static void* x11_display_server_init(void)
 static void x11_display_server_destroy(void *data)
 {
    dispserv_x11_t *dispserv = (dispserv_x11_t*)data;
-  
-   
+   int i          = 0;
+   if (crt_en == true)
+   {
+      sprintf(output,"xrandr -s %dx%d", orig_width, orig_height);
+      system(output);
+   }  
+   for (i =0; i < 2; i++)
+   {
+       sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
+         system(output);
+         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
+         system(output);
+         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
+         system(output); 
+
+   }     
+      sprintf(output,"xrandr --rmmode %s", old_mode);
+	  system(output);
+
    if (dispserv)
       free(dispserv);
 }
@@ -120,7 +137,6 @@ if (fork() == 0)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
    float pixel_clock  = 0;
-   //output_t *output;
  
    Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
@@ -269,7 +285,7 @@ if (fork() == 0)
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
-   //crtid += 1;  
+   crtid += 1;  
 
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
@@ -284,7 +300,7 @@ if (fork() == 0)
    crt_rrmode->vTotal = vmax;
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 0;
+   crt_rrmode->modeFlags = 5;
    
    res = XRRGetScreenResources (dsp, window);
 
@@ -295,29 +311,29 @@ if (fork() == 0)
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-     // if (output->connection == RR_Connected)
-   //   {
+      if (output->connection == RR_Connected)
+      {
          
-         XRRAddOutputMode (dsp, 1, 20);
-    //  }
+         XRRAddOutputMode (dsp, res->outputs[i], crtid);
+      }
 
    }
 
    XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
- //  for (int i = 0; i < res->noutput; i++)
+   for (int i = 0; i < res->noutput; i++)
    { 
- //    XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-  //    if (output2->connection == RR_Connected)
-   //   {
-  //       if (res->outputs[i])
- //           XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
-  //    }
-//
- //  }
-//  if (res->outputs[i])
- //    XRRDestroyMode(dsp, crtid-1);
+      if (output2->connection == RR_Connected)
+      {
+         if (res->outputs[i])
+            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
+      }
+
+   }
+  if (res->outputs[i])
+     XRRDestroyMode(dsp, crtid-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
