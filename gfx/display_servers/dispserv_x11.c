@@ -316,11 +316,11 @@ if (fork() == 0)
    { 
   //   XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output2->connection == RR_Connected)
-      {
+    //  if (output2->connection == RR_Connected)
+    //  {
        // if (res->outputs[i])
          //   XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
-      }
+    //  }
 
    }
 //  if (res->outputs[i])
