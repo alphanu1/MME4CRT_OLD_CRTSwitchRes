@@ -296,7 +296,7 @@ if (fork() == 0)
    for (int i = 0; i < 3; i++)
    { 
  
-    //  XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
+      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
      //  printf("%ln",output->clones); 
     //  if (output->connection == RR_Connected)
      // {
@@ -305,12 +305,12 @@ if (fork() == 0)
       //   fprintf(f, " %ln \n", output->clones);
          fclose(f);
                  
-        XRRAddOutputMode (dsp, 1, 20);
+     //   XRRAddOutputMode (dsp, 1, 20);
       //}
 
    }
 
-   XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+ //  XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
    for (int i = 0; i < res->noutput; i++)
    { 
