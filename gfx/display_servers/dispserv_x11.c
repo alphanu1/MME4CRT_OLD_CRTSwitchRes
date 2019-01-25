@@ -283,7 +283,7 @@ if (fork() == 0)
    crt_rrmode->vTotal = vmax;
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 5;
+   crt_rrmode->modeFlags = 0;
    
    res = XRRGetScreenResources (dsp, window);
 
@@ -294,11 +294,11 @@ if (fork() == 0)
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output->connection == RR_Connected)
-      {
+     // if (output->connection == RR_Connected)
+   //   {
          
          XRRAddOutputMode (dsp, res->outputs[i], crtid);
-      }
+    //  }
 
    }
 
