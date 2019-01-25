@@ -289,7 +289,7 @@ if (fork() == 0)
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 0;
    
-   res = XRRGetScreenResources (dsp, window);
+  // res = XRRGetScreenResources (dsp, window);
 
   // XRRCreateMode(dsp, window, crt_rrmode);
 
