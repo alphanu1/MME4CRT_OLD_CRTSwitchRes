@@ -41,7 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
-static int crtid                = 200;
+static int crtid                = 20;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
