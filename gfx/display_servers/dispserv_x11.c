@@ -126,7 +126,7 @@ if (fork() == 0)
    float pixel_clock  = 0;
  
    Display* dsp      = XOpenDisplay(NULL);
-   Screen* scrn      = DefaultScreenOfDisplay(dsp);
+  // Screen* scrn      = DefaultScreenOfDisplay(dsp);
    XRRScreenResources  *res;
   // int screen = DefaultScreen ( dsp );
  //  Window window  = RootWindow ( dsp, screen );
