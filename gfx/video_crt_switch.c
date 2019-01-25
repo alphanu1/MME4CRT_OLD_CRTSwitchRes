@@ -347,7 +347,7 @@ void crt_rpi_switch(int width, int height, float hz)
    
    if (height > 300)
    {
-      pixel_clock = ((hmax*2) * vmax * hz)  / 4; 
+      pixel_clock = (hmax * (vmax/2) * hz)  / 2); 
       ip_flag     = 1;
    }
    /* above code is the modeline generator */
