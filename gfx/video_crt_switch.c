@@ -272,7 +272,7 @@ void crt_rpi_switch(int width, int height, float hz)
    //crt_en = true;
    
    if (height > 300)
-      height = height/2
+      height = height/2;
 
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);
