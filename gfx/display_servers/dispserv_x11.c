@@ -120,6 +120,7 @@ if (fork() == 0)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
    float pixel_clock  = 0;
+   output_t *output;
  
    Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
@@ -297,7 +298,7 @@ if (fork() == 0)
      // if (output->connection == RR_Connected)
    //   {
          
-         XRRAddOutputMode (dsp, output->RROutput, crtid);
+         XRRAddOutputMode (dsp, output->outputs.xid, crtid);
     //  }
 
    }
