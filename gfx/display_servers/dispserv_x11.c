@@ -293,28 +293,28 @@ if (fork() == 0)
 
    XRRCreateMode(dsp, window, crt_rrmode);
 
-  // for (int i = 0; i < 3; i++)
-  // { 
+   for (int i = 0; i < 3; i++)
+   { 
  
-      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
-       printf("%ln",output->clones); 
+    //  XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
+     //  printf("%ln",output->clones); 
     //  if (output->connection == RR_Connected)
      // {
       FILE *f = fopen("file.txt", "a");
          
-         fprintf(f, " %ln \n", output->clones);
+      //   fprintf(f, " %ln \n", output->clones);
          fclose(f);
                  
         XRRAddOutputMode (dsp, 1, 20);
       //}
 
-  // }
+   }
 
    XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
    for (int i = 0; i < res->noutput; i++)
    { 
-     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+  //   XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
       if (output2->connection == RR_Connected)
       {
