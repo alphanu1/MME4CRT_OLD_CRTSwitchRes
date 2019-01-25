@@ -347,12 +347,12 @@ void crt_rpi_switch(int width, int height, float hz)
    
    if (height > 300)
    {
-      pixel_clock = (hmax * vmax * hz)  / 2; 
+      pixel_clock = (hmax * vmax * hz)  / 4; 
       ip_flag     = 1;
    }
    /* above code is the modeline generator */
    
-  pixel_clock = (hmax * vmax * hz) ;
+  //pixel_clock = (hmax * vmax * hz) ;
    
    // if (fork() == 0) {
   //    sprintf(set_hdmi, "hdmi_timings 1920 1 106 169 480 240 1 1 3 5 0 0 0 60 0 41458500 %d ", 1);
