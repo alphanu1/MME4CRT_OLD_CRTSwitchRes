@@ -41,7 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
-static int crtid                = 200;
+static int crtid                = 20;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
@@ -300,7 +300,7 @@ if (fork() == 0)
    crt_rrmode->vTotal = vmax;
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 5;
+   crt_rrmode->modeFlags = 0;
    
    res = XRRGetScreenResources (dsp, window);
 
@@ -311,11 +311,11 @@ if (fork() == 0)
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output->connection == RR_Connected)
-      {
+    //  if (output->connection == RR_Connected)
+     // {
          
-         XRRAddOutputMode (dsp, res->outputs[i], crtid);
-      }
+         XRRAddOutputMode (dsp, 1, 20);
+      //}
 
    }
 
@@ -327,13 +327,13 @@ if (fork() == 0)
       
       if (output2->connection == RR_Connected)
       {
-         if (res->outputs[i])
-            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
+       // if (res->outputs[i])
+         //   XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
       }
 
    }
-  if (res->outputs[i])
-     XRRDestroyMode(dsp, crtid-1);
+//  if (res->outputs[i])
+    // XRRDestroyMode(dsp, crtid-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
