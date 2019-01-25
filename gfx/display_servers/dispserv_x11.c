@@ -297,7 +297,7 @@ if (fork() == 0)
      // if (output->connection == RR_Connected)
    //   {
          
-         XRRAddOutputMode (dsp, output->output.xid, crtid);
+         XRRAddOutputMode (dsp, output->RROutput, crtid);
     //  }
 
    }
