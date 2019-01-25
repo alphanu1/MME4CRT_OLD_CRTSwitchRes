@@ -326,7 +326,7 @@ if (fork() == 0)
 //  if (res->outputs[i])
     // XRRDestroyMode(dsp, crtid-1);
 
-   XRRFreeModeInfo(crt_rrmode);
+  // XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
 }
