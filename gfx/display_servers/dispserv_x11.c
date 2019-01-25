@@ -293,11 +293,11 @@ if (fork() == 0)
 
    XRRCreateMode(dsp, window, crt_rrmode);
 
-   for (int i = 0; i < res->noutput; i++)
+   for (int i = 0; i < 3; i++)
    { 
-   printf("%ln",output->clones);
+ 
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
-      
+       printf("%ln",output->clones); 
     //  if (output->connection == RR_Connected)
      // {
       FILE *f = fopen("file.txt", "a");
