@@ -291,7 +291,7 @@ if (fork() == 0)
    
    res = XRRGetScreenResources (dsp, window);
 
-   XRRCreateMode(dsp, window, crt_rrmode);
+  // XRRCreateMode(dsp, window, crt_rrmode);
 
    for (int i = 0; i < 3; i++)
    { 
@@ -300,10 +300,10 @@ if (fork() == 0)
      //  printf("%ln",output->clones); 
     //  if (output->connection == RR_Connected)
      // {
-      FILE *f = fopen("file.txt", "a");
+   //   FILE *f = fopen("file.txt", "a");
          
       //   fprintf(f, " %ln \n", output->clones);
-         fclose(f);
+      //   fclose(f);
                  
      //   XRRAddOutputMode (dsp, 1, 20);
       //}
