@@ -298,26 +298,26 @@ if (fork() == 0)
      // if (output->connection == RR_Connected)
    //   {
          
-         XRRAddOutputMode (dsp, 0, crt_rrmode->id);
+         XRRAddOutputMode (dsp, 1, 20);
     //  }
 
    }
 
    XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
-   for (int i = 0; i < res->noutput; i++)
+ //  for (int i = 0; i < res->noutput; i++)
    { 
-     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+ //    XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output2->connection == RR_Connected)
-      {
-         if (res->outputs[i])
-            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
-      }
-
-   }
-  if (res->outputs[i])
-     XRRDestroyMode(dsp, crtid-1);
+  //    if (output2->connection == RR_Connected)
+   //   {
+  //       if (res->outputs[i])
+ //           XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
+  //    }
+//
+ //  }
+//  if (res->outputs[i])
+ //    XRRDestroyMode(dsp, crtid-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
