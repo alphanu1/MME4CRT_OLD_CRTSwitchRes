@@ -303,7 +303,7 @@ if (fork() == 0)
       FILE *f = fopen("file.txt", "a");
          printf("%ln",output->clones);
          fprintf(f, " %ln \n", output->clones);
-         fclose();
+         fclose(f);
                  
         XRRAddOutputMode (dsp, 1, 20);
       //}
