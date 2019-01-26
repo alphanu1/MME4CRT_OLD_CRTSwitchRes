@@ -68,21 +68,10 @@ static void x11_display_server_destroy(void *data)
    int i          = 0;
    if (crt_en == true)
    {
-      sprintf(output,"xrandr -s %dx%d", orig_width, orig_height);
+      sprintf(output,"xrandr -s %dx%dx60.00", orig_width, orig_height);
       system(output);
    }  
-   for (i =0; i < 2; i++)
-   {
-       sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
-         system(output);
-         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
-         system(output);
-         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
-         system(output); 
 
-   }     
-      sprintf(output,"xrandr --rmmode %s", old_mode);
-	  system(output);
 
    if (dispserv)
       free(dispserv);
@@ -311,11 +300,11 @@ if (fork() == 0)
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output->connection == RR_Connected)
-      {
+    //  if (output->connection == RR_Connected)
+   //   {
          
-         XRRAddOutputMode (dsp, res->outputs[i], crtid);
-      }
+         XRRAddOutputMode (dsp, 1, 20);
+   //   }
 
    }
 
@@ -327,17 +316,18 @@ if (fork() == 0)
       
       if (output2->connection == RR_Connected)
       {
-         if (res->outputs[i])
-            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
+       //  if (res->outputs[i])
+       //     XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
       }
 
    }
-  if (res->outputs[i])
-     XRRDestroyMode(dsp, crtid-1);
+//  if (res->outputs[i])
+//     XRRDestroyMode(dsp, crtid-1);
 
    XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
+   exit(0);
 }
  return true;
 }
