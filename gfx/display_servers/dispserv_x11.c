@@ -41,7 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
-static int crtid                = 200;
+static int crtid                = 20;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
@@ -274,7 +274,7 @@ if (fork() == 0)
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
-   crtid += 1;  
+   //crtid += 1;  
 
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
@@ -305,7 +305,7 @@ if (fork() == 0)
    //   {
       //   printf("%ln", output->clones);
         // printf("%ld", res->outputs[i]);
-      //   XRRAddOutputMode (dsp, 0, 20);
+         XRRAddOutputMode (dsp, 2, 20);
    //   }
 
    }
