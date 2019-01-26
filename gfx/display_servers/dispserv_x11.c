@@ -294,39 +294,39 @@ static bool x11_set_resolution(void *data,
    
 
    res = XRRGetScreenResources (dsp, window);
-   XRRCreateMode(dsp, window, crt_rrmode);
+   //XRRCreateMode(dsp, window, crt_rrmode);
 
  //  for (int i = 0; i < res->noutput; i++)
  //  { 
    
-      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+  //    XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
     //  if (output->connection == RR_Connected)
    //   {
         printf("%ln", output->clones);
          printf("%ld", res->outputs[i]);
-         XRRAddOutputMode (dsp, res->outputs[1], crt_rrmode->id);
+      //   XRRAddOutputMode (dsp, res->outputs[1], crt_rrmode->id);
    //   }
 
  //  }
 
-   XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+ //  XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
-   for (int i = 0; i < res->noutput; i++)
-   { 
-     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+//   for (int i = 0; i < res->noutput; i++)
+//   { 
+   //  XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output2->connection == RR_Connected)
-      {
+   //   if (output2->connection == RR_Connected)
+    //  {
        //  if (res->outputs[i])
        //     XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
-      }
+    //  }
 
-   
-  if (res->outputs[i])
-     XRRDestroyMode(dsp, crtid);
+ //  
+  //if (res->outputs[i])
+//XRRDestroyMode(dsp, crtid);
    }
-   XRRFreeModeInfo(crt_rrmode);
+ //  XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
    //exit(0);
