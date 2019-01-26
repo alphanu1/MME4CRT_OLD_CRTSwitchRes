@@ -309,9 +309,9 @@ static bool x11_set_resolution(void *data,
             XRRModeInfo *crt_rrmodeadd = &res->modes[m];
             printf("\t%s \n", crt_rrmodeadd->name);
       
-            if (crt_rrmodeadd->name == old_name)
+            if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf(output,"xrandr --delmode %s %s", crt_rrmondadd->name,old_mode);
+               sprintf(output,"xrandr --delmode %s %s", &output->name,old_mode);
                system(output);
                 sprintf(output,"xrandr --rmmode %s", old_mode);
 	             system(output);
