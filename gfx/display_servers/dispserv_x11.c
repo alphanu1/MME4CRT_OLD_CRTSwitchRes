@@ -68,7 +68,7 @@ static void x11_display_server_destroy(void *data)
    int i          = 0;
    if (crt_en == true)
    {
-      sprintf(output,"xrandr -s %dx%dx60.00", orig_width, orig_height);
+      sprintf(output,"xrandr -s %dx%dx60.00", 648, 480);
       system(output);
    }  
 
@@ -127,16 +127,16 @@ static bool x11_set_resolution(void *data,
    float roundh     = 0.0f;
    float pixel_clock  = 0;
  
-   Display* dsp      = XOpenDisplay(NULL);
-   Screen* scrn      = DefaultScreenOfDisplay(dsp);
+  // Display* dsp      = XOpenDisplay(NULL);
+  // Screen* scrn      = DefaultScreenOfDisplay(dsp);
    //XRRScreenResources  *res;
    //int screen = DefaultScreen ( dsp );
    //Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
    { 
-      orig_width    = scrn->width;
-      orig_height   = scrn->height;
+   //   orig_width    = scrn->width;
+   //   orig_height   = scrn->height;
    }
    crt_en = true;
 
