@@ -297,17 +297,17 @@ static bool x11_set_resolution(void *data,
    //res = XRRGetScreenResources (dsp, window);
    XRRCreateMode(dsp, window, &crt_rrmode);
 
- //  for (int i = 0; i < res->noutput; i++)
- //  { 
+   for (int i = 0; i < res->noutput; i++)
+   { 
    
-  //    XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
     //  if (output->connection == RR_Connected)
    //   {
     //    printf("%ln", output->clones);
     //     printf("%ld", res->outputs[i]);
-      //   XRRAddOutputMode (dsp, res->outputs[1], crt_rrmode->id);
-   //   }
+        XRRAddOutputMode (dsp, res->outputs[1], crt_rrmode.id);
+      }
 
  //  }
 
