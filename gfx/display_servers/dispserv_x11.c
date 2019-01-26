@@ -303,9 +303,9 @@ if (fork() == 0)
       
     //  if (output->connection == RR_Connected)
    //   {
-      //   printf("%ln", output->clones);
-        // printf("%ld", res->outputs[i]);
-         XRRAddOutputMode (dsp, 2, 20);
+        printf("%ln", output->clones);
+         printf("%ld", res->outputs[i]);
+         XRRAddOutputMode (dsp, 1, 20);
    //   }
 
    }
