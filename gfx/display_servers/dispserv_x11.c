@@ -296,8 +296,8 @@ if (fork() == 0)
    res = XRRGetScreenResources (dsp, window);
    XRRCreateMode(dsp, window, crt_rrmode);
 
-   for (int i = 0; i < res->noutput; i++)
-   { 
+ //  for (int i = 0; i < res->noutput; i++)
+ //  { 
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
@@ -305,10 +305,10 @@ if (fork() == 0)
    //   {
         printf("%ln", output->clones);
          printf("%ld", res->outputs[i]);
-         XRRAddOutputMode (dsp, res->outputs[i], 20);
+         XRRAddOutputMode (dsp, res->outputs[1], crt_rrmode->id);
    //   }
 
-   }
+ //  }
 
    XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
