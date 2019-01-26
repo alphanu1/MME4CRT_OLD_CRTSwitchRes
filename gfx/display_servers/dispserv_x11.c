@@ -129,9 +129,9 @@ static bool x11_set_resolution(void *data,
  
    Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
-   XRRScreenResources  *res;
-   int screen = DefaultScreen ( dsp );
-   Window window  = RootWindow ( dsp, screen );
+   //XRRScreenResources  *res;
+   //int screen = DefaultScreen ( dsp );
+   //Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -293,7 +293,7 @@ static bool x11_set_resolution(void *data,
    
    
 
-   res = XRRGetScreenResources (dsp, window);
+   //res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, crt_rrmode);
 
  //  for (int i = 0; i < res->noutput; i++)
