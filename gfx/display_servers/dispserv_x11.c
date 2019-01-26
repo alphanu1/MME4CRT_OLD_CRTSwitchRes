@@ -68,7 +68,7 @@ static void x11_display_server_destroy(void *data)
    int i          = 0;
    if (crt_en == true)
    {
-      sprintf(output,"xrandr -s %dx%dx60.00", 648, 480);
+      sprintf(output,"xrandr -s %dx%dx60.00", orig_width, orig_height);
       system(output);
    }  
 
@@ -127,16 +127,16 @@ static bool x11_set_resolution(void *data,
    float roundh     = 0.0f;
    float pixel_clock  = 0;
  
-  // Display* dsp      = XOpenDisplay(NULL);
-  // Screen* scrn      = DefaultScreenOfDisplay(dsp);
-   //XRRScreenResources  *res;
-   //int screen = DefaultScreen ( dsp );
-   //Window window  = RootWindow ( dsp, screen );
+   Display* dsp      = XOpenDisplay(NULL);
+   Screen* scrn      = DefaultScreenOfDisplay(dsp);
+   XRRScreenResources  *res;
+   int screen = DefaultScreen ( dsp );
+   Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
    { 
-   //   orig_width    = scrn->width;
-   //   orig_height   = scrn->height;
+      orig_width    = scrn->width;
+      orig_height   = scrn->height;
    }
    crt_en = true;
 
@@ -275,7 +275,7 @@ static bool x11_set_resolution(void *data,
 
  /* ------------------new xrandr.h code--------------------------*/
    //crtid += 1;  
-/*
+
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
    crt_rrmode->height = height;
@@ -287,7 +287,7 @@ static bool x11_set_resolution(void *data,
    crt_rrmode->vSyncStart = vfp;
    crt_rrmode->vSyncEnd = vsp;
    crt_rrmode->vTotal = vmax;
-   crt_rrmode->name = new_mode;
+/*   crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 0;
    */
