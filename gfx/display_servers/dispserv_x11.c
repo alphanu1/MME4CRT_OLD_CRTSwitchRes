@@ -305,7 +305,7 @@ if (fork() == 0)
    //   {
         printf("%ln", output->clones);
          printf("%ld", res->outputs[i]);
-         XRRAddOutputMode (dsp, 1, 20);
+         XRRAddOutputMode (dsp, res->outputs[i], 20);
    //   }
 
    }
