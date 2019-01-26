@@ -290,9 +290,10 @@ static bool x11_set_resolution(void *data,
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 0;
    
-   res = XRRGetScreenResources (dsp, window);
+   
 if (fork() == 0)
 {
+   res = XRRGetScreenResources (dsp, window);
    XRRCreateMode(dsp, window, crt_rrmode);
 
    for (int i = 0; i < res->noutput; i++)
