@@ -325,7 +325,7 @@ static bool x11_set_resolution(void *data,
  //  
   //if (res->outputs[i])
 //XRRDestroyMode(dsp, crtid);
-   }
+ //  }
  //  XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
