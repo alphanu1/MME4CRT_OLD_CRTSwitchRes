@@ -276,20 +276,20 @@ static bool x11_set_resolution(void *data,
  /* ------------------new xrandr.h code--------------------------*/
    //crtid += 1;  
 
-//   crt_rrmode->id = crtid;
-   crt_rrmode->width = width;
-   crt_rrmode->height = height;
-   crt_rrmode->dotClock = pixel_clock;
-   crt_rrmode->hSyncStart = hfp;
-   crt_rrmode->hSyncEnd = hsp;
-   crt_rrmode->hTotal = hmax;
-   crt_rrmode->hSkew = 0;
-   crt_rrmode->vSyncStart = vfp;
-   crt_rrmode->vSyncEnd = vsp;
-   crt_rrmode->vTotal = vmax;
-   crt_rrmode->name = new_mode;
-   crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 0;
+  crt_rrmode->id = crtid;
+//   crt_rrmode->width = width;
+ //  crt_rrmode->height = height;
+  // crt_rrmode->dotClock = pixel_clock;
+   //crt_rrmode->hSyncStart = hfp;
+  // crt_rrmode->hSyncEnd = hsp;
+  // crt_rrmode->hTotal = hmax;
+ //  crt_rrmode->hSkew = 0;
+  // crt_rrmode->vSyncStart = vfp;
+ //  crt_rrmode->vSyncEnd = vsp;
+ //  crt_rrmode->vTotal = vmax;
+ //  crt_rrmode->name = new_mode;
+ //  crt_rrmode->nameLength = sizeof(crt_rrmode->name);
+ //  crt_rrmode->modeFlags = 0;
    
    
 
