@@ -289,7 +289,7 @@ if (fork() == 0)
    crt_rrmode->vTotal = vmax;
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 5;
+   crt_rrmode->modeFlags = 0;
    
    res = XRRGetScreenResources (dsp, window);
 
