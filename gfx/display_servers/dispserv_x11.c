@@ -258,15 +258,15 @@ if (fork() == 0)
    /* create progressive newmode from modline variables */
    if (height < 300)
    {
-      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-      system(xrandr);
+    //  sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+    //  system(xrandr);
 
    }
    /* create interlaced newmode from modline variables */
    if (height > 300)
    {    
-      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-      system(xrandr);
+   //   sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+   //   system(xrandr);
 
    }
       /* variable for new mode */
