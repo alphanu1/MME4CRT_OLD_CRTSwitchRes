@@ -95,7 +95,8 @@ static void switch_res_crt(unsigned width, unsigned height)
 /* Create correct aspect to fit video if resolution does not exist */
 void crt_screen_setup_aspect(unsigned width, unsigned height)
 {
-   
+   if (height > 300)
+      height = height/2;
    switch_crt_hz();
    /* get original resolution of core */	
    if (height == 4)
@@ -270,9 +271,6 @@ void crt_rpi_switch(int width, int height, float hz)
    int ip_flag     = 0;
 
    //crt_en = true;
-   
-   if (height > 300)
-      height = height/2;
 
    /* set core refresh from hz */
    video_monitor_set_refresh_rate(hz);
