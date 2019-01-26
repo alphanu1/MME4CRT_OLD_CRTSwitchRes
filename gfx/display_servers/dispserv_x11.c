@@ -41,7 +41,7 @@ static char xrandr[250];
 static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
-static int crtid                = 20;
+static int crtid                = 200;
 
 static XRRModeInfo *crt_rrmode;
 static char crt_output;
@@ -68,8 +68,21 @@ static void x11_display_server_destroy(void *data)
    int i          = 0;
    if (crt_en == true)
    {
-      
-   }
+      sprintf(output,"xrandr -s %dx%d", orig_width, orig_height);
+      system(output);
+   }  
+   for (i =0; i < 2; i++)
+   {
+       sprintf(output,"xrandr --addmode %s-%d %s", "HDMI",i ,new_mode);
+         system(output);
+         sprintf(output,"xrandr --output %s-%d --mode %s", "HDMI", i, new_mode);
+         system(output);
+         sprintf(output,"xrandr --delmode %s-%d %s", "HDMI",i ,old_mode);
+         system(output); 
+
+   }     
+      sprintf(output,"xrandr --rmmode %s", old_mode);
+	  system(output);
 
    if (dispserv)
       free(dispserv);
@@ -125,11 +138,11 @@ if (fork() == 0)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
  
-   Display* dsp      = XOpenDisplay(NULL);
+   Display* dsp      = XOpenDisplay(0);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
-  // XRRScreenResources  *res;
-  // int screen = DefaultScreen ( dsp );
- //  Window window  = RootWindow ( dsp, screen );
+   XRRScreenResources  *res;
+   int screen = DefaultScreen ( dsp );
+   Window window  = RootWindow ( dsp, screen );
    
    if (orig_height == 0 && orig_width == 0)
    { 
@@ -287,46 +300,42 @@ if (fork() == 0)
    crt_rrmode->vTotal = vmax;
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
-   crt_rrmode->modeFlags = 0;
+   crt_rrmode->modeFlags = 5;
    
-  // res = XRRGetScreenResources (dsp, window);
+   res = XRRGetScreenResources (dsp, window);
 
-  // XRRCreateMode(dsp, window, crt_rrmode);
+   XRRCreateMode(dsp, window, crt_rrmode);
 
-   for (int i = 0; i < 3; i++)
+   for (int i = 0; i < res->noutput; i++)
    { 
- 
-    //  XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
-     //  printf("%ln",output->clones); 
-    //  if (output->connection == RR_Connected)
-     // {
-   //   FILE *f = fopen("file.txt", "a");
+   
+      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      
+      if (output->connection == RR_Connected)
+      {
          
-      //   fprintf(f, " %ln \n", output->clones);
-      //   fclose(f);
-                 
-     //   XRRAddOutputMode (dsp, 1, 20);
-      //}
+         XRRAddOutputMode (dsp, res->outputs[i], crtid);
+      }
 
    }
 
- //  XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
+   XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
 
- //  for (int i = 0; i < res->noutput; i++)
- //  { 
-  //   XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+   for (int i = 0; i < res->noutput; i++)
+   { 
+     XRROutputInfo *output2 = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-    //  if (output2->connection == RR_Connected)
-    //  {
-       // if (res->outputs[i])
-         //   XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
-    //  }
+      if (output2->connection == RR_Connected)
+      {
+         if (res->outputs[i])
+            XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
+      }
 
- //  }
-//  if (res->outputs[i])
-    // XRRDestroyMode(dsp, crtid-1);
+   }
+  if (res->outputs[i])
+     XRRDestroyMode(dsp, crtid-1);
 
-  // XRRFreeModeInfo(crt_rrmode);
+   XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
 }
