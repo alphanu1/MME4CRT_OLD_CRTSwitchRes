@@ -335,8 +335,8 @@ if (fork() == 0)
       
     //  if (output->connection == RR_Connected)
    //   {
-         printf("%ln", output->clones);
-        printf("%ld", res->outputs[1]);
+      //   printf("%ln", output->clones);
+      //  printf("%ld", res->outputs[1]);
  return true;
 }
 
