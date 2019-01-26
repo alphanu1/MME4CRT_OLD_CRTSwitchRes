@@ -42,7 +42,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 static int crtid                = 20;
-staric char conoutput[20];
+static char conoutput[20];
 
 static XRRModeInfo crt_rrmode;
 static char crt_output;
@@ -311,7 +311,7 @@ static bool x11_set_resolution(void *data,
       
             if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf(output,"xrandr --delmode %s %s", &output->name,old_mode);
+               sprintf(output,"xrandr --delmode %s %s", conoutput,old_mode);
                system(output);
                 sprintf(output,"xrandr --rmmode %s", old_mode);
 	             system(output);
