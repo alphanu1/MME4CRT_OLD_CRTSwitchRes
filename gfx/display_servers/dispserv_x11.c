@@ -331,7 +331,7 @@ if (fork() == 0)
    exit(0);
 }
  
-   XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
+//   XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[1]);
       
     //  if (output->connection == RR_Connected)
    //   {
