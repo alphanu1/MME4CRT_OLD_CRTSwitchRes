@@ -297,7 +297,7 @@ static bool x11_set_resolution(void *data,
    for (int m = 0; m < res->nmode; m++)
    {
       XRRModeInfo *crt_rrmodeadd = &res->modes[m];
-      printf("%s", crt_rrmode->name);
+      printf("%s", crt_rrmodeadd->name);
       if (crt_rrmodeadd->id == crt_rrmode.id)
       {
          XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode.id); 
