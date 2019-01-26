@@ -294,7 +294,7 @@ static bool x11_set_resolution(void *data,
    
    
 
-   //res = XRRGetScreenResources (dsp, window);
+   res = XRRGetScreenResources (dsp, window);
    XRRCreateMode(dsp, window, &crt_rrmode);
 
    for (int i = 0; i < res->noutput; i++)
