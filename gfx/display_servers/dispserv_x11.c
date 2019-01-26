@@ -303,8 +303,8 @@ static bool x11_set_resolution(void *data,
     //  if (output->connection == RR_Connected)
    //   {
          printf("%ln", output->clones);
-         printf("%ln", res->outputs[i]);
-         XRRAddOutputMode (dsp, 1, 20);
+         printf("%ld", res->outputs[i]);
+         XRRAddOutputMode (dsp, 0, 20);
    //   }
 
    }
