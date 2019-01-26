@@ -297,7 +297,7 @@ static bool x11_set_resolution(void *data,
    for (int m = 0; m < res->nmode; m++)
    {
       XRRModeInfo *crt_rrmodeadd = &res->modes[m];
-      printf("%s", crt_rrmodeadd->name);
+      printf("\t%s \n", crt_rrmodeadd->name);
    
       if (crt_rrmodeadd->id == crt_rrmode.id)
       {
@@ -310,7 +310,7 @@ static bool x11_set_resolution(void *data,
    { 
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
-          printf("%s", output->name);
+          printf("\t%s %d\n", output->name, output->id);
       
       
     //  if (output->connection == RR_Connected)
