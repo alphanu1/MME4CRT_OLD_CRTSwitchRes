@@ -42,6 +42,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 static int crtid                = 20;
+staric char conoutput[20];
 
 static XRRModeInfo crt_rrmode;
 static char crt_output;
@@ -258,19 +259,19 @@ static bool x11_set_resolution(void *data,
    /* create progressive newmode from modline variables */
    if (height < 300)
    {
-    //  sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-    //  system(xrandr);
+      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+      system(xrandr);
 
    }
    /* create interlaced newmode from modline variables */
    if (height > 300)
    {    
-   //   sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-   //   system(xrandr);
+      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+      system(xrandr);
 
    }
       /* variable for new mode */
-      sprintf(new_mode,"crt_%dx%d", width, height); 
+      sprintf(new_mode,"crt_%dx%d_%0.2f", width, height, hz); 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
@@ -292,20 +293,9 @@ static bool x11_set_resolution(void *data,
    crt_rrmode.modeFlags = 0;
    
    res = XRRGetScreenResources (dsp, window);
-   XRRCreateMode(dsp, window, &crt_rrmode);
+   //XRRCreateMode(dsp, window, &crt_rrmode);
    
-   for (int m = 0; m < res->nmode; m++)
-   {
-      XRRModeInfo *crt_rrmodeadd = &res->modes[m];
-      printf("\t%s \n", crt_rrmodeadd->name);
    
-      if (crt_rrmodeadd->id == crt_rrmode.id)
-      {
-         XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode.id); 
-         
-      }
-     
-}
    for (int i = 0; i < res->noutput; i++)
    { 
    
@@ -314,9 +304,34 @@ static bool x11_set_resolution(void *data,
       if (output->connection == RR_Connected)
       {
           printf("\t%s - Connected\n", output->name);
+         for (int m = 0; m < res->nmode; m++)
+         {
+            XRRModeInfo *crt_rrmodeadd = &res->modes[m];
+            printf("\t%s \n", crt_rrmodeadd->name);
+      
+            if (crt_rrmodeadd->name == old_name)
+           {
+               sprintf(output,"xrandr --delmode %s %s", crt_rrmondadd->name,old_mode);
+               system(output);
+                sprintf(output,"xrandr --rmmode %s", old_mode);
+	             system(output);
+           }
+   
+           if (crt_rrmodeadd->id == crt_rrmode.id)
+          {
+            // XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode.id); 
+         
+         }
+     
+     }
+         sprintf(output,"xrandr --addmode %s %s", output->name ,new_mode);
+         system(output);
+         
       }else{
          printf("\t%s \n", output->name);
       }
+      
+     
       
     //  if (output->connection == RR_Connected)
    //   {
@@ -355,6 +370,9 @@ static bool x11_set_resolution(void *data,
    //   {
       //   printf("%ln", output->clones);
       //  printf("%ld", res->outputs[1]);
+   
+     sprintf(old_mode,"%s", new_mode);
+   
  return true;
 }
 
