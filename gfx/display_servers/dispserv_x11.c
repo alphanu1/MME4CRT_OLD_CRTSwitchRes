@@ -43,7 +43,7 @@ static char output[150];
 static bool crt_en     = false;
 static int crtid                = 20;
 
-static XRRModeInfo *crt_rrmode;
+static XRRModeInfo crt_rrmode;
 static char crt_output;
 
 typedef struct
@@ -276,9 +276,9 @@ static bool x11_set_resolution(void *data,
  /* ------------------new xrandr.h code--------------------------*/
    //crtid += 1;  
 
-  crt_rrmode->id = crtid;
-//   crt_rrmode->width = width;
- //  crt_rrmode->height = height;
+  crt_rrmode.id = crtid;
+   crt_rrmode.width = width;
+   crt_rrmode.height = height;
   // crt_rrmode->dotClock = pixel_clock;
    //crt_rrmode->hSyncStart = hfp;
   // crt_rrmode->hSyncEnd = hsp;
