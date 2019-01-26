@@ -109,8 +109,8 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-//if (fork() == 0)
-//{
+if (fork() == 0)
+{
 
    int i              = 0;
    int hfp            = 0;
@@ -321,15 +321,15 @@ static bool x11_set_resolution(void *data,
        //     XRRDeleteOutputMode (dsp, res->outputs[i], crtid-1);
       }
 
+   
+  if (res->outputs[i])
+     XRRDestroyMode(dsp, crtid);
    }
-//  if (res->outputs[i])
-//     XRRDestroyMode(dsp, crtid-1);
-
-  // XRRFreeModeInfo(crt_rrmode);
+   XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
-  // exit(0);
-//}
+   exit(0);
+}
  return true;
 }
 
