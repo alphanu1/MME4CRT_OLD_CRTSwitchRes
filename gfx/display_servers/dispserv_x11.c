@@ -310,8 +310,13 @@ static bool x11_set_resolution(void *data,
    { 
    
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
-          printf("\t%s %ln\n", output->name, output->clones);
       
+      if (output->connection == RR_Connected)
+      {
+          printf("\t%s - Connected\n", output->name);
+      }else{
+         printf("\t%s \n", output->name);
+      }
       
     //  if (output->connection == RR_Connected)
    //   {
