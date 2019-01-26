@@ -288,8 +288,8 @@ static bool x11_set_resolution(void *data,
    crt_rrmode.vSyncEnd = vsp;
    crt_rrmode.vTotal = vmax;
    crt_rrmode.name = new_mode;
-   crt_rrmode.nameLength = sizeof(crt_rrmode.name);
-   crt_rrmode.modeFlags = 0;
+   crt_rrmode.nameLength = sizeof(new_mode);
+   crt_rrmode.modeFlags = {1,2};
    
    
 
