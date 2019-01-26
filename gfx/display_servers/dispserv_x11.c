@@ -109,8 +109,8 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-if (fork() == 0)
-{
+//if (fork() == 0)
+//{
 
    int i              = 0;
    int hfp            = 0;
@@ -302,7 +302,7 @@ if (fork() == 0)
       
     //  if (output->connection == RR_Connected)
    //   {
-         
+         printf("%ln", ourput->clones);
          XRRAddOutputMode (dsp, 1, 20);
    //   }
 
@@ -327,8 +327,8 @@ if (fork() == 0)
    XRRFreeModeInfo(crt_rrmode);
 
    /* ------------------------------------------------------------- */
-   exit(0);
-}
+  // exit(0);
+//}
  return true;
 }
 
