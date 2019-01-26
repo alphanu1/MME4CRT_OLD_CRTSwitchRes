@@ -306,7 +306,7 @@ static bool x11_set_resolution(void *data,
    //   {
     //    printf("%ln", output->clones);
     //     printf("%ld", res->outputs[i]);
-        XRRAddOutputMode (dsp, res->outputs[1], crt_modeadd);
+        XRRAddOutputMode (dsp, res->outputs[1], crt_modeadd->id);
       }
 
  //  }
