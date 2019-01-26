@@ -291,7 +291,7 @@ static bool x11_set_resolution(void *data,
    crt_rrmode.nameLength = sizeof(new_mode);
    crt_rrmode.modeFlags = 0;
    
-   
+   XRRModeInfo *crt_rrmodeadd = crt_mode;
    
 
    res = XRRGetScreenResources (dsp, window);
@@ -306,7 +306,7 @@ static bool x11_set_resolution(void *data,
    //   {
     //    printf("%ln", output->clones);
     //     printf("%ld", res->outputs[i]);
-        XRRAddOutputMode (dsp, res->outputs[1], crtid);
+        XRRAddOutputMode (dsp, res->outputs[1], crt_modeadd);
       }
 
  //  }
