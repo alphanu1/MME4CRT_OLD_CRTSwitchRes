@@ -275,7 +275,7 @@ static bool x11_set_resolution(void *data,
 
  /* ------------------new xrandr.h code--------------------------*/
    //crtid += 1;  
-
+/*
    crt_rrmode->id = crtid;
    crt_rrmode->width = width;
    crt_rrmode->height = height;
@@ -290,7 +290,7 @@ static bool x11_set_resolution(void *data,
    crt_rrmode->name = new_mode;
    crt_rrmode->nameLength = sizeof(crt_rrmode->name);
    crt_rrmode->modeFlags = 0;
-   
+   */
    
 
    //res = XRRGetScreenResources (dsp, window);
