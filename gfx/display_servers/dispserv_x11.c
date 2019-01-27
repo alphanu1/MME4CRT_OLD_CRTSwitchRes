@@ -147,18 +147,8 @@ if (fork() == 0)
    
    /* following code is the mode line genorator */
 
-
-   hfp = width*1.025;
-   if ( width < 340){
-
-         hfp = width*1.07;
-   }
-   if (width > 340 && width < 1000){
-      
-         hfp = width*1.002;
-   }
-
-
+   hsp = width*1.145;
+   hfp = width*1.06;
    pwidth = width;
 
    if (height < 400 && width > 400 )
@@ -177,7 +167,6 @@ if (fork() == 0)
     if (roundw < 1.20)
       roundw = 1.34;
 
-   hsp = width*1.135;
    hbp = width*roundw-8;
    hmax = hbp;
    
