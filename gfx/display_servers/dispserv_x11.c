@@ -329,6 +329,7 @@ static bool x11_set_resolution(void *data,
          system(output4);
          sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
          system(output4);
+         break;
          
       }else{
          printf("\t%s \n", outputs->name);
