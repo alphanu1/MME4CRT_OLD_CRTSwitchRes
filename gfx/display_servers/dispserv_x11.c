@@ -110,8 +110,8 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-if (fork() == 0)
-{
+//if (fork() == 0)
+//{
 
    int i              = 0;
    int hfp            = 0;
@@ -296,10 +296,10 @@ if (fork() == 0)
    //XRRCreateMode(dsp, window, &crt_rrmode);
    
    
-   
    for (int i = 0; i < res->noutput; i++)
    { 
    
+      char output4[150];
       XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
       if (output->connection == RR_Connected)
@@ -312,10 +312,10 @@ if (fork() == 0)
       
             if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf(output,"xrandr --delmode %s %s", output->name,old_mode);
-               system(output);
-                sprintf(output,"xrandr --rmmode %s", old_mode);
-	             system(output);
+               sprintf(output4,"xrandr --delmode %s %s", output->name,old_mode);
+               system(output4);
+                sprintf(output4,"xrandr --rmmode %s", old_mode);
+	             system(output4);
            }
    
            if (crt_rrmodeadd->id == crt_rrmode.id)
@@ -325,10 +325,10 @@ if (fork() == 0)
          }
      
      }
-         sprintf(output,"xrandr --addmode %s %s", output->name ,new_mode);
-         system(output);
-         sprintf(output,"xrandr --output %s --mode %s", output->name, new_mode);
-         system(output);
+         sprintf(output4,"xrandr --addmode %s %s", output->name ,new_mode);
+         system(output4);
+         sprintf(output4,"xrandr --output %s --mode %s", output->name, new_mode);
+         system(output4);
          
       }else{
          printf("\t%s \n", output->name);
@@ -375,8 +375,7 @@ if (fork() == 0)
       //  printf("%ld", res->outputs[1]);
    
      sprintf(old_mode,"%s", new_mode);
-   exit(0);
-   }
+
  return true;
 }
 
