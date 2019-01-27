@@ -302,7 +302,7 @@ static bool x11_set_resolution(void *data,
       char output4[150];
       XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (output->connection == RR_Connected)
+      if (outputs->connection == RR_Connected)
       {
           printf("\t%s - Connected\n", outputs->name);
          for (int m = 0; m < res->nmode; m++)
