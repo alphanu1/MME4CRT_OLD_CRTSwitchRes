@@ -377,6 +377,7 @@ if (fork() == 0)
   
    
      sprintf(old_mode,"%s", new_mode);
+   exit(0);
  }
  return true;
 }
