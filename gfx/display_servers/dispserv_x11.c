@@ -307,7 +307,7 @@ static bool x11_set_resolution(void *data,
           printf("\t%s - Connected\n", outputs->name);
      //    for (int m = 0; m < res->nmode; m++)
       //   {
-            XRRModeInfo *crt_rrmodeadd = &res->modes[m];
+          //  XRRModeInfo *crt_rrmodeadd = &res->modes[m];
             printf("\t%s \n", crt_rrmodeadd->name);
       
             if (crt_rrmodeadd->name == old_mode)
