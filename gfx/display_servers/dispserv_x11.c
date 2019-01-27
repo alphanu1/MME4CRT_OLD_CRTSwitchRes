@@ -300,11 +300,11 @@ static bool x11_set_resolution(void *data,
    { 
    
       char output4[150];
-      XRROutputInfo *output = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+      XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
       if (output->connection == RR_Connected)
       {
-          printf("\t%s - Connected\n", output->name);
+          printf("\t%s - Connected\n", outputs->name);
          for (int m = 0; m < res->nmode; m++)
          {
             XRRModeInfo *crt_rrmodeadd = &res->modes[m];
@@ -312,7 +312,7 @@ static bool x11_set_resolution(void *data,
       
             if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf(output4,"xrandr --delmode %s %s", output->name,old_mode);
+               sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
                system(output4);
                 sprintf(output4,"xrandr --rmmode %s", old_mode);
 	             system(output4);
@@ -325,13 +325,13 @@ static bool x11_set_resolution(void *data,
          }
      
      }
-         sprintf(output4,"xrandr --addmode %s %s", output->name ,new_mode);
+         sprintf(output4,"xrandr --addmode %s %s", outputs->name ,new_mode);
          system(output4);
-         sprintf(output4,"xrandr --output %s --mode %s", output->name, new_mode);
+         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
          system(output4);
          
       }else{
-         printf("\t%s \n", output->name);
+         printf("\t%s \n", outputs->name);
       }
       
      
