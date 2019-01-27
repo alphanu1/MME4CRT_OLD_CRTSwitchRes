@@ -325,11 +325,8 @@ static bool x11_set_resolution(void *data,
          }
      
      }
-         sprintf(output4,"xrandr --addmode %s %s", outputs->name ,new_mode);
-         system(output4);
-         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
-         system(output4);
-         
+        
+         sprintf(conoutput,"%s", output->name)
          
       }
       
@@ -372,6 +369,11 @@ static bool x11_set_resolution(void *data,
    //   {
       //   printf("%ln", output->clones);
       //  printf("%ld", res->outputs[1]);
+   
+    sprintf(output4,"xrandr --addmode %s %s",conoutput ,new_mode);
+         system(output4);
+         sprintf(output4,"xrandr --output %s --mode %s", conoutput, new_mode);
+         system(output4);
    
      sprintf(old_mode,"%s", new_mode);
 
