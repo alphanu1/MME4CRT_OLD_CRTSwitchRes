@@ -318,11 +318,11 @@ static bool x11_set_resolution(void *data,
 	         //    system(output4);
          //  }
    
-           if (crt_rrmodeadd->id == crt_rrmode.id)
-          {
+         //  if (crt_rrmodeadd->id == crt_rrmode.id)
+         // {
             // XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode.id); 
          
-         }
+        // }
      
    //  }
         
