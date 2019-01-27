@@ -111,8 +111,8 @@ static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
   video_monitor_set_refresh_rate(hz);	 
-if (fork() == 0)
-{
+//if (fork() == 0)
+//{
 
    int i              = 0;
    int hfp            = 0;
@@ -143,7 +143,7 @@ if (fork() == 0)
    crt_en = true;
 
    /* set core refresh from hz */
-   video_monitor_set_refresh_rate(hz);	  
+  // video_monitor_set_refresh_rate(hz);	  
    
    /* following code is the mode line genorator */
 
@@ -260,14 +260,14 @@ if (fork() == 0)
    /* create progressive newmode from modline variables */
    if (height < 300)
    {
-      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
       system(xrandr);
 
    }
    /* create interlaced newmode from modline variables */
    if (height > 300)
    {    
-      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.2f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
       system(xrandr);
 
    }
@@ -378,8 +378,8 @@ if (fork() == 0)
   
    
      sprintf(old_mode,"%s", new_mode);
-   exit(0);
- }
+  // exit(0);
+// }
  return true;
 }
 
