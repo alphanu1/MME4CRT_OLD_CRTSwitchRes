@@ -326,7 +326,7 @@ static bool x11_set_resolution(void *data,
      
      }
         
-         sprintf(conoutput,"%s", output->name)
+         sprintf(conoutput,"%s", outputs->name);
          
       }
       
