@@ -312,8 +312,8 @@ static bool x11_set_resolution(void *data,
       
             if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf(&output,"xrandr --delmode %s %s", "vga",old_mode);
-               system(&output);
+               sprintf(output,"xrandr --delmode %s %s", "vga",old_mode);
+               system(output);
                 sprintf(output,"xrandr --rmmode %s", old_mode);
 	             system(output);
            }
@@ -326,6 +326,8 @@ static bool x11_set_resolution(void *data,
      
      }
          sprintf(output,"xrandr --addmode %s %s", output->name ,new_mode);
+         system(output);
+         sprintf(output,"xrandr --output %s --mode %s", output->name, i, new_mode);
          system(output);
          
       }else{
