@@ -84,7 +84,7 @@ static void switch_res_crt(unsigned width, unsigned height)
             ra_set_core_hz, ra_core_hz);
       #if defined(__arm__)
          crt_rpi_switch(width, height, ra_core_hz);
-         video_monitor_set_refresh_rate(ra_core_hz);#
+         video_monitor_set_refresh_rate(ra_core_hz);
          crt_switch_driver_reinit();
       #endif
       
@@ -96,8 +96,10 @@ static void switch_res_crt(unsigned width, unsigned height)
 /* Create correct aspect to fit video if resolution does not exist */
 void crt_screen_setup_aspect(unsigned width, unsigned height)
 {
+   #if defined(__arm__)
    if (height > 300)
       height = height/2;
+   #endif
    switch_crt_hz();
    /* get original resolution of core */	
    if (height == 4)
