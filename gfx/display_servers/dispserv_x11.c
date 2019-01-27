@@ -308,15 +308,15 @@ static bool x11_set_resolution(void *data,
      //    for (int m = 0; m < res->nmode; m++)
       //   {
           //  XRRModeInfo *crt_rrmodeadd = &res->modes[m];
-            printf("\t%s \n", crt_rrmodeadd->name);
+          //  printf("\t%s \n", crt_rrmodeadd->name);
       
-            if (crt_rrmodeadd->name == old_mode)
-           {
+        //    if (crt_rrmodeadd->name == old_mode)
+        //   {
             //   sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
             //   system(output4);
             //    sprintf(output4,"xrandr --rmmode %s", old_mode);
 	         //    system(output4);
-           }
+         //  }
    
            if (crt_rrmodeadd->id == crt_rrmode.id)
           {
