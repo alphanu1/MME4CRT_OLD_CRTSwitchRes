@@ -271,7 +271,7 @@ static bool x11_set_resolution(void *data,
 
    }
       /* variable for new mode */
-      sprintf(new_mode,"crt_%dx%d_%0.2f", width, height, hz); 
+      sprintf(new_mode,"%dx%d_%0.2f", width, height, hz); 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
@@ -312,8 +312,8 @@ static bool x11_set_resolution(void *data,
       
             if (crt_rrmodeadd->name == old_mode)
            {
-               sprintf((const char *)output,"xrandr --delmode %s %s", "vga",old_mode);
-               system(output);
+               sprintf(&output,"xrandr --delmode %s %s", "vga",old_mode);
+               system(&output);
                 sprintf(output,"xrandr --rmmode %s", old_mode);
 	             system(output);
            }
