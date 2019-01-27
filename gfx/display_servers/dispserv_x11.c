@@ -305,7 +305,7 @@ if (fork() == 0)
       
       if (outputs->connection == RR_Connected)
       {
-          printf("\t%s - Connected\n", outputs->name);
+          printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
      //    for (int m = 0; m < res->nmode; m++)
       //   {
           //  XRRModeInfo *crt_rrmodeadd = &res->modes[m];
