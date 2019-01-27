@@ -327,6 +327,7 @@ static bool x11_set_resolution(void *data,
    //  }
         
          sprintf(conoutput,"%s", outputs->name);
+         break;
          
       }
       
