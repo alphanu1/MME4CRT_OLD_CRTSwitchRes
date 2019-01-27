@@ -295,10 +295,7 @@ static bool x11_set_resolution(void *data,
    res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, &crt_rrmode);
    
-    sprintf(output,"xrandr --delmode %s %s", "vga",old_mode);
-               system(output);
-                sprintf(output,"xrandr --rmmode %s", old_mode);
-	             system(output);
+   
    
    for (int i = 0; i < res->noutput; i++)
    { 
@@ -315,7 +312,10 @@ static bool x11_set_resolution(void *data,
       
             if (crt_rrmodeadd->name == old_mode)
            {
-              
+               sprintf((const char *)output,"xrandr --delmode %s %s", "vga",old_mode);
+               system(output);
+                sprintf(output,"xrandr --rmmode %s", old_mode);
+	             system(output);
            }
    
            if (crt_rrmodeadd->id == crt_rrmode.id)
