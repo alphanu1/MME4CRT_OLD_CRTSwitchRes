@@ -327,8 +327,8 @@ static bool x11_set_resolution(void *data,
      }
          sprintf(output,"xrandr --addmode %s %s", output->name ,new_mode);
          system(output);
-         sprintf(output,"xrandr --output %s --mode %s", output->name, new_mode);
-         system(output);
+        // sprintf(output,"xrandr --output %s --mode %s", output->name, new_mode);
+        // system(output);
          
       }else{
          printf("\t%s \n", output->name);
