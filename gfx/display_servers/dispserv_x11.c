@@ -110,8 +110,8 @@ static bool x11_set_window_decorations(void *data, bool on)
 static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
-//if (fork() == 0)
-//{
+if (fork() == 0)
+{
 
    int i              = 0;
    int hfp            = 0;
@@ -327,8 +327,8 @@ static bool x11_set_resolution(void *data,
      }
          sprintf(output,"xrandr --addmode %s %s", output->name ,new_mode);
          system(output);
-        // sprintf(output,"xrandr --output %s --mode %s", output->name, new_mode);
-        // system(output);
+         sprintf(output,"xrandr --output %s --mode %s", output->name, new_mode);
+         system(output);
          
       }else{
          printf("\t%s \n", output->name);
@@ -375,7 +375,8 @@ static bool x11_set_resolution(void *data,
       //  printf("%ld", res->outputs[1]);
    
      sprintf(old_mode,"%s", new_mode);
-   
+   exit(0);
+   }
  return true;
 }
 
