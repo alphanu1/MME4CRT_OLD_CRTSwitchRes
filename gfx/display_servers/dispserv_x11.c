@@ -111,8 +111,8 @@ static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz)
 {
   video_monitor_set_refresh_rate(hz);	 
-//if (fork() == 0)
-//{
+if (fork() == 0)
+{
 
    int i              = 0;
    int hfp            = 0;
@@ -272,7 +272,7 @@ static bool x11_set_resolution(void *data,
 
    }
       /* variable for new mode */
-      sprintf(new_mode,"%dx%d_%0.2f", width, height, hz); 
+      sprintf(new_mode,"%dx%d_%0.6f", width, height, hz); 
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
@@ -378,8 +378,8 @@ static bool x11_set_resolution(void *data,
   
    
      sprintf(old_mode,"%s", new_mode);
-  // exit(0);
-// }
+   exit(0);
+}
  return true;
 }
 
