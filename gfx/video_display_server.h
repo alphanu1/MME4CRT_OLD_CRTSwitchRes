@@ -31,7 +31,7 @@ typedef struct video_display_server
    bool (*set_window_progress)(void *data, int progress, bool finished);
    bool (*set_window_decorations)(void *data, bool on);
    bool (*switch_resolution)(void *data, unsigned width,
-         unsigned height, int int_hz, float hz);
+         unsigned height, int int_hz, float hz, int monitor_index);
    const char *ident;
 } video_display_server_t;
 
