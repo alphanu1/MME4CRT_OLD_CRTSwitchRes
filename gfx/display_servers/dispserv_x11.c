@@ -42,7 +42,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 static int crtid                = 20;
-static  char output4[150];
+
 
 static XRRModeInfo crt_rrmode;
 static char crt_output;
@@ -128,6 +128,7 @@ if (fork() == 0)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
    float pixel_clock  = 0;
+   static  char output4[150];
  
    Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
@@ -341,18 +342,18 @@ if (fork() == 0)
         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
         system(output4);
        
-       printf("%s",output4);
+       printf("%s\n",output4);
        
-        sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
+        sprintf(output4,"xrandr --delmode %s %s", outputs->name, old_mode);
         system(output4);
         sprintf(output4,"xrandr --rmmode %s", old_mode);
 	     system(output4);
-       printf("%s",output4);
+       printf("%s\n",output4);
         
     }
  }
 sprintf(old_mode,"%s", new_mode); 
-   printf("\told mome = %s\n", old_mode);
+   printf("\told mode = %s\n", old_mode);
 
  //  }
 
