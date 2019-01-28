@@ -131,7 +131,7 @@ if (fork() == 0)
    char output4[150];
  
    
-   sprintf(old_mode,"%s", new_mode); 
+   sprintf(&old_mode,"%s", new_mode); 
    printf("\told mode = %s\n", old_mode);
  
    Display* dsp      = XOpenDisplay(NULL);
