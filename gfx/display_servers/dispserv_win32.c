@@ -44,7 +44,7 @@ static unsigned wwidth = 0;
 static unsigned wheight = 0;
 static int wint_hz = 0;
 static float whz = 0.00;
-static unsigned monitor_index = 0;
+static unsigned wmonitor_index = 0;
 
 static ITaskbarList3 *g_taskbarList = NULL;
 
