@@ -250,7 +250,7 @@ static bool x11_set_resolution(void *data,
 	   pixel_clock = ((hmax*vmax*hz)/1000000)/2;
    }
    /* above code is the modeline genorator */
-   new_mode = sprintf("%s"create_new_mode( width, height, hz);
+   new_mode = sprintf("%s",create_new_mode( width, height, hz);
 //if (fork() ==0)
 //{
    /* create progressive newmode from modline variables */
