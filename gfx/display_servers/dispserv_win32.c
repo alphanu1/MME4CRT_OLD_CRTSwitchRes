@@ -40,10 +40,11 @@
 #ifdef __ITaskbarList3_INTERFACE_DEFINED__
 #define HAS_TASKBAR_EXT
 
-static unsigned width = 0;
-static unsigned height = 0;
-static int int_hz = 0;
-static float hz = 0.00;
+static unsigned wwidth = 0;
+static unsigned wheight = 0;
+static int wint_hz = 0;
+static float whz = 0.00;
+static unsigned monitor_index = 0;
 
 static ITaskbarList3 *g_taskbarList = NULL;
 
@@ -114,7 +115,7 @@ static void win32_display_server_destroy(void *data)
    
    if (win32_orig_width > 0 && win32_orig_height > 0 )
       video_display_server_switch_resolution(win32_orig_width, win32_orig_height,
-         60, 60);
+         60, 60, monitor_index);
 
 #ifdef HAS_TASKBAR_EXT
    if (g_taskbarList && win32_taskbar_is_created())
@@ -208,8 +209,12 @@ static bool win32_set_window_decorations(void *data, bool on)
 }
 
 static bool win32_display_server_set_resolution(void *data,
-      unsigned width, unsigned height, int int_hz, float hz, int crt_monitor_index)
+      unsigned width, unsigned height, int int_hz, float hz, int monitor_index)
 {
+   wheight = height;
+   wwidth = width;
+   wint_hz = int_hz;
+   wmonitor_index = monitor_index;
    _beginthread(win32_display_server_set_resolution_thread,0 , NULL);
     dispserv_win32_t *serv = (dispserv_win32_t*)data;
 
@@ -225,7 +230,7 @@ static void win32_display_server_set_resolution_thread(void)
    DEVMODE devmode;
 
    int iModeNum;
-   int freq               = int_hz;
+   int freq               = wint_hz;
    DWORD flags            = 0;
    int depth              = 0;
   
@@ -239,12 +244,12 @@ static void win32_display_server_set_resolution_thread(void)
    EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &curDevmode);
 
    /* Used to stop super resolution bug */
-   if (width == curDevmode.dmPelsWidth)
-      width  = 0;							
-   if (width == 0) 
-      width = curDevmode.dmPelsWidth;
-   if (height == 0) 
-      height = curDevmode.dmPelsHeight;
+   if (wwidth == curDevmode.dmPelsWidth)
+      wwidth  = 0;							
+   if (wwidth == 0) 
+      wwidth = curDevmode.dmPelsWidth;
+   if (wheight == 0) 
+      wheight = curDevmode.dmPelsHeight;
    if (depth == 0) 
       depth = curDevmode.dmBitsPerPel;
    if (freq == 0) 
@@ -255,10 +260,10 @@ static void win32_display_server_set_resolution_thread(void)
       if (!EnumDisplaySettings(NULL, iModeNum, &devmode)) 
          break;
 
-      if (devmode.dmPelsWidth != width) 
+      if (devmode.dmPelsWidth != wwidth) 
          continue;
 
-      if (devmode.dmPelsHeight != height) 
+      if (devmode.dmPelsHeight != wheight) 
          continue;
 
       if (devmode.dmBitsPerPel != depth) 
