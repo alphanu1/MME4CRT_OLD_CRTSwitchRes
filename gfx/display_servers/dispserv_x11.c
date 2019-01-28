@@ -409,7 +409,7 @@ static char create_new_mode(int width, int height, float hz)
 {
    char mode[150];
    
-   sprintf(new_mode,"%dx%d_%0.6f", width, height, hz); 
+   sprintf(mode,"%dx%d_%0.6f", width, height, hz); 
    
    return mode;
 }
