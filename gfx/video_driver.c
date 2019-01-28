@@ -2623,7 +2623,7 @@ void video_driver_frame(const void *data, unsigned width,
          width = 3840;
       if (video_info.crt_switch_resolution_super == 1920)
          width = 1920;
-      crt_switch_res_core(width, height, video_driver_core_hz);
+      crt_switch_res_core(width, height, video_driver_core_hz, (int)video_info->monitor_index);
    }
    
   
