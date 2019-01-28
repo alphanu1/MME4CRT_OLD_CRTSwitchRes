@@ -285,16 +285,17 @@ if (fork() == 0)
    res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, &crt_rrmode);
    
+   if (crt_monitor_index == 0)
+   {
+      for (int i = 0; i < res->noutput; i++)
+      { 
    
-   for (int i = 0; i < res->noutput; i++)
-   { 
-   
-      char output4[150];
-      XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[i]);
+         char output4[150];
+         XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
-      if (outputs->connection == RR_Connected)
-      {
-          printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
+         if (outputs->connection == RR_Connected)
+         {
+         printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
      //    for (int m = 0; m < res->nmode; m++)
       //   {
           //  XRRModeInfo *crt_rrmodeadd = &res->modes[m];
@@ -302,10 +303,7 @@ if (fork() == 0)
       
         //    if (crt_rrmodeadd->name == old_mode)
         //   {
-            //   sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
-            //   system(output4);
-            //    sprintf(output4,"xrandr --rmmode %s", old_mode);
-	         //    system(output4);
+
          //  }
    
          //  if (crt_rrmodeadd->id == crt_rrmode.id)
@@ -313,32 +311,42 @@ if (fork() == 0)
             // XRRAddOutputMode (dsp, res->outputs[i], crt_rrmode.id); 
          
         // }
-     
-   //  }
+        //}
          
-         sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
-         system(output4);
-         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
-         system(output4);
+            sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
+            system(output4);
+            sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
+            system(output4);
          
-         sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
-         system(output4);
-         sprintf(output4,"xrandr --rmmode %s", old_mode);
-	      system(output4);
+            sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
+            system(output4);
+            sprintf(output4,"xrandr --rmmode %s", old_mode);
+	         system(output4);
     
         // break;
          
-      }
-      
-     
-      
-    //  if (output->connection == RR_Connected)
-   //   {
-    //    printf("%ln", output->clones);
-    //     printf("%ld", res->outputs[i]);
-        //XRRAddOutputMode (dsp, res->outputs[i], 20);
-      }
-
+         }
+     }
+  }
+ if (crt_monitor_index > 0)
+ {
+    char output4[150];
+    XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[crt_monitor_index]);
+    if (outputs->connection == RR_Connected)
+    {
+        sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
+        system(output4);
+        sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
+        system(output4);
+       
+        sprintf(output4,"xrandr --delmode %s %s", outputs->name,old_mode);
+        system(output4);
+        sprintf(output4,"xrandr --rmmode %s", old_mode);
+	     system(output4);
+    }
+ }
+ 
+ sprintf(old_mode,"%s", new_mode);
  //  }
 
  //  XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
@@ -371,7 +379,7 @@ if (fork() == 0)
       //  printf("%ld", res->outputs[1]);
   
    
-     sprintf(old_mode,"%s", new_mode);
+    
    exit(0);
    }
  return true;
