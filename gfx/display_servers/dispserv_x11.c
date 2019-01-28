@@ -405,7 +405,7 @@ static bool x11_set_resolution(void *data,
  return true;
 }
 
-static char create_new_mode(int width, int height, float hz)
+static char *create_new_mode(int width, int height, float hz)
 {
    char mode[150];
    
