@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/alphanu1/MME4RPi.svg?branch=master)](https://travis-ci.com/alphanu1/MME4RPi)
+[![Build Status](https://travis-ci.com/alphanu1/MME4CRT_v2.0.svg?branch=master)](https://travis-ci.com/alphanu1/MME4RPi)
 
 # RetroArch
 
