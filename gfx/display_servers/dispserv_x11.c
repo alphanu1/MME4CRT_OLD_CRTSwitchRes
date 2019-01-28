@@ -295,8 +295,8 @@ static bool x11_set_resolution(void *data,
    
    res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, &crt_rrmode);
-// if (fork() ==0)
-//{  
+ if (fork() ==0)
+{  
    if (monitor_index == 0)
    {
       for (int i = 0; i < res->noutput; i++)
@@ -400,8 +400,8 @@ static bool x11_set_resolution(void *data,
   
    
     
-  // exit(0);
-  // }
+   exit(0);
+   }
  return true;
 }
 
