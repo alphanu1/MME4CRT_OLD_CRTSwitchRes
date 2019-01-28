@@ -111,8 +111,8 @@ static bool x11_set_resolution(void *data,
       unsigned width, unsigned height, int int_hz, float hz, int monitor_index)
 {
   video_monitor_set_refresh_rate(hz);	 
-if (fork() == 0)
-{
+//if (fork() == 0)
+//{
 
    int i              = 0;
    int hfp            = 0;
@@ -131,7 +131,7 @@ if (fork() == 0)
    char output4[150];
  
    
-   sprintf(&old_mode,"%s", new_mode); 
+   sprintf(old_mode,"%s", new_mode); 
    printf("\told mode = %s\n", old_mode);
  
    Display* dsp      = XOpenDisplay(NULL);
@@ -393,8 +393,8 @@ if (fork() == 0)
   
    
     
-   exit(0);
-   }
+  // exit(0);
+ //  }
  return true;
 }
 
