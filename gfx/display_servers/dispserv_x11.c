@@ -339,6 +339,7 @@ if (fork() == 0)
     {
         sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
         system(output4);
+        printf("%s\n",output4);
         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
         system(output4);
        
@@ -346,6 +347,7 @@ if (fork() == 0)
        
         sprintf(output4,"xrandr --delmode %s %s", outputs->name, old_mode);
         system(output4);
+        printf("%s\n",output4);
         sprintf(output4,"xrandr --rmmode %s", old_mode);
 	     system(output4);
        printf("%s\n",output4);
