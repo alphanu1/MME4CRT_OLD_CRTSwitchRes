@@ -295,7 +295,7 @@ if (fork() == 0)
       
          if (outputs->connection == RR_Connected)
          {
-         printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
+            printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
      //    for (int m = 0; m < res->nmode; m++)
       //   {
           //  XRRModeInfo *crt_rrmodeadd = &res->modes[m];
@@ -331,7 +331,7 @@ if (fork() == 0)
  if (monitor_index > 0)
  {
     char output4[150];
-    XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[crt_monitor_index]);
+    XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[monitor_index]);
     if (outputs->connection == RR_Connected)
     {
         sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
