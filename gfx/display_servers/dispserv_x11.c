@@ -35,7 +35,7 @@
 
 static unsigned orig_width      = 0;
 static unsigned orig_height     = 0;
-//static char old_mode[150];
+static char old_mode[150];
 static char new_mode[150];
 static char xrandr[250];
 static char fbset[150];
@@ -128,8 +128,8 @@ if (fork() == 0)
    float roundw     = 0.0f;
    float roundh     = 0.0f;
    float pixel_clock  = 0;
-   static  char output4[150];
-   static char old_mode[150];
+   char output4[150];
+ 
    
    sprintf(old_mode,"%s", new_mode); 
    printf("\told mode = %s\n", old_mode);
