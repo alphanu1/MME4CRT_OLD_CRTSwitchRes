@@ -42,7 +42,7 @@ static char fbset[150];
 static char output[150];
 static bool crt_en     = false;
 static int crtid                = 20;
-static char conoutput[20];
+static  char output4[150];
 
 static XRRModeInfo crt_rrmode;
 static char crt_output;
@@ -290,7 +290,7 @@ if (fork() == 0)
       for (int i = 0; i < res->noutput; i++)
       { 
    
-         char output4[150];
+        
          XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[i]);
       
          if (outputs->connection == RR_Connected)
@@ -332,7 +332,7 @@ if (fork() == 0)
   }
  if (monitor_index > 0)
  {
-    char output4[150];
+   
     XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[monitor_index]);
     if (outputs->connection == RR_Connected)
     {
