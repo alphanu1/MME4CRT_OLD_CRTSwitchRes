@@ -251,8 +251,8 @@ static bool x11_set_resolution(void *data,
    }
    /* above code is the modeline genorator */
    new_mode = create_new_mode( width, height, hz);
-if (fork() ==0)
-{
+//if (fork() ==0)
+//{
    /* create progressive newmode from modline variables */
    if (height < 300)
    {
@@ -400,8 +400,8 @@ if (fork() ==0)
   
    
     
-   exit(0);
-   }
+  // exit(0);
+  // }
  return true;
 }
 
