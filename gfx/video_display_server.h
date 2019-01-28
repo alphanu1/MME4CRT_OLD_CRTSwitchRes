@@ -47,7 +47,7 @@ bool video_display_server_set_window_decorations(bool on);
 
 bool video_display_server_switch_resolution(
       unsigned width, unsigned height,
-      int int_hz, float hz);
+      int int_hz, float hz, int monitor_index);
 
 extern const video_display_server_t dispserv_win32;
 extern const video_display_server_t dispserv_x11;
