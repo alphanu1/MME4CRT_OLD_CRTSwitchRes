@@ -285,7 +285,7 @@ if (fork() == 0)
    res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, &crt_rrmode);
    
-   if (crt_monitor_index == 0)
+   if (monitor_index == 0)
    {
       for (int i = 0; i < res->noutput; i++)
       { 
@@ -328,7 +328,7 @@ if (fork() == 0)
          }
      }
   }
- if (crt_monitor_index > 0)
+ if (monitor_index > 0)
  {
     char output4[150];
     XRROutputInfo *outputs = XRRGetOutputInfo (dsp, res, res->outputs[crt_monitor_index]);
