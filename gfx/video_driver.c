@@ -145,6 +145,7 @@ static unsigned            video_driver_state_scale      = 0;
 static unsigned            video_driver_state_out_bpp    = 0;
 static bool                video_driver_state_out_rgb32      = false;
 static bool                video_driver_crt_switching_active = false;
+static unsigned            crt_monitor_index              = 0;
 
 static struct retro_system_av_info video_driver_av_info;
 
@@ -2616,8 +2617,7 @@ void video_driver_frame(const void *data, unsigned width,
 	if (video_info.crt_switch_resolution)
    {
       video_driver_crt_switching_active = true;
-      int crt_monitor_index =  &video_info->monitor_index;
-
+      
       if (video_info.crt_switch_resolution_super == 2560)
          width = 2560;
       if (video_info.crt_switch_resolution_super == 3840)
@@ -2755,6 +2755,7 @@ void video_driver_build_info(video_frame_info_t *video_info)
    video_info->fullscreen            = settings->bools.video_fullscreen || retroarch_is_forced_fullscreen();
    video_info->monitor_index         = settings->uints.video_monitor_index;
    video_info->shared_context        = settings->bools.video_shared_context;
+    
 
    if (libretro_get_shared_context() && hwr && hwr->context_type != RETRO_HW_CONTEXT_NONE)
       video_info->shared_context     = true;
