@@ -84,7 +84,7 @@ bool video_display_server_set_window_decorations(bool on)
 
 
 bool video_display_server_switch_resolution(unsigned width, unsigned height,
-      int int_hz, float hz, int monitir_index)
+      int int_hz, float hz, int monitor_index)
 {
    if (current_display_server && current_display_server->switch_resolution)
       return current_display_server->switch_resolution(current_display_server_data, width, height, int_hz, hz, monitor_index);
