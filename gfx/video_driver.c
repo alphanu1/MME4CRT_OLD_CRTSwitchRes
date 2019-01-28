@@ -2616,7 +2616,7 @@ void video_driver_frame(const void *data, unsigned width,
 	if (video_info.crt_switch_resolution)
    {
       video_driver_crt_switching_active = true;
-      int crt_monitor_index =  video_info->monitor_index;
+      int crt_monitor_index =  &video_info->monitor_index;
 
       if (video_info.crt_switch_resolution_super == 2560)
          width = 2560;
