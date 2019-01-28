@@ -129,6 +129,10 @@ if (fork() == 0)
    float roundh     = 0.0f;
    float pixel_clock  = 0;
    static  char output4[150];
+   static char old_mode[150];
+   
+   sprintf(old_mode,"%s", new_mode); 
+   printf("\told mode = %s\n", old_mode);
  
    Display* dsp      = XOpenDisplay(NULL);
    Screen* scrn      = DefaultScreenOfDisplay(dsp);
@@ -354,8 +358,7 @@ if (fork() == 0)
         
     }
  }
-sprintf(old_mode,"%s", new_mode); 
-   printf("\told mode = %s\n", old_mode);
+
 
  //  }
 
