@@ -108,7 +108,7 @@ static bool x11_set_window_decorations(void *data, bool on)
 }
 
 static bool x11_set_resolution(void *data,
-      unsigned width, unsigned height, int int_hz, float hz)
+      unsigned width, unsigned height, int int_hz, float hz, int monitor_index)
 {
   video_monitor_set_refresh_rate(hz);	 
 if (fork() == 0)
