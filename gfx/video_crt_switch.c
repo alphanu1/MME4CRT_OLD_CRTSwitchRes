@@ -42,6 +42,7 @@ static bool first_run             = true;
 static float ra_tmp_core_hz       = 0.0f;
 static float fly_aspect           = 0.0f;
 static float ra_core_hz           = 0.0f;
+static unsigned crt_monitor_index     = 0;
 
 static void crt_check_first_run(void)
 {		
@@ -81,7 +82,7 @@ static void switch_res_crt(unsigned width, unsigned height)
  //if (height > 100)
  //  {
       video_display_server_switch_resolution(width, height,
-            ra_set_core_hz, ra_core_hz);
+            ra_set_core_hz, ra_core_hz, crt_monitor_index);
       #if defined(__arm__)
          crt_rpi_switch(width, height, ra_core_hz);
          video_monitor_set_refresh_rate(ra_core_hz);
@@ -167,6 +168,7 @@ void crt_switch_res_core(unsigned width, unsigned height, float hz, int monitor_
    ra_core_width  = width;		
    ra_core_height = height;
    ra_core_hz     = hz;
+   crt_monitor_index  = monitor_index;
 
    crt_check_first_run();
 
