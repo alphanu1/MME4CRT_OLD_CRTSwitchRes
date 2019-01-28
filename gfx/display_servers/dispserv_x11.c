@@ -323,7 +323,7 @@ if (fork() == 0)
             sprintf(output4,"xrandr --rmmode %s", old_mode);
 	         system(output4);
             
-             
+             printf("\t%s - Connected - Switching to %s\n", outputs->name, new_mode);
     
         // break;
          
@@ -350,7 +350,7 @@ if (fork() == 0)
     }
  }
 sprintf(old_mode,"%s", new_mode); 
-   printf("\t%s - old mome = \n", old_mode);
+   printf("\told mome = %s\n", old_mode);
 
  //  }
 
