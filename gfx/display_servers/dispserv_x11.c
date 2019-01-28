@@ -322,6 +322,8 @@ if (fork() == 0)
             system(output4);
             sprintf(output4,"xrandr --rmmode %s", old_mode);
 	         system(output4);
+            
+             sprintf(old_mode,"%s", new_mode);
     
         // break;
          
@@ -343,10 +345,12 @@ if (fork() == 0)
         system(output4);
         sprintf(output4,"xrandr --rmmode %s", old_mode);
 	     system(output4);
+       
+        sprintf(old_mode,"%s", new_mode);
     }
  }
  
- sprintf(old_mode,"%s", new_mode);
+
  //  }
 
  //  XRRSetScreenSize (dsp, window, width, height, crt_rrmode->hTotal, crt_rrmode->vTotal);
