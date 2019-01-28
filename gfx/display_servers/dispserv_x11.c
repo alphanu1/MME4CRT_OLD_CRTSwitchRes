@@ -273,7 +273,7 @@ static bool x11_set_resolution(void *data,
    }
       /* variable for new mode */
       //sprintf(new_mode,"%dx%d_%0.6f", width, height, hz); 
-      new_mode = create_new_mode( width, height, hz);
+     // new_mode = create_new_mode( width, height, hz);
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
  /* ------------------new xrandr.h code--------------------------*/
