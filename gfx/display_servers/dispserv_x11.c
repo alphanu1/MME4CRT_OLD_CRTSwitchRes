@@ -35,7 +35,7 @@
 
 static unsigned orig_width      = 0;
 static unsigned orig_height     = 0;
-static char old_mode[150];
+//static char old_mode[150];
 static char new_mode[150];
 static char xrandr[250];
 static char fbset[150];
