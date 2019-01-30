@@ -251,27 +251,23 @@ static bool x11_set_resolution(void *data,
    }
    /* above code is the modeline genorator */
    
-
+   sprintf(new_mode,"CRT_%dx%d_%0.6f", width, height, hz); 
+   
+//if (fork() ==0)
+//{  
    /* create progressive newmode from modline variables */
    if (height < 300)
-   {
-     
-     sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-      system(xrandr);
-      printf("%s\n",xrandr);
+      sprintf(xrandr,"xrandr --newmode \"CRT_%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
 
-   }
    /* create interlaced newmode from modline variables */
    if (height > 300)
-   {   
-    
-      sprintf(xrandr,"xrandr --newmode \"%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
-      system(xrandr);
-      printf("%s\n",xrandr);
-
-   }
+      sprintf(xrandr,"xrandr --newmode \"CRT_%dx%d_%0.6f\" %lf %d %d %d %d %d %d %d %d interlace -hsync -vsync", width, height, hz, pixel_clock, width, hfp, hsp, hbp, height, vfp, vsp, vbp);
+     
+   
+   system(xrandr);
+   printf("%s\n",xrandr);
       /* variable for new mode */
-      sprintf(new_mode,"%dx%d_%0.6f", width, height, hz); 
+      
      // new_mode = create_new_mode( width, height, hz);
       /* need to run loops for DVI0 - DVI-2 and VGA0 - VGA-2 outputs to add and delete modes */
 
@@ -295,8 +291,7 @@ static bool x11_set_resolution(void *data,
    
    res = XRRGetScreenResources (dsp, window);
    //XRRCreateMode(dsp, window, &crt_rrmode);
- if (fork() ==0)
-{  
+ 
    if (monitor_index == 0)
    {
       for (int i = 0; i < res->noutput; i++)
@@ -350,7 +345,7 @@ static bool x11_set_resolution(void *data,
     {
         sprintf(output4,"xrandr --addmode %s %s",outputs->name ,new_mode);
         system(output4);
-        
+      printf("%s\n",output4);
         sprintf(output4,"xrandr --output %s --mode %s", outputs->name, new_mode);
         system(output4);
        
@@ -358,10 +353,10 @@ static bool x11_set_resolution(void *data,
        
         sprintf(output4,"xrandr --delmode %s %s", outputs->name, old_mode);
         system(output4);
-    
+    printf("%s\n",output4);
         sprintf(output4,"xrandr --rmmode %s", old_mode);
 	     system(output4);
-     
+     printf("%s\n",output4);
         
     }
  }
@@ -400,8 +395,8 @@ static bool x11_set_resolution(void *data,
   
    
     
-   exit(0);
-   }
+   //exit(0);
+  // }
  return true;
 }
 
